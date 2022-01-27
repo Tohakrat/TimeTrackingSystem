@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31205.134
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeTrackingSystem", "TimeTrackingSystem\TimeTrackingSystem.csproj", "{52801AEF-C50B-41EA-98D6-4B82B0A1CF6E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeTrackingSystem", "TimeTrackingSystem\TimeTrackingSystem.csproj", "{52801AEF-C50B-41EA-98D6-4B82B0A1CF6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business", "Business\Business.csproj", "{2EA32CDB-D27D-4A9B-A792-4A6B957B6420}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business", "Business\Business.csproj", "{2EA32CDB-D27D-4A9B-A792-4A6B957B6420}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataContracts", "DataContracts\DataContracts.csproj", "{A2A2BF34-98E7-400D-A540-FFCDC7B5C749}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataContracts", "DataContracts\DataContracts.csproj", "{A2A2BF34-98E7-400D-A540-FFCDC7B5C749}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{AD27F9A6-64E4-4B70-AD5E-49B93136BAC0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{A2A2BF34-98E7-400D-A540-FFCDC7B5C749}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A2A2BF34-98E7-400D-A540-FFCDC7B5C749}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A2A2BF34-98E7-400D-A540-FFCDC7B5C749}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD27F9A6-64E4-4B70-AD5E-49B93136BAC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD27F9A6-64E4-4B70-AD5E-49B93136BAC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD27F9A6-64E4-4B70-AD5E-49B93136BAC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD27F9A6-64E4-4B70-AD5E-49B93136BAC0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
