@@ -10,4 +10,21 @@ namespace Business
            
         }
     }
+    public class DataFacade
+    {
+        UserServices UserServices { get; set; }
+    }
+    public class UserServices
+    {
+
+    }
+    public class ProjectServices
+    {
+
+    }
+    public class TimeEntryServices
+    {
+
+    }
+
 }
