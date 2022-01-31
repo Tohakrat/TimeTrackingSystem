@@ -17,29 +17,43 @@ namespace Business
         {
             Seed();
         }
-        UserServices UserServices { get; set; }
+        //UserServices UserServices { get; set; }
         UserServices UserServicesObj = new UserServices();
         ProjectServices ProjectServicesObj = new ProjectServices();
         TimeTrackEntryServices TimeTrackEntryServicesObj = new TimeTrackEntryServices();
         private void Seed()
         {
-            UserServices.UserRepository.Add(new User("Vasia", "1234", AccessRole.User)); 
-            UserServices.UserRepository.Add(new User("Petia", "1234", AccessRole.User)); 
-            UserServices.UserRepository.Add(new User("Vlad", "1234", AccessRole.Admin)); 
-            UserServices.UserRepository.Add(new User("Ivan", "1234", AccessRole.ProjectLeader)); 
+            UserServicesObj.Add(new User("Vasia", "1234", AccessRole.User));
+            UserServicesObj.Add(new User("Petia", "1234", AccessRole.User));
+            UserServicesObj.Add(new User("Vlad", "1234", AccessRole.Admin));
+            UserServicesObj.Add(new User("Ivan", "1234", AccessRole.ProjectLeader));
+             
         }
     }
     public class UserServices
     {
-        internal List<User> UserRepository = new();
+        private List<User> UserRepository = new();
         public List<User> GetAllUsers()
         {
-            return null;
+            return UserRepository;
         }
         public List<User> GetAllActiveUsers()
         {
-            return null;
+            List<User> ActiveUsers = new();
+            foreach(User U in UserRepository)
+            {
+                if (U.IsActive)
+                {
+                    ActiveUsers.Add(U);
+                }
+            }
+            return ActiveUsers;
         }
+        public void Add(User user)
+        {
+            UserRepository.Add(user);
+        }
+        
     }
     
     public class ProjectServices

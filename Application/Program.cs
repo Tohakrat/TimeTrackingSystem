@@ -10,6 +10,11 @@ namespace Business
     {
         static void Main(string[] args)
         {
+            while (true)
+            {
+                Console.WriteLine("please, log in.");
+
+            }
             Console.WriteLine("Hello, World!");
             User u = new User("User1", "password1", AccessRole.User);
             u.Id = 0;
