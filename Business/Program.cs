@@ -33,6 +33,7 @@ namespace Business
     public class UserServices
     {
         private List<User> UserRepository = new();
+        private List<UserData> UserData = new List<UserData>(); 
         public List<User> GetAllUsers()
         {
             return UserRepository;
@@ -52,6 +53,7 @@ namespace Business
         public void Add(User user)
         {
             UserRepository.Add(user);
+            UserData.Add(new UserData(user));
         }
         
     }
@@ -68,15 +70,15 @@ namespace Business
             return null;
         }
     }
-    public class TimeTrackEntryServices
-    {
-        internal List<TimeTrackEntry> TimeTrackEntryRepository = new();
-
-    }
+   
     public class UserData
     {
+        public UserData(User user)
+        {
+            UserObj = user; 
+        }
         User UserObj;
-        List<TimeTrackEntry> SybmittedTime;
+        List<TimeTrackEntry> SybmittedTime = new();
         event StateChanged IsActiveChanged;
 
     }
