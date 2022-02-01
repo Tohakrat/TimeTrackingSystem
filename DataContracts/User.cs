@@ -8,11 +8,12 @@ namespace DataContracts
 {
     public class User : BaseEntity
     {
-        public User(string username, string password, AccessRole role)
+        public User(string username, string password, AccessRole role,string fullName=null)
         {
             UserName = username;
             PassWord = password;
             Role = role;
+            FullName=(fullName??null); 
         }
         private string UserName { get; set; }
         private string PassWord { get; set; }

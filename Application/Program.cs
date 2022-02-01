@@ -3,6 +3,7 @@
 
 using System;
 using DataContracts;
+using Business;
 
 namespace Business
 {
@@ -10,16 +11,34 @@ namespace Business
     {
         static void Main(string[] args)
         {
-            while (true)
+            bool repeat = true;
+            DataFacade Facade = new();
+            while (repeat)
             {
-                Console.WriteLine("please, log in.");
+                int key = 0;
+                Console.WriteLine("1 - log in. 0- Quit");
+                if (Int32.TryParse(Console.ReadLine(), out key) == false)
+                    continue; 
+                switch (key)
+                {
+                    case 1:
+                        string Login, Password;
+                        Console.WriteLine("Enter login:");
+                        Login = Console.ReadLine();
+                        //Facade.UserServicesObj.Get
+                        break;
+                    case 0:
+                        repeat=false;
+                        break;
+                }
+
+
+                
+
+                 
 
             }
-            Console.WriteLine("Hello, World!");
-            User u = new User("User1", "password1", AccessRole.User);
-            u.Id = 0;
-            Project p1 = new Project("TrackingSystem", DateTime.Now, 200);
-            Console.WriteLine("Hello World!");
+            
         }
     }
 }
