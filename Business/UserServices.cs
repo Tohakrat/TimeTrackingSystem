@@ -17,15 +17,32 @@ namespace Business
         }
         public List<User> GetAllActiveUsers()
         {
-            List<User> ActiveUsers = new();
+            IEnumerable<User> ActiveUsers = from U in UserRepository 
+                                     where U.IsActive                                
+                                select U; 
+            /*List<User> ActiveUsers = new();
             foreach (User U in UserRepository)
             {
                 if (U.IsActive)
                 {
                     ActiveUsers.Add(U);
                 }
+            }*/
+            return ActiveUsers.ToList();
+        }
+        public bool getUserByLogin(string userName, out User user)
+        {
+            //successfullyFinded = false;
+            foreach (User U in UserRepository)
+            {
+                if (userName == U.UserName)
+                {
+                    user = U;
+                    return true;
+                }
             }
-            return ActiveUsers;
+            user = null;
+            return false;
         }
         public void Add(User user)
         {

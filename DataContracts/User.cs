@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Runtime.CompilerServices;
+[assembly: InternalsVisibleTo("Business")]
 namespace DataContracts
 {
+    
     public class User : BaseEntity
     {
         public User(string username, string password, AccessRole role,string fullName=null)
@@ -15,11 +17,11 @@ namespace DataContracts
             Role = role;
             FullName=(fullName??null); 
         }
-        private string UserName { get; set; }
-        private string PassWord { get; set; }
-        public string FullName { get; set; }
-        public bool IsActive { get; set; }
-        private AccessRole Role { get; set; }
+        internal string UserName { get; set; }
+        internal string PassWord { get; set; }
+        internal string FullName { get; set; }
+        internal bool IsActive { get; set; }
+        internal AccessRole Role { get; set; }
 
     }
 }
