@@ -30,19 +30,29 @@ namespace Business
             }*/
             return ActiveUsers.ToList();
         }
-        public bool getUserByLogin(string userName, out User user)
+        public bool LogIn(string userName, string passWord, out User user)
         {
             //successfullyFinded = false;
-            foreach (User U in UserRepository)
+            user = null;
+            try 
+            {
+                user = (from U in UserRepository where U.UserName == userName select U).First();
+                return true;
+            }
+            catch (Exception ex)
+            {                
+                return false;
+            }
+            
+            /*foreach (User U in UserRepository)
             {
                 if (userName == U.UserName)
                 {
                     user = U;
                     return true;
                 }
-            }
-            user = null;
-            return false;
+            }*/           
+            
         }
         public void Add(User user)
         {

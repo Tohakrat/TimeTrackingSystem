@@ -12,6 +12,7 @@ namespace Business
         static void Main(string[] args)
         {
             bool repeat = true;
+            bool Logined = false;
             DataFacade Facade = new();
             while (repeat)
             {
@@ -22,23 +23,34 @@ namespace Business
                 switch (key)
                 {
                     case 1:
-                        string Login, Password;
+                        string UserName, Password;
                         Console.WriteLine("Enter login:");
-                        Login = Console.ReadLine();
+                        UserName = Console.ReadLine();
+                        Console.WriteLine("Enter password:");
+                        Password = Console.ReadLine();
+                        DataContracts.User CurrentUser;
+                        Logined = Facade.UserServicesObj.LogIn(UserName, Password, out CurrentUser);
+                        if (Logined == true)
+                            MenuLoginedUser();
+
                         //Facade.UserServicesObj.Get
                         break;
                     case 0:
                         repeat=false;
                         break;
-                }
-
-
-                
-
-                 
+                }   
 
             }
             
+        }
+        static void MenuLoginedUser()
+        {
+            bool repeat = true;
+            while (repeat)
+            {
+                Console.WriteLine("1 - log in. 0- Quit");
+
+            }
         }
     }
 }
