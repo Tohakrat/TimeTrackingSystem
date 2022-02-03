@@ -9,6 +9,10 @@ namespace Business
 {
     public class UserServices
     {
+        public UserServices ()
+        {            
+        }
+        //public event LoginDelegate LoginEvent;
         private List<User> UserRepository = new();
         private List<UserData> UserData = new List<UserData>();
         public List<User> GetAllUsers()
@@ -66,4 +70,5 @@ namespace Business
         }
 
     }
+    
 }

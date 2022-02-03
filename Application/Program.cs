@@ -45,10 +45,29 @@ namespace Business
         }
         static void MenuLoginedUser()
         {
+            int KeyMenuLoginedUser;
             bool repeat = true;
             while (repeat)
             {
-                Console.WriteLine("1 - log in. 0- Quit");
+                Console.WriteLine("1 - Add Time, 2- Submitted time, 3-Log Out,0- Quit");
+                if (Int32.TryParse(Console.ReadLine(), out KeyMenuLoginedUser) == false)
+                    continue;
+                switch (KeyMenuLoginedUser)
+                {
+                    case 1:
+                        
+
+                        //Facade.UserServicesObj.Get
+                        break;
+                    case 2:
+
+
+                        //Facade.UserServicesObj.Get
+                        break;
+                    case 0:
+                        repeat = false;
+                        break;
+                }
 
             }
         }
