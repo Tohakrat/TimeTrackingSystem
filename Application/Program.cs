@@ -55,7 +55,22 @@ namespace Business
                 switch (KeyMenuLoginedUser)
                 {
                     case 1:
+                        String ProjectName;
+                        DateTime Date;
+                        Double WorkingTime;
+                        Console.WriteLine("Enter the Date. Format: ...");
+                        if (DateTime.TryParse(Console.ReadLine(), out Date) == true)
+                            Console.WriteLine("Data set successfully: {0}",Date.ToString());
+                        else break;
+                        Console.WriteLine("Enter the project name");
+                        ProjectName = Console.ReadLine();
+                        Console.WriteLine("Enter working time in hours:");
+                        if (Double.TryParse(Console.ReadLine(), out WorkingTime) == true)
+                            Console.WriteLine("Time set successfully: {0}", WorkingTime.ToString());
                         
+
+
+
 
                         //Facade.UserServicesObj.Get
                         break;
