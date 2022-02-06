@@ -14,9 +14,9 @@ namespace DataContracts
             ExpirationDate = expirationDate;
             MaxHours = maxHours;
         }
-        private string Name { get; set; }
-        private DateTime ExpirationDate { get; set; }
-        public int MaxHours { get; set; }
-        public int LeaderUserId { get; set; }
+        internal string Name { get; set; }
+        internal DateTime ExpirationDate { get; set; }
+        internal int MaxHours { get; set; }
+        internal int LeaderUserId { get; set; }
     }
 }

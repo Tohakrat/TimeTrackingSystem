@@ -11,9 +11,11 @@ namespace Business
     {
         public DataFacade()
         {
-            Seed();
+            Seed();            
         }
         //UserServices UserServices { get; set; }
+        
+        internal Menu MenuObj = new();
         public UserServices UserServicesObj = new UserServices();
         public ProjectServices ProjectServicesObj = new ProjectServices();
         //TimeTrackEntryServices TimeTrackEntryServicesObj = new TimeTrackEntryServices();
@@ -23,7 +25,16 @@ namespace Business
             UserServicesObj.Add(new User("Petia", "1234", AccessRole.User));
             UserServicesObj.Add(new User("Vlad", "1234", AccessRole.Admin));
             UserServicesObj.Add(new User("Ivan", "1234", AccessRole.ProjectLeader));
-
         }
+        public string GetOperations(User user)
+        {
+            if (user == null)
+            { return MenuObj.GetAvailableOperations(AccessRole.Any, State.NotLogined); }
+            else return MenuObj.GetAvailableOperations(user.Role, State.Logined);
+        }      
+
+
+
     }
+        
 }

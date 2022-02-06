@@ -9,6 +9,12 @@ namespace Business
 {
     public class UserServices
     {
+        public event LoginChanged UserLogined;
+        public event LoginChanged AdminLogined;
+        public event LoginChanged ProjectLeaderLogined;
+        public event LoginChanged LoginFailed;
+        public event LoginChanged LogOutResult;
+
         public UserServices ()
         {            
         }
@@ -40,25 +46,49 @@ namespace Business
             user = null;
             try 
             {
-                user = (from U in UserRepository where U.UserName == userName select U).First();
+                User LocalUser;
+                LocalUser = (from U in UserRepository where U.UserName == userName select U).First();
+                user = LocalUser;
+                switch (LocalUser.Role)
+                {
+                    case AccessRole.User:
+                        {
+                            UserLogined?.Invoke("User Logined");
+                            break;
+                        }
+                    case AccessRole.Admin:
+                        {
+                            AdminLogined?.Invoke("Admin Logined");
+                            break;
+                        }
+                    case AccessRole.ProjectLeader: 
+                        {
+                            ProjectLeaderLogined?.Invoke("Project Leader Logined");
+                            break;
+                        }
+                }
                 return true;
             }
             catch (Exception ex)
-            {                
-                return false;
-            }
-            
-            /*foreach (User U in UserRepository)
             {
-                if (userName == U.UserName)
-                {
-                    user = U;
-                    return true;
-                }
-            }*/           
+                LoginFailed?.Invoke("Login Failed!");
+                return false;
+            }           
             
         }
-        public void Add(User user)
+        public User LogOut(User user)
+        {
+            if (user!=null)
+            {
+                LogOutResult?.Invoke("LogOut completed");
+            }
+            else
+            {
+                LogOutResult?.Invoke("LogOut impossible. Please, LogIn");
+            }
+            return null;
+        }
+            public void Add(User user)
         {
             UserRepository.Add(user);
             UserData.Add(new UserData(user));
@@ -70,5 +100,6 @@ namespace Business
         }
 
     }
+    public delegate void LoginChanged(string s);
     
 }
