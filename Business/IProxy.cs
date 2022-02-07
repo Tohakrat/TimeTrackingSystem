@@ -51,7 +51,15 @@ namespace Business
                     return user;
                     break;
                 case 4://SubmitTime
+                    Facade.UserServicesObj.SubmitTime(user);
+                    break;
+                case 5://ViewSubmittedTime
+                    Facade.UserServicesObj.SubmitTime(user);
+                    break;
 
+
+
+                    
                 case 0://Quit
                     Environment.Exit(0);
                     break;

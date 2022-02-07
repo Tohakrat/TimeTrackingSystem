@@ -18,7 +18,9 @@ namespace Application
             proxy.Facade.UserServicesObj.ProjectLeaderLogined += Message;
             proxy.Facade.UserServicesObj.LoginFailed += Message;
             proxy.Facade.UserServicesObj.LogOutResult += Message;
-            proxy.Facade.ProjectServicesObj.ProjectListTransmitted += Message;        
+            proxy.Facade.ProjectServicesObj.ProjectListTransmitted += Message;
+            proxy.Facade.UserServicesObj.Request += Request;
+
 
             while (true)
             {
@@ -31,6 +33,12 @@ namespace Application
         static void Message(string m)
         {
             Console.WriteLine(m);
+        }
+        static string Request(string comment)
+        {
+            Console.WriteLine(comment);
+            return (Console.ReadLine());
+            
         }
     }
 }

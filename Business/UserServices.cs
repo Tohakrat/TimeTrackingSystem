@@ -14,6 +14,7 @@ namespace Business
         public event LoginChanged ProjectLeaderLogined;
         public event LoginChanged LoginFailed;
         public event LoginChanged LogOutResult;
+        public event RequestString Request;
 
         public UserServices ()
         {            
@@ -88,7 +89,22 @@ namespace Business
             }
             return null;
         }
-            public void Add(User user)
+        public bool SubmitTime(User user)
+        {
+            string ProjectName = Request?.Invoke(" Enter project Name");
+            int Hours;
+            int.TryParse(Request?.Invoke(" Enter hours count : "), out Hours);
+            DateTime Date;
+            DateTime.TryParse(Request?.Invoke(" Enter hours count : "), out Date);
+            return false;
+        }
+
+
+
+
+
+
+        public void Add(User user)
         {
             UserRepository.Add(user);
             UserData.Add(new UserData(user));
@@ -101,5 +117,6 @@ namespace Business
 
     }
     public delegate void LoginChanged(string s);
-    
+    public delegate string RequestString(string c);
+
 }
