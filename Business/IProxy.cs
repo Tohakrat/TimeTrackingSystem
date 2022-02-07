@@ -54,7 +54,7 @@ namespace Business
                     Facade.UserServicesObj.SubmitTime(user);
                     break;
                 case 5://ViewSubmittedTime
-                    Facade.UserServicesObj.SubmitTime(user);
+                    Facade.ViewSubmittedTime(user);
                     break;
 
 

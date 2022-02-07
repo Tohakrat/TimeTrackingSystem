@@ -27,7 +27,7 @@ namespace Business
         {
             StringBuilder Result=new();
             Result.AppendLine();
-            Result.AppendLine("Available operations");
+            Result.AppendLine("All projects: ");
 
             foreach (Project Proj in ProjectRepository)
             {
@@ -43,10 +43,11 @@ namespace Business
         }
         private void Seed()
         {            
-            ProjectRepository.Add(new Project("TimeTrackingSystem", DateTime.Now, 200));
-            ProjectRepository.Add(new Project("EnsuranceSystem", DateTime.Now, 400));
-            ProjectRepository.Add(new Project("GamblingSystem", DateTime.Now, 750));
-            ProjectRepository.Add(new Project("EnergySystem", DateTime.Now,470));
+            ProjectRepository.Add(new Project(1,"TimeTrackingSystem", DateTime.Now, 200));
+            ProjectRepository.Add(new Project(2,"EnsuranceSystem", DateTime.Now, 400));
+            ProjectRepository.Add(new Project(3,"GamblingSystem", DateTime.Now, 750));
+            ProjectRepository.Add(new Project(4,"EnergySystem", DateTime.Now,470));
+            ProjectRepository.Add(new Project(5,"UniversitySystem", DateTime.Now,900));
         }
     }
     public delegate void Notify(String N);

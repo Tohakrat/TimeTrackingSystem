@@ -11,13 +11,13 @@ namespace Business
         {
             UserObj = user; 
         }
-        public User UserObj;
-        public List<TimeTrackEntry> SybmittedTime = new();
-        event StateChanged IsActiveChanged;
-        public string ShowTimeTrackString()
+        internal User UserObj;
+        private List<TimeTrackEntry> SybmittedTimeList = new();
+        internal event StateChanged IsActiveChanged;
+        internal string GetTimeTrackString()
         {
             StringBuilder TimeString = new();
-            foreach (TimeTrackEntry Time in SybmittedTime )
+            foreach (TimeTrackEntry Time in SybmittedTimeList )
             {
                 TimeString.AppendLine(Time.UserId + " " + Time.ProjectId.ToString()+" "+Time.Value.ToString());
             }

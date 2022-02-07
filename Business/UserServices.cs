@@ -17,11 +17,23 @@ namespace Business
         public event RequestString Request;
 
         public UserServices ()
-        {            
+        {
+            Seed();
         }
         //public event LoginDelegate LoginEvent;
         private List<User> UserRepository = new();
-        private List<UserData> UserData = new List<UserData>();
+        private List<UserData> UserDataList = new List<UserData>();
+
+        private void Seed()
+        {
+            UserRepository.Add(new User(1,"Vasia", "1234", AccessRole.User));
+            UserRepository.Add(new User(2,"Petia", "1234", AccessRole.User));
+            UserRepository.Add(new User(3,"u", "u", AccessRole.User));
+            UserRepository.Add(new User(4,"Vlad", "1234", AccessRole.Admin));
+            UserRepository.Add(new User(5,"a", "a", AccessRole.Admin));
+            UserRepository.Add(new User(6,"Ivan", "1234", AccessRole.ProjectLeader));
+            UserRepository.Add(new User(7,"p", "p", AccessRole.ProjectLeader));
+        }
         public List<User> GetAllUsers()
         {
             return UserRepository;
@@ -98,6 +110,20 @@ namespace Business
             DateTime.TryParse(Request?.Invoke(" Enter hours count : "), out Date);
             return false;
         }
+        public string ViewSubmittedTime(User user)
+        {
+            int Result = 0;
+            foreach (UserData UD in UserDataList)
+            {
+                if (UD.UserObj.Id == user.Id)
+                {
+                    return UD.GetTimeTrackString();
+                }
+                
+            }
+            return "\n Submitted time not found!";
+            
+        }
 
 
 
@@ -107,12 +133,12 @@ namespace Business
         public void Add(User user)
         {
             UserRepository.Add(user);
-            UserData.Add(new UserData(user));
+            UserDataList.Add(new UserData(user));
         }
         public void Delete(User user)
         {
             UserRepository.Add(user);
-            UserData.Add(new UserData(user));
+            UserDataList.Add(new UserData(user));
         }
 
     }

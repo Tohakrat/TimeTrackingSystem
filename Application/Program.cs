@@ -8,7 +8,8 @@ using Business;
 namespace Application
 {
     class Program
-    {        
+    {
+        private static User user1;
         static void Main(string[] args)
         {            
             User user = null;
@@ -37,8 +38,11 @@ namespace Application
         static string Request(string comment)
         {
             Console.WriteLine(comment);
-            return (Console.ReadLine());
-            
+            return (Console.ReadLine());            
+        }
+        static void ChangeUser(User user)
+        {
+            user1 = user;
         }
     }
 }

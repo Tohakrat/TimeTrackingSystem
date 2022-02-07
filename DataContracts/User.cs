@@ -10,8 +10,9 @@ namespace DataContracts
     
     public class User : BaseEntity
     {
-        public User(string username, string password, AccessRole role,string fullName=null)
+        public User(int id,string username, string password, AccessRole role,string fullName=null)
         {
+            Id = id;
             UserName = username;
             PassWord = password;
             Role = role;
