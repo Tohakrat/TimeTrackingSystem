@@ -10,12 +10,11 @@ namespace Business
 {
     public interface IProxy
     {
-        public User DoAction(int answer, User user);
+        public void DoAction(int answer, User user);
         public string GetOperations(User user);
         public DataFacade Facade { get; set; }
-        
+        public void SetCallBacks(Func<String, String> Request, Action<String> Message, Action<User> SetUser);
 
-        
     }
     public class ConsoleProxy : IProxy
     {
@@ -24,31 +23,34 @@ namespace Business
         {
             Facade = new();
         }
-        public User DoAction(int answer, User user)
+        
+        public void DoAction(int answer, User user)
         {
             
             //Facade.DoAction(int answer, User user)
 
                 switch (answer)
             {
-                case 1://Login OPeration
-                    string UserName, Password;
-                    User TempUser=user;  //delete tempuser if possible!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                    Console.WriteLine("Enter login:");
-                    UserName = Console.ReadLine();
-                    Console.WriteLine("Enter password:");
-                    Password = Console.ReadLine();                    
-                    bool Logined = Facade.UserServicesObj.LogIn(UserName, Password, out TempUser);
-                    return TempUser;
+                case 1:
+                    Facade.Login(user);
+                    //Login OPeration
+                    //string UserName, Password;
+                   // User TempUser=user; 
+                    //Console.WriteLine("Enter login:");
+                    //UserName = Console.ReadLine();
+                   // Console.WriteLine("Enter password:");
+                   // Password = Console.ReadLine();                    
+                   // bool Logined = Facade.UserServicesObj.LogIn(UserName, Password, out TempUser);
+                   // return TempUser;
                     //Console.WriteLine(Facade.GetOperations(TempUser));                    
                     //Facade.UserServicesObj.Get
                     break;
                 case 2://LogOut OPeration
-                    return Facade.UserServicesObj.LogOut(user);
+                    Facade.UserServicesObj.LogOut(user);
                     break;
                 case 3://Get projects
                     Facade.ProjectServicesObj.GetProjectsString();
-                    return user;
+                    
                     break;
                 case 4://SubmitTime
                     Facade.UserServicesObj.SubmitTime(user);
@@ -65,7 +67,7 @@ namespace Business
                     break;
                     
             }
-            return null;
+            
         }
 
         public string GetOperations(User user)
@@ -73,6 +75,10 @@ namespace Business
            // if (user==null)    return Facade.GetOperations(null);     else 
                 return Facade.GetOperations(user);
 
+        }
+        public void SetCallBacks(Func<String, String> Request, Action<String> Message, Action<User> SetUser)
+        {
+            Facade.SetCallBacks(Request, Message, SetUser);
         }
     }
 }

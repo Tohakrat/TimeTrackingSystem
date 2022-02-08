@@ -9,26 +9,28 @@ namespace Application
 {
     class Program
     {
-        private static User user1;
+        private static User UserObj= null;
         static void Main(string[] args)
         {            
-            User user = null;
-            ConsoleProxy proxy = new ConsoleProxy();
-            proxy.Facade.UserServicesObj.AdminLogined += Message;
-            proxy.Facade.UserServicesObj.UserLogined += Message;
-            proxy.Facade.UserServicesObj.ProjectLeaderLogined += Message;
-            proxy.Facade.UserServicesObj.LoginFailed += Message;
-            proxy.Facade.UserServicesObj.LogOutResult += Message;
-            proxy.Facade.ProjectServicesObj.ProjectListTransmitted += Message;
-            proxy.Facade.UserServicesObj.Request += Request;
+            //User user = null;
+            IProxy Proxy = new ConsoleProxy();
+            Proxy.SetCallBacks(Request, Message, ChangeUser);
+
+            Proxy.Facade.UserServicesObj.AdminLogined += Message;
+            Proxy.Facade.UserServicesObj.UserLogined += Message;
+            Proxy.Facade.UserServicesObj.ProjectLeaderLogined += Message;
+            Proxy.Facade.UserServicesObj.LoginFailed += Message;
+            Proxy.Facade.UserServicesObj.LogOutResult += Message;
+            Proxy.Facade.ProjectServicesObj.ProjectListTransmitted += Message;
+            Proxy.Facade.UserServicesObj.Request += Request;
 
 
             while (true)
             {
-                Console.WriteLine(proxy.GetOperations(user));
+                Console.WriteLine(Proxy.GetOperations(UserObj));
                 int answer;
                 int.TryParse(Console.ReadLine(),out answer);
-                user = proxy.DoAction(answer, user);
+                Proxy.DoAction(answer, UserObj);
             }            
         }    
         static void Message(string m)
@@ -40,9 +42,9 @@ namespace Application
             Console.WriteLine(comment);
             return (Console.ReadLine());            
         }
-        static void ChangeUser(User user)
+        static void ChangeUser(User userReceived)
         {
-            user1 = user;
+            UserObj = userReceived;
         }
     }
 }
