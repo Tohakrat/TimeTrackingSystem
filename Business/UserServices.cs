@@ -26,13 +26,20 @@ namespace Business
 
         private void Seed()
         {
-            UserRepository.Add(new User(1,"Vasia", "1234", AccessRole.User));
-            UserRepository.Add(new User(2,"Petia", "1234", AccessRole.User));
-            UserRepository.Add(new User(3,"u", "u", AccessRole.User));
-            UserRepository.Add(new User(4,"Vlad", "1234", AccessRole.Admin));
-            UserRepository.Add(new User(5,"a", "a", AccessRole.Admin));
-            UserRepository.Add(new User(6,"Ivan", "1234", AccessRole.ProjectLeader));
-            UserRepository.Add(new User(7,"p", "p", AccessRole.ProjectLeader));
+            Add(new User(1,"Vasia", "1234", AccessRole.User));
+            Add(new User(2,"Petia", "1234", AccessRole.User));
+            Add(new User(3,"u", "u", AccessRole.User));
+            Add(new User(4,"Vlad", "1234", AccessRole.Admin));
+            Add(new User(5,"a", "a", AccessRole.Admin));
+            Add(new User(6,"Ivan", "1234", AccessRole.ProjectLeader));
+            Add(new User(7,"p", "p", AccessRole.ProjectLeader));
+
+            int i = 1;
+            foreach(UserData Data in UserDataList)
+            {
+                Data.AddSubmittedTime(new TimeTrackEntry(Data.UserObj.Id, i, i * 10, DateTime.Now));
+                    i++;
+            }
         }
         public List<User> GetAllUsers()
         {
@@ -62,6 +69,8 @@ namespace Business
                 User LocalUser;
                 LocalUser = (from U in UserRepository where U.UserName == userName select U).First();
                 user = LocalUser;
+                if (LocalUser != null)
+                    LocalUser.IsActive = true;
                 switch (LocalUser.Role)
                 {
                     case AccessRole.User:
@@ -93,6 +102,7 @@ namespace Business
         {
             if (user!=null)
             {
+                user.IsActive = false;
                 ChangeUserDelegate(null);
                 MessageDelegate("LogOut completed");
 
@@ -105,39 +115,26 @@ namespace Business
         }
         public bool SubmitTime(User user,int ProjectId,int HoursCount, DateTime DateOfWork)
         {
-            UserData UserDataObj = (from U in UserDataList where user == U.UserObj select U).FirstOrDefault();
+            UserData UserDataObj = (from U in UserDataList where user.Equals( U.UserObj) select U).FirstOrDefault();
             if (UserDataObj==null)
                 return false;
             TimeTrackEntry TTEntry = new TimeTrackEntry(UserDataObj.UserObj.Id, ProjectId, HoursCount, DateOfWork);
-            UserDataObj.AddSubmittedTime(TTEntry);
-            
-            return true;
-
-            //string ProjectName = Request?.Invoke(" Enter project Name");
-            //int Hours;
-            //int.TryParse(Request?.Invoke(" Enter hours count : "), out Hours);
-            //DateTime Date;
-            //DateTime.TryParse(Request?.Invoke(" Enter hours count : "), out Date);
-            //return false;
+            UserDataObj.AddSubmittedTime(TTEntry);            
+            return true;           
         }
         public string ViewSubmittedTime(User user)
         {
-            int Result = 0;
+            //int Result = 0;
             foreach (UserData UD in UserDataList)
             {
                 if (UD.UserObj.Id == user.Id)
                 {
                     return UD.GetTimeTrackString();
-                }
-                
+                }                
             }
             return "\n Submitted time not found!";
             
         }
-
-
-
-
 
 
         public void Add(User user)

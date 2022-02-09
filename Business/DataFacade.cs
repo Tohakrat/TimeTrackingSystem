@@ -63,7 +63,7 @@ namespace Business
 
             if (UserServicesObj.SubmitTime(user, IdProject, HoursCount,DateOfWork)==true)
                 MessageDelegate("Successfully added time");
-            else MessageDelegate("Error adding time");
+            else MessageDelegate("Error adding TimeEntry");
         }
 
 

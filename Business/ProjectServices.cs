@@ -55,6 +55,10 @@ namespace Business
             ProjectRepository.Add(new Project(3,"GamblingSystem", DateTime.Now, 750));
             ProjectRepository.Add(new Project(4,"EnergySystem", DateTime.Now,470));
             ProjectRepository.Add(new Project(5,"UniversitySystem", DateTime.Now,900));
+            ProjectRepository.Add(new Project(6,"p6", DateTime.Now,220));
+            ProjectRepository.Add(new Project(7,"p7", DateTime.Now,420));
+            ProjectRepository.Add(new Project(8,"p8", DateTime.Now,620));
+
         }
     }
     public delegate void Notify(String N);
