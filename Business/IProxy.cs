@@ -46,14 +46,13 @@ namespace Business
                     //Facade.UserServicesObj.Get
                     break;
                 case 2://LogOut OPeration
-                    Facade.UserServicesObj.LogOut(user);
+                    Facade.LogOut(user);
                     break;
                 case 3://Get projects
-                    Facade.ProjectServicesObj.GetProjectsString();
-                    
+                    Facade.GetProjects();                    
                     break;
                 case 4://SubmitTime
-                    Facade.UserServicesObj.SubmitTime(user);
+                    Facade.SubmitTime(user);
                     break;
                 case 5://ViewSubmittedTime
                     Facade.ViewSubmittedTime(user);

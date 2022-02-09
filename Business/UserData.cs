@@ -23,6 +23,11 @@ namespace Business
             }
             return TimeString.ToString();
         }
+        internal void AddSubmittedTime(TimeTrackEntry TTEntry )
+        {
+            SybmittedTimeList.Add(TTEntry); 
+             
+        }
     }
     delegate void StateChanged(int UserId, int ProjectId, string message);
     //event AccountHandler Notify;

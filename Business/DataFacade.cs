@@ -42,6 +42,29 @@ namespace Business
             }
             else MessageDelegate("You are already logined, please log out!");
         }
+        internal void LogOut(User user)
+        {
+            UserServicesObj.LogOut(user, ChangeUserDelegate, MessageDelegate);
+        }
+        internal void GetProjects()
+        {
+            MessageDelegate(ProjectServicesObj.GetProjectsString());
+        }
+        internal void SubmitTime(User user)
+        {
+            string project = RequestDelegate("EnterProjectName:");
+            int IdProject = ProjectServicesObj.FindIdByName(project);
+            int HoursCount;
+            if (int.TryParse(RequestDelegate("Enter Count of Hours:"),out HoursCount)==false)
+                 MessageDelegate("Hours is incorrect:");
+            DateTime DateOfWork;
+            if (DateTime.TryParse(RequestDelegate("Enter Date:"), out DateOfWork) == false)
+                MessageDelegate("Date is incorrect:");
+
+            if (UserServicesObj.SubmitTime(user, IdProject, HoursCount,DateOfWork)==true)
+                MessageDelegate("Successfully added time");
+            else MessageDelegate("Error adding time");
+        }
 
 
 

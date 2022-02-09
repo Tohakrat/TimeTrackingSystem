@@ -89,26 +89,36 @@ namespace Business
             }           
             
         }
-        public User LogOut(User user)
+        public void LogOut(User user, Action<User> ChangeUserDelegate, Action<String> MessageDelegate)         
         {
             if (user!=null)
             {
-                LogOutResult?.Invoke("LogOut completed");
+                ChangeUserDelegate(null);
+                MessageDelegate("LogOut completed");
+
+                
             }
             else
             {
-                LogOutResult?.Invoke("LogOut impossible. Please, LogIn");
-            }
-            return null;
+                MessageDelegate("LogOut hadnt completed, please log in.");
+            }            
         }
-        public bool SubmitTime(User user)
+        public bool SubmitTime(User user,int ProjectId,int HoursCount, DateTime DateOfWork)
         {
-            string ProjectName = Request?.Invoke(" Enter project Name");
-            int Hours;
-            int.TryParse(Request?.Invoke(" Enter hours count : "), out Hours);
-            DateTime Date;
-            DateTime.TryParse(Request?.Invoke(" Enter hours count : "), out Date);
-            return false;
+            UserData UserDataObj = (from U in UserDataList where user == U.UserObj select U).FirstOrDefault();
+            if (UserDataObj==null)
+                return false;
+            TimeTrackEntry TTEntry = new TimeTrackEntry(UserDataObj.UserObj.Id, ProjectId, HoursCount, DateOfWork);
+            UserDataObj.AddSubmittedTime(TTEntry);
+            
+            return true;
+
+            //string ProjectName = Request?.Invoke(" Enter project Name");
+            //int Hours;
+            //int.TryParse(Request?.Invoke(" Enter hours count : "), out Hours);
+            //DateTime Date;
+            //DateTime.TryParse(Request?.Invoke(" Enter hours count : "), out Date);
+            //return false;
         }
         public string ViewSubmittedTime(User user)
         {

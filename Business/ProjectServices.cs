@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataContracts;
+using System.Linq;
 
 namespace Business
 {
@@ -23,7 +24,7 @@ namespace Business
         {
             return null;
         }
-        public void GetProjectsString()
+        public string GetProjectsString()
         {
             StringBuilder Result=new();
             Result.AppendLine();
@@ -38,8 +39,14 @@ namespace Business
                 Result.Append(" ");
                 Result.Append(Proj.MaxHours);
             }
-            ProjectListTransmitted?.Invoke(Result.ToString());
-            //return Result.ToString();
+            //ProjectListTransmitted?.Invoke(Result.ToString());
+            return Result.ToString();
+        }
+        internal int FindIdByName(String project)
+        {
+            int Id = (from ProjectRepositoryItem in ProjectRepository where ProjectRepositoryItem.Name == project select ProjectRepositoryItem.Id).FirstOrDefault();
+            return Id;
+
         }
         private void Seed()
         {            
