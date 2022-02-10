@@ -10,9 +10,11 @@ namespace Business
 {
     public class ProjectServices
     {
-        public event Notify ProjectListTransmitted;
-        public ProjectServices()
+        private DataFacadeDelegates Delegates;
+        //public event Notify ProjectListTransmitted;
+        public ProjectServices(DataFacadeDelegates delegates)
         {
+            Delegates = delegates;
             Seed();
         }
         internal List<Project> ProjectRepository = new();

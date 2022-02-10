@@ -26,24 +26,16 @@ namespace Business
         
         public void DoAction(int answer, User user)
         {
-            
-            //Facade.DoAction(int answer, User user)
-
-                switch (answer)
+            if (Facade.CheckAnswer(answer, user) == false)
             {
+                Facade.Message("\n denied operation! ");
+                return;
+            }
+           switch (answer)
+            {
+                
                 case 1:
-                    Facade.Login(user);
-                    //Login OPeration
-                    //string UserName, Password;
-                   // User TempUser=user; 
-                    //Console.WriteLine("Enter login:");
-                    //UserName = Console.ReadLine();
-                   // Console.WriteLine("Enter password:");
-                   // Password = Console.ReadLine();                    
-                   // bool Logined = Facade.UserServicesObj.LogIn(UserName, Password, out TempUser);
-                   // return TempUser;
-                    //Console.WriteLine(Facade.GetOperations(TempUser));                    
-                    //Facade.UserServicesObj.Get
+                    Facade.Login(user);           
                     break;
                 case 2://LogOut OPeration
                     Facade.LogOut(user);

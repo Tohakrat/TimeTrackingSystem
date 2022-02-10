@@ -13,13 +13,13 @@ namespace Business
         }
         internal User UserObj;
         private List<TimeTrackEntry> SybmittedTimeList = new();
-        internal event StateChanged IsActiveChanged;
+        
         internal string GetTimeTrackString()
         {
             StringBuilder TimeString = new();
             foreach (TimeTrackEntry Time in SybmittedTimeList )
             {
-                TimeString.AppendLine(Time.UserId + " " + Time.ProjectId.ToString()+" "+Time.Value.ToString());
+                TimeString.AppendLine("ProjectId: " + Time.ProjectId.ToString()+"  Submitted time:"+Time.Value.ToString() +"  Time submitting:" + Time.Date.ToString());
             }
             return TimeString.ToString();
         }
@@ -29,6 +29,6 @@ namespace Business
              
         }
     }
-    delegate void StateChanged(int UserId, int ProjectId, string message);
-    //event AccountHandler Notify;
+    
+    
 }

@@ -9,18 +9,20 @@ namespace Business
 {
     public class UserServices
     {
+        private DataFacadeDelegates Delegates;
         public event LoginChanged UserLogined;
         public event LoginChanged AdminLogined;
         public event LoginChanged ProjectLeaderLogined;
         public event LoginChanged LoginFailed;
-        public event LoginChanged LogOutResult;
-        public event RequestString Request;
+        //public event LoginChanged LogOutResult;
+        //public event RequestString Request;
 
-        public UserServices ()
+        public UserServices (DataFacadeDelegates delegates)
         {
+            Delegates = delegates;
             Seed();
         }
-        //public event LoginDelegate LoginEvent;
+        
         private List<User> UserRepository = new();
         private List<UserData> UserDataList = new List<UserData>();
 
@@ -139,6 +141,12 @@ namespace Business
 
         public void Add(User user)
         {
+            UserRepository.Add(user);
+            UserDataList.Add(new UserData(user));
+        }
+        public void Add()
+        {
+            
             UserRepository.Add(user);
             UserDataList.Add(new UserData(user));
         }

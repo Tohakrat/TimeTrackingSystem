@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataContracts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,9 +29,25 @@ namespace Business
             OperationList.Add(new Operation("CreateProject", DataContracts.AccessRole.Admin, true,9, State.Logined));
             OperationList.Add(new Operation("DeleteProject", DataContracts.AccessRole.Admin, true,10, State.Logined));
             OperationList.Add(new Operation("Quit", DataContracts.AccessRole.Any, true,0, State.Any));       
-        }               
-     
-        
+        }
+
+        internal bool CheckAnswer(int answer, AccessRole role,State state)
+        {
+
+            foreach (Operation op in OperationList)
+            {
+                if (answer== op.NumberOpreation)
+                {
+                    if ((op.StateLogin == state || op.StateLogin == State.Any) && (op.AvailableFor == role || op.AvailableFor == DataContracts.AccessRole.Any))
+                    {
+                        return true;
+                    }
+                }         
+                
+            }
+            return false;
+        }
+
         internal string GetAvailableOperations(DataContracts.AccessRole role,State state)
         {
             StringBuilder Result = new();

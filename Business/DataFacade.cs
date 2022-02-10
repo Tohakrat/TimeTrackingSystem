@@ -9,68 +9,79 @@ namespace Business
 {
     public class DataFacade
     {
-        private Func<String,String> RequestDelegate;
-        private Action<String> MessageDelegate;
-        private Action<User> ChangeUserDelegate;
+        
         
         public DataFacade()
         {
             //Seed();            
         }
-        //UserServices UserServices { get; set; }
         
-        internal Menu MenuObj = new();
-        public UserServices UserServicesObj = new UserServices();
-        public ProjectServices ProjectServicesObj = new ProjectServices();
+        internal Menu MenuObj = new();        
+        private DataFacadeDelegates Delegates = new DataFacadeDelegates();
+        public UserServices UserServicesObj = new UserServices(Delegates);
+        public ProjectServices ProjectServicesObj = new ProjectServices(Delegates);
         //TimeTrackEntryServices TimeTrackEntryServicesObj = new TimeTrackEntryServices();
         internal void SetCallBacks(Func<String, String> Request, Action<String> Message, Action<User> SetUser)
         {
-            RequestDelegate = Request;
-            MessageDelegate = Message;
-            ChangeUserDelegate = SetUser;
+            Delegates.RequestDelegate = Request;
+            Delegates.MessageDelegate = Message;
+            Delegates.ChangeUserDelegate = SetUser;
         }
+
+
+        internal bool CheckAnswer(int answer, User user)
+        {
+            if (user == null)
+            { return MenuObj.CheckAnswer(answer,AccessRole.Any, State.NotLogined); }
+            else return MenuObj.CheckAnswer(answer,user.Role, State.Logined);            
+        }
+       
+
         internal void Login(User user)
         {
             if (user == null)
             {
                 string UserName, Password;
-                UserName = RequestDelegate("Enter login:");
-                Password = RequestDelegate("Enter password:");
+                UserName = Delegates.RequestDelegate("Enter login:");
+                Password = Delegates.RequestDelegate("Enter password:");
                 User TempUser = user;
                 bool Logined = UserServicesObj.LogIn(UserName, Password, out TempUser);
-                ChangeUserDelegate(TempUser);
+                Delegates.ChangeUserDelegate(TempUser);
             }
-            else MessageDelegate("You are already logined, please log out!");
+            else Delegates.MessageDelegate("You are already logined, please log out!");
         }
         internal void LogOut(User user)
         {
-            UserServicesObj.LogOut(user, ChangeUserDelegate, MessageDelegate);
+            UserServicesObj.LogOut(user, Delegates.ChangeUserDelegate, Delegates.MessageDelegate);
         }
         internal void GetProjects()
         {
-            MessageDelegate(ProjectServicesObj.GetProjectsString());
+            Delegates.MessageDelegate(ProjectServicesObj.GetProjectsString());
         }
         internal void SubmitTime(User user)
         {
-            string project = RequestDelegate("EnterProjectName:");
+            string project = Delegates.RequestDelegate("EnterProjectName:");
             int IdProject = ProjectServicesObj.FindIdByName(project);
             int HoursCount;
-            if (int.TryParse(RequestDelegate("Enter Count of Hours:"),out HoursCount)==false)
-                 MessageDelegate("Hours is incorrect:");
+            if (int.TryParse(Delegates.RequestDelegate("Enter Count of Hours:"),out HoursCount)==false)
+                Delegates.MessageDelegate("Hours is incorrect:");
             DateTime DateOfWork;
-            if (DateTime.TryParse(RequestDelegate("Enter Date:"), out DateOfWork) == false)
-                MessageDelegate("Date is incorrect:");
+            if (DateTime.TryParse(Delegates.RequestDelegate("Enter Date:"), out DateOfWork) == false)
+                Delegates.MessageDelegate("Date is incorrect:");
 
             if (UserServicesObj.SubmitTime(user, IdProject, HoursCount,DateOfWork)==true)
-                MessageDelegate("Successfully added time");
-            else MessageDelegate("Error adding TimeEntry");
+                Delegates.MessageDelegate("Successfully added time");
+            else Delegates.MessageDelegate("Error adding TimeEntry");
         }
-
+        internal void AddUser()
+        {
+            UserServicesObj.Add();
+        }
 
 
         public void ViewSubmittedTime(User user)
         {
-            UserServicesObj.ViewSubmittedTime(user);
+            Delegates.MessageDelegate(UserServicesObj.ViewSubmittedTime(user));
         }
 
         public List<Project> GetAllProjects()
@@ -96,5 +107,6 @@ namespace Business
         
 
     }
+    
         
 }

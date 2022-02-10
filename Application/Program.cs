@@ -11,11 +11,10 @@ namespace Application
     {
         private static User UserObj= null;
         static void Main(string[] args)
-        {            
-            //User user = null;
+        {         
+            
             IProxy Proxy = new ConsoleProxy();
             Proxy.SetCallBacks(Request, Message, ChangeUser);
-
             Proxy.Facade.UserServicesObj.AdminLogined += Message;
             Proxy.Facade.UserServicesObj.UserLogined += Message;
             Proxy.Facade.UserServicesObj.ProjectLeaderLogined += Message;
@@ -29,7 +28,11 @@ namespace Application
             {
                 Console.WriteLine(Proxy.GetOperations(UserObj));
                 int answer;
-                int.TryParse(Console.ReadLine(),out answer);
+                if (int.TryParse(Console.ReadLine(),out answer)==false)
+                {
+                    Console.WriteLine("Wrong data.");
+                    break;
+                };
                 Proxy.DoAction(answer, UserObj);
             }            
         }    
