@@ -9,18 +9,18 @@ namespace Business
 {
     public class DataFacade
     {
-        
-        
+        internal Menu MenuObj = new();
+        internal DataFacadeDelegates Delegates = new DataFacadeDelegates();
+        public UserServices UserServicesObj;
+        public ProjectServices ProjectServicesObj;
         public DataFacade()
-        {
-            //Seed();            
-        }
+        {            
+            UserServicesObj = new UserServices(Delegates);
+            ProjectServicesObj = new ProjectServices(Delegates);
+        }  
         
-        internal Menu MenuObj = new();        
-        private DataFacadeDelegates Delegates = new DataFacadeDelegates();
-        public UserServices UserServicesObj = new UserServices(Delegates);
-        public ProjectServices ProjectServicesObj = new ProjectServices(Delegates);
-        //TimeTrackEntryServices TimeTrackEntryServicesObj = new TimeTrackEntryServices();
+        
+        
         internal void SetCallBacks(Func<String, String> Request, Action<String> Message, Action<User> SetUser)
         {
             Delegates.RequestDelegate = Request;
@@ -75,7 +75,7 @@ namespace Business
         }
         internal void AddUser()
         {
-            UserServicesObj.Add();
+            bool Result = UserServicesObj.Add();
         }
 
 
@@ -103,7 +103,11 @@ namespace Business
             if (user == null)
             { return MenuObj.GetAvailableOperations(AccessRole.Any, State.NotLogined); }
             else return MenuObj.GetAvailableOperations(user.Role, State.Logined);
-        }       
+        }
+        public void ViewAllUsers()
+        {
+            Delegates.MessageDelegate(UserServicesObj.GetAllUsersString());
+        }
         
 
     }

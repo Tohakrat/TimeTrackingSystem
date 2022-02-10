@@ -12,7 +12,7 @@ namespace Business
     {
         private DataFacadeDelegates Delegates;
         //public event Notify ProjectListTransmitted;
-        public ProjectServices(DataFacadeDelegates delegates)
+        internal ProjectServices(DataFacadeDelegates delegates)
         {
             Delegates = delegates;
             Seed();

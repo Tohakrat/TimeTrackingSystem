@@ -15,13 +15,13 @@ namespace Application
             
             IProxy Proxy = new ConsoleProxy();
             Proxy.SetCallBacks(Request, Message, ChangeUser);
-            Proxy.Facade.UserServicesObj.AdminLogined += Message;
-            Proxy.Facade.UserServicesObj.UserLogined += Message;
-            Proxy.Facade.UserServicesObj.ProjectLeaderLogined += Message;
-            Proxy.Facade.UserServicesObj.LoginFailed += Message;
-            Proxy.Facade.UserServicesObj.LogOutResult += Message;
-            Proxy.Facade.ProjectServicesObj.ProjectListTransmitted += Message;
-            Proxy.Facade.UserServicesObj.Request += Request;
+            //Proxy.Facade.UserServicesObj.AdminLogined += Message;
+            //Proxy.Facade.UserServicesObj.UserLogined += Message;
+            //Proxy.Facade.UserServicesObj.ProjectLeaderLogined += Message;
+            //Proxy.Facade.UserServicesObj.LoginFailed += Message;
+            //Proxy.Facade.UserServicesObj.LogOutResult += Message;
+            //Proxy.Facade.ProjectServicesObj.ProjectListTransmitted += Message;
+            //Proxy.Facade.UserServicesObj.Request += Request;
 
 
             while (true)

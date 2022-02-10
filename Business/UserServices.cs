@@ -10,17 +10,19 @@ namespace Business
     public class UserServices
     {
         private DataFacadeDelegates Delegates;
-        public event LoginChanged UserLogined;
-        public event LoginChanged AdminLogined;
-        public event LoginChanged ProjectLeaderLogined;
-        public event LoginChanged LoginFailed;
+        public event Action<string> UserLogined;
+        //public event Action<string> AdminLogined;
+        //public event Action<string> ProjectLeaderLogined;
+        public event Action<string> LoginFailed;
         //public event LoginChanged LogOutResult;
         //public event RequestString Request;
 
-        public UserServices (DataFacadeDelegates delegates)
+        internal UserServices (DataFacadeDelegates delegates)
         {
             Delegates = delegates;
             Seed();
+            UserLogined += Delegates.MessageDelegate;
+            LoginFailed += Delegates.MessageDelegate;
         }
         
         private List<User> UserRepository = new();
@@ -43,23 +45,39 @@ namespace Business
                     i++;
             }
         }
-        public List<User> GetAllUsers()
+        internal List<User> GetAllUsers()
         {
             return UserRepository;
+        }
+        internal string GetAllUsersString()
+        {
+            StringBuilder Result = new();
+            Result.AppendLine();
+            Result.AppendLine("All users: ");
+
+            foreach (User User in UserRepository)
+            {
+                Result.AppendLine();
+                
+                Result.Append(" User Name: ");
+                Result.Append(User.UserName);
+                Result.Append(" User FullName: ");
+                Result.Append(User.UserName);
+                Result.Append(" User Access Role: ");
+                Result.Append(User.Role.ToString());
+                
+                Result.Append(" ");
+            }
+            //ProjectListTransmitted?.Invoke(Result.ToString());
+            return Result.ToString();
+            
         }
         public List<User> GetAllActiveUsers()
         {
             IEnumerable<User> ActiveUsers = from U in UserRepository 
                                      where U.IsActive                                
                                 select U; 
-            /*List<User> ActiveUsers = new();
-            foreach (User U in UserRepository)
-            {
-                if (U.IsActive)
-                {
-                    ActiveUsers.Add(U);
-                }
-            }*/
+           
             return ActiveUsers.ToList();
         }
         public bool LogIn(string userName, string passWord, out User user)
@@ -82,12 +100,12 @@ namespace Business
                         }
                     case AccessRole.Admin:
                         {
-                            AdminLogined?.Invoke("Admin Logined");
+                            UserLogined?.Invoke("Admin Logined");
                             break;
                         }
                     case AccessRole.ProjectLeader: 
                         {
-                            ProjectLeaderLogined?.Invoke("Project Leader Logined");
+                            UserLogined?.Invoke("Project Leader Logined");
                             break;
                         }
                 }
@@ -107,7 +125,6 @@ namespace Business
                 user.IsActive = false;
                 ChangeUserDelegate(null);
                 MessageDelegate("LogOut completed");
-
                 
             }
             else
@@ -144,11 +161,29 @@ namespace Business
             UserRepository.Add(user);
             UserDataList.Add(new UserData(user));
         }
-        public void Add()
+        public bool Add()
         {
-            
-            UserRepository.Add(user);
-            UserDataList.Add(new UserData(user));
+            int UserRole;
+
+            try
+            {
+                UserRole = int.Parse(Delegates.RequestDelegate("Enter User Role 1-user 2-admin 3-Project leader: "));
+            }
+            catch (Exception E)
+            {
+                Delegates.MessageDelegate("Incorrect Data. ");
+                return false;
+            }
+            String Name = Delegates.RequestDelegate("Enter user name: ");
+            String Password = Delegates.RequestDelegate("Enter password: ");
+            String FullName = Delegates.RequestDelegate("Enter Full Name: ");
+            int MaxIndex = GetMaxIndex();
+            UserRepository.Add(new User(MaxIndex + 1, Name, Password,(AccessRole)UserRole, FullName) );
+            return true;    
+        }
+        private int GetMaxIndex()
+        {
+            return UserRepository.Max(u => u.Id);
         }
         public void Delete(User user)
         {
@@ -157,7 +192,7 @@ namespace Business
         }
 
     }
-    public delegate void LoginChanged(string s);
-    public delegate string RequestString(string c);
+    //public delegate void LoginChanged(string s);
+    //public delegate string RequestString(string c);
 
 }

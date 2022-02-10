@@ -28,7 +28,7 @@ namespace Business
         {
             if (Facade.CheckAnswer(answer, user) == false)
             {
-                Facade.Message("\n denied operation! ");
+                Facade.Delegates.MessageDelegate("\n denied operation! ");
                 return;
             }
            switch (answer)
@@ -49,10 +49,15 @@ namespace Business
                 case 5://ViewSubmittedTime
                     Facade.ViewSubmittedTime(user);
                     break;
+                case 7://Add User
+                    Facade.AddUser();
+                    break;
+                case 11://View Users
+                    Facade.ViewAllUsers();
+                    break;
 
 
 
-                    
                 case 0://Quit
                     Environment.Exit(0);
                     break;
