@@ -31,7 +31,7 @@ namespace Application
                 if (int.TryParse(Console.ReadLine(),out answer)==false)
                 {
                     Console.WriteLine("Wrong data.");
-                    break;
+                    continue;
                 };
                 Proxy.DoAction(answer, UserObj);
             }            

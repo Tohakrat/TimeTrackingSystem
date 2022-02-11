@@ -115,9 +115,10 @@ namespace Business
             {
                 LoginFailed?.Invoke("Login Failed!");
                 return false;
-            }           
-            
+            }                     
         }
+        
+
         public void LogOut(User user, Action<User> ChangeUserDelegate, Action<String> MessageDelegate)         
         {
             if (user!=null)
@@ -151,10 +152,8 @@ namespace Business
                     return UD.GetTimeTrackString();
                 }                
             }
-            return "\n Submitted time not found!";
-            
+            return "\n Submitted time not found!";            
         }
-
 
         public void Add(User user)
         {
@@ -178,8 +177,42 @@ namespace Business
             String Password = Delegates.RequestDelegate("Enter password: ");
             String FullName = Delegates.RequestDelegate("Enter Full Name: ");
             int MaxIndex = GetMaxIndex();
-            UserRepository.Add(new User(MaxIndex + 1, Name, Password,(AccessRole)UserRole, FullName) );
+            User UserToAdd = new User(MaxIndex + 1, Name, Password,(AccessRole)UserRole, FullName) ;
+            UserRepository.Add(UserToAdd) ;
+            UserDataList.Add(new UserData(UserToAdd));
             return true;    
+        }
+        internal bool DeleteUser()
+        {
+            string UserName;
+            bool resultUser=false;
+            bool resultUserData=false;
+            User UserToRemove = null;
+            UserData UserDataToRemove = null;
+
+            UserName = Delegates.RequestDelegate("Enter login:");
+            foreach (User U in UserRepository)
+            {
+                if (U.UserName == UserName)
+                {
+                    UserToRemove = U;
+                    break;
+                }
+            }
+            foreach (UserData U in UserDataList)
+            {
+                if (U.UserObj.UserName == UserName)
+                {
+                    UserDataToRemove = U;
+                    break;
+                }
+            }
+            resultUser = UserRepository.Remove(UserToRemove);
+            resultUserData = UserDataList.Remove(UserDataToRemove);
+            bool result = resultUser|| resultUserData;
+            if (result) Delegates.MessageDelegate(" User deleted successfully. ");
+            else Delegates.MessageDelegate(" Error! User not deleted! ");
+            return result;  
         }
         private int GetMaxIndex()
         {

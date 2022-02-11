@@ -26,6 +26,21 @@ namespace Business
         {
             return null;
         }
+        internal bool AddProject()
+        {
+
+
+
+
+
+
+
+
+
+
+
+            throw new NotImplementedException();
+        }
         public string GetProjectsString()
         {
             StringBuilder Result=new();
@@ -62,6 +77,8 @@ namespace Business
             ProjectRepository.Add(new Project(8,"p8", DateTime.Now,620));
 
         }
+
+        
     }
     public delegate void Notify(String N);
 }

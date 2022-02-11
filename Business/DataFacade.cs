@@ -17,9 +17,7 @@ namespace Business
         {            
             UserServicesObj = new UserServices(Delegates);
             ProjectServicesObj = new ProjectServices(Delegates);
-        }  
-        
-        
+        }        
         
         internal void SetCallBacks(Func<String, String> Request, Action<String> Message, Action<User> SetUser)
         {
@@ -27,15 +25,12 @@ namespace Business
             Delegates.MessageDelegate = Message;
             Delegates.ChangeUserDelegate = SetUser;
         }
-
-
         internal bool CheckAnswer(int answer, User user)
         {
             if (user == null)
             { return MenuObj.CheckAnswer(answer,AccessRole.Any, State.NotLogined); }
             else return MenuObj.CheckAnswer(answer,user.Role, State.Logined);            
-        }
-       
+        }       
 
         internal void Login(User user)
         {
@@ -50,10 +45,16 @@ namespace Business
             }
             else Delegates.MessageDelegate("You are already logined, please log out!");
         }
+
+        
+
         internal void LogOut(User user)
         {
             UserServicesObj.LogOut(user, Delegates.ChangeUserDelegate, Delegates.MessageDelegate);
         }
+
+        
+
         internal void GetProjects()
         {
             Delegates.MessageDelegate(ProjectServicesObj.GetProjectsString());
@@ -77,8 +78,15 @@ namespace Business
         {
             bool Result = UserServicesObj.Add();
         }
-
-
+        internal void DeleteUser()
+        {
+            bool deleted = UserServicesObj.DeleteUser();            
+            
+        }
+        internal void AddProject()
+        {
+            bool result = ProjectServicesObj.AddProject();
+        }
         public void ViewSubmittedTime(User user)
         {
             Delegates.MessageDelegate(UserServicesObj.ViewSubmittedTime(user));
@@ -86,8 +94,7 @@ namespace Business
 
         public List<Project> GetAllProjects()
         {
-            return ProjectServicesObj.GetAllProjects();
-            
+            return ProjectServicesObj.GetAllProjects();            
         }
         public List<Project> GetProjectsOfUser(User user)
         {
@@ -107,10 +114,7 @@ namespace Business
         public void ViewAllUsers()
         {
             Delegates.MessageDelegate(UserServicesObj.GetAllUsersString());
-        }
-        
+        }       
 
-    }
-    
-        
+    }    
 }

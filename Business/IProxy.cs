@@ -52,10 +52,17 @@ namespace Business
                 case 7://Add User
                     Facade.AddUser();
                     break;
+                case 8://Add User
+                    Facade.DeleteUser();
+                    break;
+                case 9://Add Project
+                    Facade.AddProject();
+                    break;
+
                 case 11://View Users
                     Facade.ViewAllUsers();
                     break;
-
+                
 
 
                 case 0://Quit
