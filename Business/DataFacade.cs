@@ -13,8 +13,11 @@ namespace Business
         internal DataFacadeDelegates Delegates = new DataFacadeDelegates();
         public UserServices UserServicesObj;
         public ProjectServices ProjectServicesObj;
-        public DataFacade()
-        {            
+        public DataFacade(Func<String, String> Request, Action<String> Message, Action<User> SetUser)
+        {
+            Delegates.RequestDelegate = Request;
+            Delegates.MessageDelegate = Message;
+            Delegates.ChangeUserDelegate = SetUser;
             UserServicesObj = new UserServices(Delegates);
             ProjectServicesObj = new ProjectServices(Delegates);
         }        
@@ -57,7 +60,7 @@ namespace Business
 
         internal void GetProjects()
         {
-            Delegates.MessageDelegate(ProjectServicesObj.GetProjectsString());
+            Delegates.MessageDelegate(ProjectServicesObj.GetProjectsString(UserServicesObj.GetUserNameById));
         }
         internal void SubmitTime(User user)
         {
@@ -74,18 +77,35 @@ namespace Business
                 Delegates.MessageDelegate("Successfully added time");
             else Delegates.MessageDelegate("Error adding TimeEntry");
         }
+
+        internal void ReportActiveUsers()
+        {
+            Delegates.MessageDelegate(UserServicesObj.ReportActiveUsers(ProjectServicesObj.GetProjectId));
+        }
+
         internal void AddUser()
         {
             bool Result = UserServicesObj.Add();
         }
         internal void DeleteUser()
         {
-            bool deleted = UserServicesObj.DeleteUser();            
+            bool deleted = UserServicesObj.DeleteUser(DeleteProjectLeader);            
             
         }
         internal void AddProject()
         {
-            bool result = ProjectServicesObj.AddProject();
+            bool result = ProjectServicesObj.AddProject(GetUserIdByName);
+        }
+        internal void DeleteProject()
+        {
+            if (ProjectServicesObj.DeleteProject(null))
+                Delegates.MessageDelegate("Deleted successfully");
+            else Delegates.MessageDelegate("Error. Project hadnt been deleted!");
+        }                
+       
+        internal int GetUserIdByName(string UserName,AccessRole role)
+        {
+            return UserServicesObj.GetUserIdByName(UserName,role);
         }
         public void ViewSubmittedTime(User user)
         {
@@ -102,7 +122,7 @@ namespace Business
         }
         public void GetProjectsString()
         {
-            ProjectServicesObj.GetProjectsString();
+            ProjectServicesObj.GetProjectsString(UserServicesObj.GetUserNameById);
         }
 
         public string GetOperations(User user)
@@ -111,10 +131,19 @@ namespace Business
             { return MenuObj.GetAvailableOperations(AccessRole.Any, State.NotLogined); }
             else return MenuObj.GetAvailableOperations(user.Role, State.Logined);
         }
+        public void ViewAllActiveUsers()
+        {
+            Delegates.MessageDelegate(UserServicesObj.GetAllActiveUsers());
+        }
         public void ViewAllUsers()
         {
             Delegates.MessageDelegate(UserServicesObj.GetAllUsersString());
-        }       
+        }      
+        internal void DeleteProjectLeader(int ProjectLeaderIndex)
+        {
+            ProjectServicesObj.DeleteProjectLeader(ProjectLeaderIndex);
+        }
+        
 
     }    
 }

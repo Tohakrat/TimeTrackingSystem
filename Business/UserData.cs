@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using DataContracts;
 using System.Text;
+using System.Linq;
 
 namespace Business
 {   
@@ -25,8 +26,11 @@ namespace Business
         }
         internal void AddSubmittedTime(TimeTrackEntry TTEntry )
         {
-            SybmittedTimeList.Add(TTEntry); 
-             
+            SybmittedTimeList.Add(TTEntry);              
+        }
+        internal int GetSubmittedHoursByProjectId(int projectId)
+        {
+            return (from SubmitItem in SybmittedTimeList where SubmitItem.ProjectId == projectId select SubmitItem.Value).Sum();            
         }
     }
     

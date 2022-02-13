@@ -10,18 +10,19 @@ namespace Business
 {
     public interface IProxy
     {
-        public void DoAction(int answer, User user);
-        public string GetOperations(User user);
-        public DataFacade Facade { get; set; }
-        public void SetCallBacks(Func<String, String> Request, Action<String> Message, Action<User> SetUser);
+        public  void DoAction(int answer, User user);
+        public  string GetOperations(User user);
+        public  DataFacade Facade { get; set; }
+        public  void SetCallBacks(Func<String, String> Request, Action<String> Message, Action<User> SetUser);
+        //public  IProxy(Func<String, String> Request, Action<String> Message, Action<User> SetUser);
 
     }
     public class ConsoleProxy : IProxy
     {
         public DataFacade Facade { get; set; }
-        public ConsoleProxy()
+        public ConsoleProxy(Func<String, String> Request, Action<String> Message, Action<User> SetUser)
         {
-            Facade = new();
+            Facade = new(Request,Message,SetUser);
         }
         
         public void DoAction(int answer, User user)
@@ -58,11 +59,19 @@ namespace Business
                 case 9://Add Project
                     Facade.AddProject();
                     break;
-
+                case 10://Delete Project
+                    Facade.DeleteProject();
+                    break;             
                 case 11://View Users
                     Facade.ViewAllUsers();
                     break;
-                
+                case 12://Report. Get users in project with min submitted time
+                    Facade.ReportActiveUsers();
+                    break;
+                case 13://Report. Get all Users who is active
+                    Facade.ViewAllActiveUsers();
+                    break;
+
 
 
                 case 0://Quit

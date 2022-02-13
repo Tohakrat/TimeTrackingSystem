@@ -8,12 +8,13 @@ namespace DataContracts
 {
     public class Project : BaseEntity
     {
-        public Project(int id,string name, DateTime expirationDate, int maxHours)
+        public Project(int id,string name, DateTime expirationDate, int maxHours,int leaderUserId)
         {
             Id = id;
             Name = name;
             ExpirationDate = expirationDate;
             MaxHours = maxHours;
+            LeaderUserId = leaderUserId;
         }
         internal string Name { get; set; }
         internal DateTime ExpirationDate { get; set; }

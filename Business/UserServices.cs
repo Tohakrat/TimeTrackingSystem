@@ -10,17 +10,14 @@ namespace Business
     public class UserServices
     {
         private DataFacadeDelegates Delegates;
-        public event Action<string> UserLogined;
-        //public event Action<string> AdminLogined;
-        //public event Action<string> ProjectLeaderLogined;
-        public event Action<string> LoginFailed;
-        //public event LoginChanged LogOutResult;
-        //public event RequestString Request;
+        public event Action<string> UserLogined;        
+        public event Action<string> LoginFailed;        
 
         internal UserServices (DataFacadeDelegates delegates)
         {
             Delegates = delegates;
             Seed();
+            SeedTimeTrackEntry();
             UserLogined += Delegates.MessageDelegate;
             LoginFailed += Delegates.MessageDelegate;
         }
@@ -30,24 +27,27 @@ namespace Business
 
         private void Seed()
         {
-            Add(new User(1,"Vasia", "1234", AccessRole.User));
-            Add(new User(2,"Petia", "1234", AccessRole.User));
-            Add(new User(3,"u", "u", AccessRole.User));
-            Add(new User(4,"Vlad", "1234", AccessRole.Admin));
-            Add(new User(5,"a", "a", AccessRole.Admin));
-            Add(new User(6,"Ivan", "1234", AccessRole.ProjectLeader));
-            Add(new User(7,"p", "p", AccessRole.ProjectLeader));
+            Add(new User(0,"Vasia", "1234", AccessRole.User,"Vasily Ivanovich"));
+            Add(new User(1,"Petia", "1234", AccessRole.User, "Petr Iosifovich"));
+            Add(new User(2,"u", "u", AccessRole.User,"Uriy Nickolaevich"));
+            Add(new User(3,"w", "w", AccessRole.User,"William"));
+            Add(new User(4,"Vlad", "1234", AccessRole.Admin, "Vladimir Ilyich"));
+            Add(new User(5,"a", "a", AccessRole.Admin, "Andrey Mihailovich"));
+            Add(new User(6,"Vania", "1234", AccessRole.ProjectLeader, "Ivan Vladimirovich"));
+            Add(new User(7,"p", "p", AccessRole.ProjectLeader, "Patrick"));
 
-            int i = 1;
+            /*int i = 1;
             foreach(UserData Data in UserDataList)
             {
                 Data.AddSubmittedTime(new TimeTrackEntry(Data.UserObj.Id, i, i * 10, DateTime.Now));
                     i++;
-            }
+            }*/
         }
-        internal List<User> GetAllUsers()
+        internal string GetAllActiveUsers()
         {
-            return UserRepository;
+            List<string> TempList =  (from UserItem in UserRepository where UserItem.IsActive == true select UserItem.FullName).ToList();
+
+            return string.Join(",", TempList.ToArray());
         }
         internal string GetAllUsersString()
         {
@@ -67,28 +67,24 @@ namespace Business
                 Result.Append(User.Role.ToString());
                 
                 Result.Append(" ");
-            }
-            //ProjectListTransmitted?.Invoke(Result.ToString());
-            return Result.ToString();
-            
+            }            
+            return Result.ToString();            
         }
-        public List<User> GetAllActiveUsers()
-        {
-            IEnumerable<User> ActiveUsers = from U in UserRepository 
-                                     where U.IsActive                                
-                                select U; 
-           
-            return ActiveUsers.ToList();
-        }
+        
         public bool LogIn(string userName, string passWord, out User user)
-        {
-            //successfullyFinded = false;
+        {            
             user = null;
             try 
             {
                 User LocalUser;
                 LocalUser = (from U in UserRepository where U.UserName == userName select U).First();
                 user = LocalUser;
+                if (user.PassWord!=passWord)
+                {
+                    LoginFailed?.Invoke("Password Failed!");
+                    user = null;
+                    return false;
+                }
                 if (LocalUser != null)
                     LocalUser.IsActive = true;
                 switch (LocalUser.Role)
@@ -125,8 +121,7 @@ namespace Business
             {
                 user.IsActive = false;
                 ChangeUserDelegate(null);
-                MessageDelegate("LogOut completed");
-                
+                MessageDelegate("LogOut completed");                
             }
             else
             {
@@ -143,8 +138,7 @@ namespace Business
             return true;           
         }
         public string ViewSubmittedTime(User user)
-        {
-            //int Result = 0;
+        {            
             foreach (UserData UD in UserDataList)
             {
                 if (UD.UserObj.Id == user.Id)
@@ -182,13 +176,14 @@ namespace Business
             UserDataList.Add(new UserData(UserToAdd));
             return true;    
         }
-        internal bool DeleteUser()
+        internal bool DeleteUser(Action<int> DeleteProjectLeader)
         {
             string UserName;
             bool resultUser=false;
             bool resultUserData=false;
             User UserToRemove = null;
             UserData UserDataToRemove = null;
+            //int DeletedUserIndex = -1;
 
             UserName = Delegates.RequestDelegate("Enter login:");
             foreach (User U in UserRepository)
@@ -196,6 +191,11 @@ namespace Business
                 if (U.UserName == UserName)
                 {
                     UserToRemove = U;
+                    if (U.Role==AccessRole.ProjectLeader)// Delete all references from projects to this ProjectLeader
+                    {
+                        DeleteProjectLeader(U.Id);
+                    }
+                    
                     break;
                 }
             }
@@ -204,28 +204,89 @@ namespace Business
                 if (U.UserObj.UserName == UserName)
                 {
                     UserDataToRemove = U;
+                    
                     break;
                 }
+
             }
+            
             resultUser = UserRepository.Remove(UserToRemove);
             resultUserData = UserDataList.Remove(UserDataToRemove);
-            bool result = resultUser|| resultUserData;
-            if (result) Delegates.MessageDelegate(" User deleted successfully. ");
-            else Delegates.MessageDelegate(" Error! User not deleted! ");
+            bool result = resultUser&& resultUserData;
+            if (result) Delegates.MessageDelegate(" User is deleted successfully. ");
+            else Delegates.MessageDelegate(" Error! User is not deleted! ");
             return result;  
+        }
+        internal int GetUserIdByName(string Name,AccessRole role)
+        {
+            foreach (User U in UserRepository)
+            {
+                if (U.UserName== Name&&U.Role==role)
+                {
+                    return U.Id;
+                }
+            }
+            throw new KeyNotFoundException { };
+        }
+        internal string GetUserNameById(int id)
+        {
+            if (id == -1) return "not assigned";
+            foreach (User U in UserRepository)
+            {
+                if (U.Id == id)
+                {
+                    return U.UserName;
+                }
+            }
+            throw new KeyNotFoundException { };
         }
         private int GetMaxIndex()
         {
             return UserRepository.Max(u => u.Id);
-        }
-        public void Delete(User user)
+        }     
+
+
+        internal string ReportActiveUsers(Func<string,int> GetProjectIdByName)
         {
-            UserRepository.Add(user);
-            UserDataList.Add(new UserData(user));
+            StringBuilder Result = new StringBuilder();
+            string Project = Delegates.RequestDelegate("Enter project:");
+            int ProjectId = GetProjectIdByName(Project);
+            int HoursCount;
+            if (!int.TryParse(Delegates.RequestDelegate("Enter minimum hours count:"), out HoursCount))
+            {
+                Delegates.MessageDelegate("Wrong count! ");
+                return null;
+            }
+            foreach (UserData UD in UserDataList)
+            {
+                int CurrentHours = UD.GetSubmittedHoursByProjectId(ProjectId);
+                if (CurrentHours>HoursCount)
+                {
+                    Result.AppendLine();
+                    Result.Append(UD.UserObj.FullName+ ": " + CurrentHours.ToString());
+                    //Result.Append(": " + CurrentHours.ToString());
+                }
+
+            }
+            return Result.ToString();
+        }
+        private void SeedTimeTrackEntry()
+        {
+            UserDataList[0].AddSubmittedTime(new TimeTrackEntry(0, 5, 15, DateTime.Parse("1.02.2022")));
+            UserDataList[0].AddSubmittedTime(new TimeTrackEntry(0, 5, 20, DateTime.Parse("1.01.2022")));
+            UserDataList[0].AddSubmittedTime(new TimeTrackEntry(0, 5, 5, DateTime.Parse("15.01.2021")));
+            UserDataList[1].AddSubmittedTime(new TimeTrackEntry(1, 6, 15, DateTime.Parse("1.02.2022")));
+            UserDataList[1].AddSubmittedTime(new TimeTrackEntry(1, 5, 11, DateTime.Parse("3.02.2022")));
+            UserDataList[1].AddSubmittedTime(new TimeTrackEntry(1, 5, 9, DateTime.Parse("1.02.2022")));
+            UserDataList[2].AddSubmittedTime(new TimeTrackEntry(1, 6, 15, DateTime.Parse("1.02.2022")));
+            UserDataList[2].AddSubmittedTime(new TimeTrackEntry(2, 6, 11, DateTime.Parse("1.02.2022")));
+            UserDataList[2].AddSubmittedTime(new TimeTrackEntry(2, 7, 50, DateTime.Parse("3.02.2022")));
+            UserDataList[3].AddSubmittedTime(new TimeTrackEntry(3, 7, 15, DateTime.Parse("4.02.2022")));
+            UserDataList[3].AddSubmittedTime(new TimeTrackEntry(3, 7, 11, DateTime.Parse("1.02.2022")));
+            UserDataList[3].AddSubmittedTime(new TimeTrackEntry(3, 7, 19, DateTime.Parse("1.02.2022")));
+            UserDataList[6].AddSubmittedTime(new TimeTrackEntry(6, 6, 29, DateTime.Parse("21.06.2021")));
         }
 
     }
-    //public delegate void LoginChanged(string s);
-    //public delegate string RequestString(string c);
 
 }

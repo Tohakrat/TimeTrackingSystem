@@ -13,7 +13,7 @@ namespace Application
         static void Main(string[] args)
         {         
             
-            IProxy Proxy = new ConsoleProxy();
+            IProxy Proxy = new ConsoleProxy(Request, Message, ChangeUser);
             Proxy.SetCallBacks(Request, Message, ChangeUser);
             //Proxy.Facade.UserServicesObj.AdminLogined += Message;
             //Proxy.Facade.UserServicesObj.UserLogined += Message;
