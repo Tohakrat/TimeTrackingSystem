@@ -15,12 +15,12 @@ namespace Business
         internal User UserObj;
         private List<TimeTrackEntry> SybmittedTimeList = new();
         
-        internal string GetTimeTrackString()
+        internal string GetTimeTrackString(Func<int,string> GetProjectNameById)
         {
             StringBuilder TimeString = new();
             foreach (TimeTrackEntry Time in SybmittedTimeList )
             {
-                TimeString.AppendLine("ProjectId: " + Time.ProjectId.ToString()+"  Submitted time:"+Time.Value.ToString() +"  Time submitting:" + Time.Date.ToString());
+                TimeString.AppendLine("ProjectName: " + GetProjectNameById(Time.ProjectId)+"  Submitted time:"+Time.Value.ToString() +"  Time submitting:" + Time.Date.ToString());
             }
             return TimeString.ToString();
         }

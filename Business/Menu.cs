@@ -23,12 +23,12 @@ namespace Business
             OperationList.Add(new Operation("Available Projects", DataContracts.AccessRole.Any, true,3, State.Logined));
             OperationList.Add(new Operation("Submit Time", DataContracts.AccessRole.Any, true,4, State.Logined));
             OperationList.Add(new Operation("View Submitted Time", DataContracts.AccessRole.Any, true,5, State.Logined));
-            OperationList.Add(new Operation("Run Report", DataContracts.AccessRole.ProjectLeader, true,6, State.Logined));
+            //OperationList.Add(new Operation("Run Report", DataContracts.AccessRole.ProjectLeader, true,6, State.Logined));
             OperationList.Add(new Operation("Create User", DataContracts.AccessRole.Admin, true,7, State.Logined));
             OperationList.Add(new Operation("Delete User", DataContracts.AccessRole.Admin, true,8, State.Logined));
             OperationList.Add(new Operation("Create Project", DataContracts.AccessRole.Admin, true,9, State.Logined));
             OperationList.Add(new Operation("Delete Project", DataContracts.AccessRole.Admin, true,10, State.Logined));
-            OperationList.Add(new Operation("View All Users", DataContracts.AccessRole.Admin, true,11, State.Logined));
+            OperationList.Add(new Operation("View All Users", DataContracts.AccessRole.Any, true,11, State.Logined));
             OperationList.Add(new Operation("Report: Active Users in Project", DataContracts.AccessRole.ProjectLeader, true,12, State.Logined));
             OperationList.Add(new Operation("Report: Users, who are active now", DataContracts.AccessRole.ProjectLeader, true,13, State.Logined));
 

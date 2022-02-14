@@ -54,7 +54,7 @@ namespace Business
                     Facade.AddUser();
                     break;
                 case 8://Add User
-                    Facade.DeleteUser();
+                    Facade.DeleteUser(user);
                     break;
                 case 9://Add Project
                     Facade.AddProject();

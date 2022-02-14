@@ -74,17 +74,17 @@ namespace Business
             }
             return false;
         }
-        internal int GetProjectId(String SName)
-        {
-            foreach (Project p in ProjectRepository)
-            {
-                if (p.Name==SName)
-                {
-                    return p.Id;
-                }                
-            }
-            throw (new KeyNotFoundException());            
-        }
+        //internal int GetProjectId(String SName)
+        //{
+        //    foreach (Project p in ProjectRepository)
+         //   {
+        //        if (p.Name==SName)
+        //        {
+        //            return p.Id;
+        //        }                
+        //    }
+        //    throw (new KeyNotFoundException());            
+        //}
         internal int GetMaxProjectId()
         {
             int MaxId = 0;
@@ -122,6 +122,15 @@ namespace Business
         {
             int Id = (from ProjectRepositoryItem in ProjectRepository where ProjectRepositoryItem.Name == project select ProjectRepositoryItem.Id).FirstOrDefault();
             return Id;
+
+        }
+
+        internal string FindNameById(int id)
+        {
+            string Name = (from ProjectRepositoryItem in ProjectRepository where ProjectRepositoryItem.Id == id select ProjectRepositoryItem.Name).FirstOrDefault();
+            if (Name != null)
+                return Name;
+            else return "project not found";
 
         }
         private void Seed()

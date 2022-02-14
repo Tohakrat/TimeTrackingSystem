@@ -137,13 +137,13 @@ namespace Business
             UserDataObj.AddSubmittedTime(TTEntry);            
             return true;           
         }
-        public string ViewSubmittedTime(User user)
+        public string ViewSubmittedTime(User user,Func<int,string> FindNameById)
         {            
             foreach (UserData UD in UserDataList)
             {
                 if (UD.UserObj.Id == user.Id)
                 {
-                    return UD.GetTimeTrackString();
+                    return UD.GetTimeTrackString(FindNameById);
                 }                
             }
             return "\n Submitted time not found!";            
@@ -176,7 +176,7 @@ namespace Business
             UserDataList.Add(new UserData(UserToAdd));
             return true;    
         }
-        internal bool DeleteUser(Action<int> DeleteProjectLeader)
+        internal bool DeleteUser(Action<int> DeleteProjectLeader, User MeUser)
         {
             string UserName;
             bool resultUser=false;
@@ -184,9 +184,15 @@ namespace Business
             User UserToRemove = null;
             UserData UserDataToRemove = null;
             //int DeletedUserIndex = -1;
+            
 
             UserName = Delegates.RequestDelegate("Enter login:");
-            foreach (User U in UserRepository)
+            if (UserName==MeUser.UserName) //If I delete me, it is not allowed
+            {
+                Delegates.MessageDelegate(" You cant delete yourself! ");
+                return false;
+            }
+                foreach (User U in UserRepository)
             {
                 if (U.UserName == UserName)
                 {

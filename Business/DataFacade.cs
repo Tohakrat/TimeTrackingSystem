@@ -80,16 +80,16 @@ namespace Business
 
         internal void ReportActiveUsers()
         {
-            Delegates.MessageDelegate(UserServicesObj.ReportActiveUsers(ProjectServicesObj.GetProjectId));
+            Delegates.MessageDelegate(UserServicesObj.ReportActiveUsers(ProjectServicesObj.FindIdByName));
         }
 
         internal void AddUser()
         {
             bool Result = UserServicesObj.Add();
         }
-        internal void DeleteUser()
+        internal void DeleteUser(User Me)
         {
-            bool deleted = UserServicesObj.DeleteUser(DeleteProjectLeader);            
+            bool deleted = UserServicesObj.DeleteUser(DeleteProjectLeader,Me);            
             
         }
         internal void AddProject()
@@ -109,7 +109,7 @@ namespace Business
         }
         public void ViewSubmittedTime(User user)
         {
-            Delegates.MessageDelegate(UserServicesObj.ViewSubmittedTime(user));
+            Delegates.MessageDelegate(UserServicesObj.ViewSubmittedTime(user,ProjectServicesObj.FindNameById));
         }
 
         public List<Project> GetAllProjects()
