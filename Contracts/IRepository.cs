@@ -7,22 +7,34 @@ using DataContracts;
 
 namespace Contracts
 {
-    internal interface IRepository<T> 
+    public interface IRepository<T> 
     {
-        internal IEnumerable<T> GetAll();
-        //internal void Insert<T> (T InsertedItem);
+        
+        public  IEnumerable<T> GetAll();
+        public void Insert (T InsertedItem);
     }
-    internal class Repository<T> : IRepository<T>
+    public interface IUserRepository : IRepository<User>
     {
-        private List<T> RepoList = new List<T>();
-        internal IEnumerable<T> GetAll()
-        {
-            return RepoList;
-        }
-        //internal void Insert(T InsertedItem)
-        //{
-        //    if (InsertedItem!=null)
-        //    RepoList.Add(InsertedItem); 
-        //}
+        //private List<T> RepoList = new List<T>();
+        //public IEnumerable<User> GetAll();
+
+        //public void Insert(User InsertedItem);        
     }
+    public interface IProjectRepository : IRepository<Project>
+    {
+        //private List<T> RepoList = new List<T>();
+        //public IEnumerable<Project> GetAll();
+
+        //public void Insert(Project InsertedItem);
+    }
+    public interface ITimeTrackEntryRepository : IRepository<TimeTrackEntry>
+    {
+        //private List<T> RepoList = new List<T>();
+        //public IEnumerable<TimeTrackEntry> GetAll();
+
+        //public void Insert(TimeTrackEntry InsertedItem);
+    }
+
+
+
 }
