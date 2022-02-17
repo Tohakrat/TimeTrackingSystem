@@ -89,7 +89,7 @@ namespace Business
         }
         internal void DeleteUser(User Me)
         {
-            bool deleted = UserServicesObj.DeleteUser(DeleteProjectLeader,Me);            
+            bool deleted = UserServicesObj.DeleteUser(Me);            
             
         }
         internal void AddProject()
@@ -139,10 +139,10 @@ namespace Business
         {
             Delegates.MessageDelegate(UserServicesObj.GetAllUsersString());
         }      
-        internal void DeleteProjectLeader(int ProjectLeaderIndex)
-        {
-            ProjectServicesObj.DeleteProjectLeader(ProjectLeaderIndex);
-        }
+        //internal void DeleteProjectLeader(int ProjectLeaderIndex)
+        //{
+        //    ProjectServicesObj.DeleteProjectLeader(ProjectLeaderIndex);
+        //}
         
 
     }    

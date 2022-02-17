@@ -176,7 +176,7 @@ namespace Business
             UserDataList.Add(new UserData(UserToAdd));
             return true;    
         }
-        internal bool DeleteUser(Action<int> DeleteProjectLeader, User MeUser)
+        internal bool DeleteUser(User MeUser)
         {
             string UserName;
             bool resultUser=false;
@@ -199,7 +199,8 @@ namespace Business
                     UserToRemove = U;
                     if (U.Role==AccessRole.ProjectLeader)// Delete all references from projects to this ProjectLeader
                     {
-                        DeleteProjectLeader(U.Id);
+                        Delegates.MessageDelegate(" There are some projects under responsibility of this project leader. Deleting denied!");
+                        return false;
                     }
                     
                     break;

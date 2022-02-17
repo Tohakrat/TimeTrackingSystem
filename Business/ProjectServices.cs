@@ -147,15 +147,15 @@ namespace Business
         }
 
         
-        internal void DeleteProjectLeader(int projectLeaderIndex)
-        {
+        //internal void DeleteProjectLeader(int projectLeaderIndex)
+        //{
             
-            foreach (Project P in ProjectRepository)
-            {
-                if (P.LeaderUserId == projectLeaderIndex)
-                    P.LeaderUserId = -1;
-            }
-        }
+        //    foreach (Project P in ProjectRepository)
+        //    {
+        //        if (P.LeaderUserId == projectLeaderIndex)
+        //            P.LeaderUserId = -1;
+        //    }
+        //}
     }
     public delegate void Notify(String N);
 }
