@@ -9,31 +9,24 @@ namespace Application
 {
     class Program
     {
-        private static User UserObj= null;
+        private static UserData UserDataObj= null;
         static void Main(string[] args)
         {         
             
             IProxy Proxy = new ConsoleProxy(Request, Message, ChangeUser);
             Proxy.SetCallBacks(Request, Message, ChangeUser);
-            //Proxy.Facade.UserServicesObj.AdminLogined += Message;
-            //Proxy.Facade.UserServicesObj.UserLogined += Message;
-            //Proxy.Facade.UserServicesObj.ProjectLeaderLogined += Message;
-            //Proxy.Facade.UserServicesObj.LoginFailed += Message;
-            //Proxy.Facade.UserServicesObj.LogOutResult += Message;
-            //Proxy.Facade.ProjectServicesObj.ProjectListTransmitted += Message;
-            //Proxy.Facade.UserServicesObj.Request += Request;
-
+            
 
             while (true)
             {
-                Console.WriteLine(Proxy.GetOperations(UserObj));
+                Console.WriteLine(Proxy.GetOperations(UserDataObj));
                 int answer;
                 if (int.TryParse(Console.ReadLine(),out answer)==false)
                 {
                     Console.WriteLine("Wrong data.");
                     continue;
                 };
-                Proxy.DoAction(answer, UserObj);
+                Proxy.DoAction(answer, UserDataObj);
             }            
         }    
         static void Message(string m)
@@ -45,9 +38,9 @@ namespace Application
             Console.WriteLine(comment);
             return (Console.ReadLine());            
         }
-        static void ChangeUser(User userReceived)
+        static void ChangeUser(UserData userReceived)
         {
-            UserObj = userReceived;
+            UserDataObj = userReceived;
         }
     }
 }

@@ -22,7 +22,7 @@ namespace Business
             LoginFailed += Delegates.MessageDelegate;
         }
         
-        private List<User> UserRepository = new();
+        //private List<User> UserRepository = new();
         private List<UserData> UserDataList = new List<UserData>();
 
         private void Seed()
@@ -45,7 +45,7 @@ namespace Business
         }
         internal string GetAllActiveUsers()
         {
-            List<string> TempList =  (from UserItem in UserRepository where UserItem.IsActive == true select UserItem.FullName).ToList();
+            List<string> TempList =  (from UserDataItem in UserDataList where UserDataItem.UserObj.IsActive == true select UserDataItem.UserObj.FullName).ToList();
 
             return string.Join(",", TempList.ToArray());
         }
@@ -55,29 +55,29 @@ namespace Business
             Result.AppendLine();
             Result.AppendLine("All users: ");
 
-            foreach (User User in UserRepository)
+            foreach (UserData Data in UserDataList)
             {
                 Result.AppendLine();
                 
                 Result.Append(" User Name: ");
-                Result.Append(User.UserName);
+                Result.Append(Data.UserObj.UserName);
                 Result.Append(" User FullName: ");
-                Result.Append(User.UserName);
+                Result.Append(Data.UserObj.UserName);
                 Result.Append(" User Access Role: ");
-                Result.Append(User.Role.ToString());
+                Result.Append(Data.UserObj.Role.ToString());
                 
                 Result.Append(" ");
             }            
             return Result.ToString();            
         }
         
-        public bool LogIn(string userName, string passWord, out User user)
+        public bool LogIn(string userName, string passWord, out UserData user)
         {            
             user = null;
             try 
             {
-                User LocalUser;
-                LocalUser = (from U in UserRepository where U.UserName == userName select U).First();
+                UserData LocalUser;
+                LocalUser = (from U in UserDataList where U.UserObj.UserName == userName select U).First();
                 user = LocalUser;
                 if (user.PassWord!=passWord)
                 {
@@ -115,7 +115,7 @@ namespace Business
         }
         
 
-        public void LogOut(User user, Action<User> ChangeUserDelegate, Action<String> MessageDelegate)         
+        public void LogOut(UserData user, Action<UserData> ChangeUserDelegate, Action<String> MessageDelegate)         
         {
             if (user!=null)
             {
@@ -128,7 +128,7 @@ namespace Business
                 MessageDelegate("LogOut hadnt completed, please log in.");
             }            
         }
-        public bool SubmitTime(User user,int ProjectId,int HoursCount, DateTime DateOfWork)
+        public bool SubmitTime(UserData user,int ProjectId,int HoursCount, DateTime DateOfWork)
         {
             UserData UserDataObj = (from U in UserDataList where user.Equals( U.UserObj) select U).FirstOrDefault();
             if (UserDataObj==null)

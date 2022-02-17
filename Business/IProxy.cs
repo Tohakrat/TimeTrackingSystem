@@ -10,22 +10,22 @@ namespace Business
 {
     public interface IProxy
     {
-        public  void DoAction(int answer, User user);
-        public  string GetOperations(User user);
+        public  void DoAction(int answer, UserData user);
+        public  string GetOperations(UserData user);
         public  DataFacade Facade { get; set; }
-        public  void SetCallBacks(Func<String, String> Request, Action<String> Message, Action<User> SetUser);
+        public  void SetCallBacks(Func<String, String> Request, Action<String> Message, Action<UserData> SetUser);
         //public  IProxy(Func<String, String> Request, Action<String> Message, Action<User> SetUser);
 
     }
     public class ConsoleProxy : IProxy
     {
         public DataFacade Facade { get; set; }
-        public ConsoleProxy(Func<String, String> Request, Action<String> Message, Action<User> SetUser)
+        public ConsoleProxy(Func<String, String> Request, Action<String> Message, Action<UserData> SetUser)
         {
             Facade = new(Request,Message,SetUser);
         }
         
-        public void DoAction(int answer, User user)
+        public void DoAction(int answer, UserData user)
         {
             if (Facade.CheckAnswer(answer, user) == false)
             {
@@ -82,13 +82,13 @@ namespace Business
             
         }
 
-        public string GetOperations(User user)
+        public string GetOperations(UserData user)
         {
            // if (user==null)    return Facade.GetOperations(null);     else 
                 return Facade.GetOperations(user);
 
         }
-        public void SetCallBacks(Func<String, String> Request, Action<String> Message, Action<User> SetUser)
+        public void SetCallBacks(Func<String, String> Request, Action<String> Message, Action<UserData> SetUser)
         {
             Facade.SetCallBacks(Request, Message, SetUser);
         }

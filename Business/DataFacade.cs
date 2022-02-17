@@ -13,7 +13,7 @@ namespace Business
         internal DataFacadeDelegates Delegates = new DataFacadeDelegates();
         public UserServices UserServicesObj;
         public ProjectServices ProjectServicesObj;
-        public DataFacade(Func<String, String> Request, Action<String> Message, Action<User> SetUser)
+        public DataFacade(Func<String, String> Request, Action<String> Message, Action<UserData> SetUser)
         {
             Delegates.RequestDelegate = Request;
             Delegates.MessageDelegate = Message;
@@ -22,27 +22,27 @@ namespace Business
             ProjectServicesObj = new ProjectServices(Delegates);
         }        
         
-        internal void SetCallBacks(Func<String, String> Request, Action<String> Message, Action<User> SetUser)
+        internal void SetCallBacks(Func<String, String> Request, Action<String> Message, Action<UserData> SetUser)
         {
             Delegates.RequestDelegate = Request;
             Delegates.MessageDelegate = Message;
             Delegates.ChangeUserDelegate = SetUser;
         }
-        internal bool CheckAnswer(int answer, User user)
+        internal bool CheckAnswer(int answer, UserData user)
         {
             if (user == null)
             { return MenuObj.CheckAnswer(answer,AccessRole.Any, State.NotLogined); }
-            else return MenuObj.CheckAnswer(answer,user.Role, State.Logined);            
+            else return MenuObj.CheckAnswer(answer,user.UserObj.Role, State.Logined);            
         }       
 
-        internal void Login(User user)
+        internal void Login(UserData user)
         {
             if (user == null)
             {
                 string UserName, Password;
                 UserName = Delegates.RequestDelegate("Enter login:");
                 Password = Delegates.RequestDelegate("Enter password:");
-                User TempUser = user;
+                UserData TempUser = user;
                 bool Logined = UserServicesObj.LogIn(UserName, Password, out TempUser);
                 Delegates.ChangeUserDelegate(TempUser);
             }
@@ -51,7 +51,7 @@ namespace Business
 
         
 
-        internal void LogOut(User user)
+        internal void LogOut(UserData user)
         {
             UserServicesObj.LogOut(user, Delegates.ChangeUserDelegate, Delegates.MessageDelegate);
         }
@@ -62,7 +62,7 @@ namespace Business
         {
             Delegates.MessageDelegate(ProjectServicesObj.GetProjectsString(UserServicesObj.GetUserNameById));
         }
-        internal void SubmitTime(User user)
+        internal void SubmitTime(UserData user)
         {
             string project = Delegates.RequestDelegate("EnterProjectName:");
             int IdProject = ProjectServicesObj.FindIdByName(project);
@@ -87,7 +87,7 @@ namespace Business
         {
             bool Result = UserServicesObj.Add();
         }
-        internal void DeleteUser(User Me)
+        internal void DeleteUser(UserData Me)
         {
             bool deleted = UserServicesObj.DeleteUser(Me);            
             
@@ -107,7 +107,7 @@ namespace Business
         {
             return UserServicesObj.GetUserIdByName(UserName,role);
         }
-        public void ViewSubmittedTime(User user)
+        public void ViewSubmittedTime(UserData user)
         {
             Delegates.MessageDelegate(UserServicesObj.ViewSubmittedTime(user,ProjectServicesObj.FindNameById));
         }
@@ -116,7 +116,7 @@ namespace Business
         {
             return ProjectServicesObj.GetAllProjects();            
         }
-        public List<Project> GetProjectsOfUser(User user)
+        public List<Project> GetProjectsOfUser(UserData user)
         {
             return null;
         }
@@ -125,11 +125,11 @@ namespace Business
             ProjectServicesObj.GetProjectsString(UserServicesObj.GetUserNameById);
         }
 
-        public string GetOperations(User user)
+        public string GetOperations(UserData user)
         {
             if (user == null)
             { return MenuObj.GetAvailableOperations(AccessRole.Any, State.NotLogined); }
-            else return MenuObj.GetAvailableOperations(user.Role, State.Logined);
+            else return MenuObj.GetAvailableOperations(user.UserObj.Role, State.Logined);
         }
         public void ViewAllActiveUsers()
         {
@@ -142,8 +142,7 @@ namespace Business
         //internal void DeleteProjectLeader(int ProjectLeaderIndex)
         //{
         //    ProjectServicesObj.DeleteProjectLeader(ProjectLeaderIndex);
-        //}
-        
+        //}        
 
     }    
 }
