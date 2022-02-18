@@ -10,16 +10,17 @@ namespace Business
     public class UserServices
     {
         private DataFacadeDelegates Delegates;
-        public event Action<string> UserLogined;        
-        public event Action<string> LoginFailed;        
+        private DataFacade Facade;
 
-        internal UserServices (DataFacadeDelegates delegates)
+
+        internal UserServices (DataFacadeDelegates delegates,DataFacade facade)
         {
+            Facade = facade;
             Delegates = delegates;
             Seed();
             SeedTimeTrackEntry();
-            UserLogined += Delegates.MessageDelegate;
-            LoginFailed += Delegates.MessageDelegate;
+            //UserLogined += Delegates.MessageDelegate;
+            //LoginFailed += Delegates.MessageDelegate;
         }
         
         //private List<User> UserRepository = new();
@@ -35,13 +36,7 @@ namespace Business
             Add(new User(5,"a", "a", AccessRole.Admin, "Andrey Mihailovich"));
             Add(new User(6,"Vania", "1234", AccessRole.ProjectLeader, "Ivan Vladimirovich"));
             Add(new User(7,"p", "p", AccessRole.ProjectLeader, "Patrick"));
-
-            /*int i = 1;
-            foreach(UserData Data in UserDataList)
-            {
-                Data.AddSubmittedTime(new TimeTrackEntry(Data.UserObj.Id, i, i * 10, DateTime.Now));
-                    i++;
-            }*/
+            
         }
         internal string GetAllActiveUsers()
         {
@@ -58,14 +53,14 @@ namespace Business
             foreach (UserData Data in UserDataList)
             {
                 Result.AppendLine();
-                
+
                 Result.Append(" User Name: ");
                 Result.Append(Data.UserObj.UserName);
                 Result.Append(" User FullName: ");
                 Result.Append(Data.UserObj.UserName);
                 Result.Append(" User Access Role: ");
                 Result.Append(Data.UserObj.Role.ToString());
-                
+
                 Result.Append(" ");
             }            
             return Result.ToString();            
@@ -74,6 +69,21 @@ namespace Business
         public bool LogIn(string userName, string passWord, out UserData user)
         {            
             user = null;
+            foreach (UserData Data in UserDataList)
+            {
+                if (Data.CheckCredentials(userName,passWord))
+                {
+                    user=Data;
+                    user.SetActive();
+                    return true;
+                }
+
+            }    
+            return false;
+
+
+
+
             try 
             {
                 UserData LocalUser;

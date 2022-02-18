@@ -8,8 +8,12 @@ namespace Business
 {   
     public class UserData
     {
-        public UserData(User user)
+        public event Action<string> UserLogined;
+        public event Action<string> LoginFailed;
+        private DataFacade Facade;
+        public UserData(User user, DataFacade facade)
         {
+            Facade = facade;
             UserObj = user; 
         }
         internal User UserObj;
@@ -31,6 +35,21 @@ namespace Business
         internal int GetSubmittedHoursByProjectId(int projectId)
         {
             return (from SubmitItem in SybmittedTimeList where SubmitItem.ProjectId == projectId select SubmitItem.Value).Sum();            
+        }
+        internal bool CheckCredentials(string LogIn, string PassWord)
+        {
+            if ((LogIn==UserObj.UserName)&&(PassWord==UserObj.PassWord))
+                return true;
+            else return false;
+        }
+
+        internal void SetActive()
+        {
+            UserObj.IsActive = true;            
+        }
+        internal void SetNotActive()
+        {
+            UserObj.IsActive = false;
         }
     }
     

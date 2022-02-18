@@ -11,21 +11,23 @@ namespace Business
     public class ProjectServices
     {
         private DataFacadeDelegates Delegates;
-        
-        internal ProjectServices(DataFacadeDelegates delegates)
+        private DataFacade Facade;
+
+        internal ProjectServices(DataFacadeDelegates delegates, DataFacade facade)
         {
+            Facade = facade;
             Delegates = delegates;
             Seed();
         }
-        internal List<Project> ProjectRepository = new();
-        public List<Project> GetAllProjects()
-        {
-            return null;
-        }
-        public List<Project> GetProjectsOfUser(User user)
-        {
-            return null;
-        }
+        internal List<ProjectData> ProjectRepository = new();
+        //public List<Project> GetAllProjects()
+        //{
+        //    return null;
+        //}
+        //public List<Project> GetProjectsOfUser(User user)
+        //{
+        //    return null;
+        //}
         internal bool AddProject(Func<string,AccessRole, int> GetProjectLeaderId)
         {
             String ProjectName = Delegates.RequestDelegate("Enter project name: ");
