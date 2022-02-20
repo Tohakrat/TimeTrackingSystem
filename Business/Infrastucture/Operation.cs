@@ -7,9 +7,11 @@ using DataContracts;
 
 namespace Business
 {
-    internal class Operation
+    
+    internal class Operation1
     {
-        internal Operation(string name, DataContracts.AccessRole role, bool active, int number, State state, Action<User> operation)
+        internal Operation1(string name, DataContracts.AccessRole role, bool active, int number, State state, Action<UserData?> operation)
+        //internal Operation(string name, DataContracts.AccessRole role, bool active, int number, State state, OperationDelegate operation)
         {
             Name = name;
             AvailableFor = role;
@@ -24,7 +26,9 @@ namespace Business
         internal bool Active { get; set; }
         internal int NumberOpreation { get; set; }
         internal State StateLogin { get; set; }
-        internal Action<User> DoOperation;
+
+        internal Action<UserData?> DoOperation;
+        //internal OperationDelegate DoOperation;
     }
     
 

@@ -4,6 +4,7 @@
 using System;
 using DataContracts;
 using Business;
+using Business.BusinessObjects;
 
 namespace Application
 {

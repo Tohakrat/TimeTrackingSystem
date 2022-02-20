@@ -11,6 +11,6 @@ namespace Business
     {
         internal Func<String, String> RequestDelegate { get; set; }
         internal Action<String> MessageDelegate { get; set; }
-        internal Action<User> ChangeUserDelegate { get; set; }
+        internal Action<UserData> ChangeUserDelegate { get; set; }
     }
 }

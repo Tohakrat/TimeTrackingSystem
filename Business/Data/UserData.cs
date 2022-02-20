@@ -8,13 +8,13 @@ namespace Business
 {   
     public class UserData
     {
-        public event Action<string> UserLogined;
-        public event Action<string> LoginFailed;
+        //public event Action<string> UserLogined;
+        //public event Action<string> LoginFailed;
         private DataFacade Facade;
-        public UserData(User user, DataFacade facade)
+        public UserData(DataFacade facade,int id, string username, string password, AccessRole role, string fullName = null )
         {
             Facade = facade;
-            UserObj = user; 
+            UserObj = new User( id,  username,  password,  role,  fullName); 
         }
         internal User UserObj;
         private List<TimeTrackEntry> SybmittedTimeList = new();
@@ -50,6 +50,23 @@ namespace Business
         internal void SetNotActive()
         {
             UserObj.IsActive = false;
+        }
+        internal string GetName()
+        {
+            return UserObj.UserName;
+        }
+        internal int GetId()
+        {
+            return UserObj.Id;
+        }
+        internal AccessRole GetAccessRole()
+        {
+            return UserObj.Role;
+        }
+
+        internal string GetFullName()
+        {
+            return UserObj.FullName;
         }
     }
     

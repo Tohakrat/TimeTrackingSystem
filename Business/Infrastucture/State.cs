@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Business
 {
-    internal class ProjectData
+    internal enum State1
     {
+        Logined,
+        NotLogined,
+        Any
     }
 }
