@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Business
 {
-    internal enum State1
+    internal enum State
     {
         Logined,
         NotLogined,

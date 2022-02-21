@@ -8,28 +8,23 @@ using DataContracts;
 namespace Business
 {
     public class UserServices
-    {
-        //private DataFacadeDelegates Delegates;
+    {        
         private DataFacade Facade;
         public event Action<string> UserLogined;
         internal ProjectServices ProjServices;
 
-
         internal UserServices (DataFacade facade)
         {
-            Facade = facade;
-            //Delegates = delegates;
+            Facade = facade;            
             Seed();
             SeedTimeTrackEntry();
-            UserLogined += Facade.Delegates.MessageDelegate;
-            //LoginFailed += Delegates.MessageDelegate;
+            UserLogined += Facade.Delegates.MessageDelegate;            
         }
         internal void SetProjectServices(ProjectServices PS)
         {
             ProjServices = PS;            
-        }
+        }        
         
-        //private List<User> UserRepository = new();
         private List<UserData> UserDataList = new List<UserData>();
 
         private void Seed()
@@ -149,11 +144,9 @@ namespace Business
         internal bool DeleteUser(UserData MeUser)
         {
             string UserName;
-            bool result = false;
-            //bool resultUserData=false;
+            bool result = false;            
             
-            UserData UserDataToRemove = null;
-            //int DeletedUserIndex = -1;
+            UserData UserDataToRemove = null;            
             
 
             UserName = Facade.Delegates.RequestDelegate("Enter login:");
@@ -233,8 +226,7 @@ namespace Business
                 if (CurrentHours>HoursCount)
                 {
                     Result.AppendLine();
-                    Result.Append(UD.UserObj.FullName+ ": " + CurrentHours.ToString());
-                    //Result.Append(": " + CurrentHours.ToString());
+                    Result.Append(UD.UserObj.FullName+ ": " + CurrentHours.ToString());                    
                 }
 
             }

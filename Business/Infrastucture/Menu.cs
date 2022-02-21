@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Business
 {
-    internal class Menu1
+    internal class Menu
     {
         DataFacade Facade;
         List<Operation> OperationList = new();
-        internal Menu1(DataFacade facade)
+        internal Menu(DataFacade facade)
         {
             Facade = facade;
             SeedMenu();

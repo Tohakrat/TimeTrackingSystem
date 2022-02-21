@@ -4,21 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataContracts;
-using System.Linq;
+//using System.Linq;
 
 namespace Business
 {
     public class ProjectServices
     {
-        private List<ProjectData> ProjectDataRepository = new();
-        //private DataFacadeDelegates Delegates;
+        private List<ProjectData> ProjectDataRepository = new();        
         private DataFacade Facade;
         private UserServices UsServices;
 
         internal ProjectServices(DataFacade facade)
         {
-            Facade = facade;
-            //Delegates = delegates;
+            Facade = facade;            
             Seed();
         }
         internal void SetUserServices(UserServices US)
@@ -26,14 +24,7 @@ namespace Business
             UsServices = US;
         }
 
-        //public List<Project> GetAllProjects()
-        //{
-        //    return null;
-        //}
-        //public List<Project> GetProjectsOfUser(User user)
-        //{
-        //    return null;
-        //}
+        
         internal bool AddProject(Func<string,AccessRole, int> GetProjectLeaderId)
         {
             String ProjectName = Facade.Delegates.RequestDelegate("Enter project name: ");
@@ -140,18 +131,8 @@ namespace Business
             ProjectDataRepository.Add(new ProjectData(Facade, 6,"p6", DateTime.Now,420, 6));
             ProjectDataRepository.Add(new ProjectData(Facade, 7,"p7", DateTime.Now,620, 7));
 
-        }
-
-        
-        //internal void DeleteProjectLeader(int projectLeaderIndex)
-        //{
-            
-        //    foreach (Project P in ProjectRepository)
-        //    {
-        //        if (P.LeaderUserId == projectLeaderIndex)
-        //            P.LeaderUserId = -1;
-        //    }
-        //}
+        }        
+       
     }
     public delegate void Notify(String N);
 }

@@ -4,13 +4,13 @@
 using System;
 using DataContracts;
 using Business;
-using Business.BusinessObjects;
+
 
 namespace Application
 {
     class Program
     {
-        private static UserData UserDataObj= null;
+        private static UserData UserDataObj=null;
         static void Main(string[] args)
         {         
             
@@ -37,7 +37,7 @@ namespace Application
         static string Request(string comment)
         {
             Console.WriteLine(comment);
-            return (Console.ReadLine());            
+            return (Console.ReadLine())??"no value";            
         }
         static void ChangeUser(UserData userReceived)
         {

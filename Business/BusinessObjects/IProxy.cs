@@ -8,7 +8,7 @@ using DataContracts;
 
 namespace Business
 {
-    public interface IProxy1
+    public interface IProxy
     {
         public  void DoAction(int answer, UserData user);
         public  string GetOperations(UserData user);

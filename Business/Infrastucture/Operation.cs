@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using DataContracts;
 
+
 namespace Business
 {
     
-    internal class Operation1
+    internal class Operation
     {
-        internal Operation1(string name, DataContracts.AccessRole role, bool active, int number, State state, Action<UserData?> operation)
+        internal Operation(string name, DataContracts.AccessRole role, bool active, int number, State state, Action<UserData?> operation)
         //internal Operation(string name, DataContracts.AccessRole role, bool active, int number, State state, OperationDelegate operation)
         {
             Name = name;

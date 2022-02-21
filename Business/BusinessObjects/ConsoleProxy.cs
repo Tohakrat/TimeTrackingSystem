@@ -5,12 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace Business.BusinessObjects
+namespace Business
 {
-    public class ConsoleProxy1 : IProxy1
+    public class ConsoleProxy : IProxy
     {
         public DataFacade Facade { get; set; }
-        public ConsoleProxy1(Func<String, String> Request, Action<String> Message, Action<UserData> SetUser)
+        public ConsoleProxy(Func<String, String> Request, Action<String> Message, Action<UserData> SetUser)
         {
             Facade = new(Request, Message, SetUser);
         }
