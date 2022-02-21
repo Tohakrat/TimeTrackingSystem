@@ -15,28 +15,34 @@ namespace Business
 
         internal UserServices (DataFacade facade)
         {
-            Facade = facade;            
-            Seed();
-            SeedTimeTrackEntry();
+            Facade = facade;
+            UserData.SetFacade(Facade);
+            //Seed();
+            //SeedTimeTrackEntry();
             UserLogined += Facade.Delegates.MessageDelegate;            
         }
         internal void SetProjectServices(ProjectServices PS)
         {
             ProjServices = PS;            
-        }        
-        
+        }
+
+        internal void AddObject(UserData userData)
+        {
+            UserDataList.Add(userData);
+        }
+
         private List<UserData> UserDataList = new List<UserData>();
 
         private void Seed()
         {            
-            Add(new UserData(Facade,0, "Vasia", "1234", AccessRole.User,"Vasily Ivanovich"));
-            Add(new UserData(Facade,1, "Petia", "1234", AccessRole.User, "Petr Iosifovich"));
-            Add(new UserData(Facade, 2,"u", "u", AccessRole.User,"Uriy Nickolaevich"));
-            Add(new UserData(Facade, 3,"w", "w", AccessRole.User,"William"));
-            Add(new UserData(Facade, 4,"Vlad", "1234", AccessRole.Admin, "Vladimir Ilyich"));
-            Add(new UserData(Facade, 5,"a", "a", AccessRole.Admin, "Andrey Mihailovich"));
-            Add(new UserData(Facade, 6,"Vania", "1234", AccessRole.ProjectLeader, "Ivan Vladimirovich"));
-            Add(new UserData(Facade, 7,"p", "p", AccessRole.ProjectLeader, "Patrick"));            
+            Add(new UserData(0, "Vasia", "1234", AccessRole.User,"Vasily Ivanovich"));
+            Add(new UserData(1, "Petia", "1234", AccessRole.User, "Petr Iosifovich"));
+            Add(new UserData (2,"u", "u", AccessRole.User,"Uriy Nickolaevich"));
+            Add(new UserData( 3,"w", "w", AccessRole.User,"William"));
+            Add(new UserData(4,"Vlad", "1234", AccessRole.Admin, "Vladimir Ilyich"));
+            Add(new UserData( 5,"a", "a", AccessRole.Admin, "Andrey Mihailovich"));
+            Add(new UserData( 6,"Vania", "1234", AccessRole.ProjectLeader, "Ivan Vladimirovich"));
+            Add(new UserData( 7,"p", "p", AccessRole.ProjectLeader, "Patrick"));            
         }
         internal string GetAllActiveUsers()
         {
@@ -137,7 +143,7 @@ namespace Business
             String Password = Facade.Delegates.RequestDelegate("Enter password: ");
             String FullName = Facade.Delegates.RequestDelegate("Enter Full Name: ");
             int MaxIndex = GetMaxIndex();
-            UserData UserToAdd = new UserData(Facade,MaxIndex + 1, Name, Password,(AccessRole)UserRole, FullName) ;
+            UserData UserToAdd = new UserData(MaxIndex + 1, Name, Password,(AccessRole)UserRole, FullName) ;
             UserDataList.Add(UserToAdd) ;            
             return true;    
         }
@@ -238,7 +244,8 @@ namespace Business
             return ProjServices.IsUserResponsible(Id);            
 
         }
-        private void SeedTimeTrackEntry()
+        
+        internal void SeedTimeTrackEntry()
         {
             UserDataList[0].AddSubmittedTime(new TimeTrackEntry(0, 5, 15, DateTime.Parse("1.02.2022")));
             UserDataList[0].AddSubmittedTime(new TimeTrackEntry(0, 5, 20, DateTime.Parse("1.01.2022")));

@@ -10,13 +10,17 @@ namespace Business
     internal class ProjectData
     {
         private Project ProjectObj;
-        private DataFacade Facade;
-        internal ProjectData(DataFacade facade,int id, string name, DateTime expirationDate, int maxHours, int leaderUserId)
+        private static DataFacade Facade;
+        //internal ProjectData(DataFacade facade,int id, string name, DateTime expirationDate, int maxHours, int leaderUserId)
+        internal ProjectData(int id, string name, DateTime expirationDate, int maxHours, int leaderUserId)
         {
-            Facade = facade;
+            //Facade = facade;
             ProjectObj = new Project(id, name, expirationDate, maxHours, leaderUserId);
         }
-
+        internal static void SetFacade(DataFacade facade)
+        {
+            Facade = facade;
+        }
 
 
         internal ProjectData BuildprojectData(Func<string, AccessRole, int> GetProjectLeaderId, Func<int> MaxId)
@@ -47,7 +51,7 @@ namespace Business
                 return null;
             }
             int MaxProjectId = MaxId();
-            return new ProjectData(Facade,MaxProjectId, ProjectName, Date, MaxHours, ProjectLeaderId);
+            return new ProjectData(MaxProjectId, ProjectName, Date, MaxHours, ProjectLeaderId);
             //Facade.Delegates.MessageDelegate("Project added successfully");
             //return true;
 

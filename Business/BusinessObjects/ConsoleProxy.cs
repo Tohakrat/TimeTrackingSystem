@@ -14,6 +14,7 @@ namespace Business
         {
             Facade = DataFacade.GetDataFacade();
             Facade.Initialize(Request, Message, SetUser);
+            Facade.PopulateData();
             //Facade = new(Request, Message, SetUser);
         }
 

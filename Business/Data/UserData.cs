@@ -10,11 +10,15 @@ namespace Business
     {
         //public event Action<string> UserLogined;
         //public event Action<string> LoginFailed;
-        private DataFacade Facade;
-        public UserData(DataFacade facade,int id, string username, string password, AccessRole role, string fullName = null )
+        private static DataFacade Facade;
+        public UserData(int id, string username, string password, AccessRole role, string fullName = null )
+        {
+            //Facade = facade;
+            UserObj = new User( id,  username,  password,  role,  fullName); 
+        }
+        internal static void SetFacade(DataFacade facade)
         {
             Facade = facade;
-            UserObj = new User( id,  username,  password,  role,  fullName); 
         }
         internal User UserObj;
         private List<TimeTrackEntry> SybmittedTimeList = new();

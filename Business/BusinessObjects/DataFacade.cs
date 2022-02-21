@@ -17,6 +17,13 @@ namespace Business
         internal DataFacadeDelegates Delegates = new DataFacadeDelegates();
         public UserServices UserServicesObj;
         public ProjectServices ProjectServicesObj;
+
+        internal void PopulateData()
+        {
+            StubDataPopulater Populater = new StubDataPopulater(UserServicesObj, ProjectServicesObj);
+            Populater.Populate();
+        }
+
         private static DataFacade DataFacadeObj;
 
         //public DataFacade(Func<String, String> Request, Action<String> Message, Action<UserData> SetUser)
@@ -41,6 +48,7 @@ namespace Business
         }
         internal void Initialize(Func<String, String> Request, Action<String> Message, Action<UserData> SetUser)
         {
+            
             Delegates.RequestDelegate = Request;
             Delegates.MessageDelegate = Message;
             Delegates.ChangeUserDelegate = SetUser;
@@ -48,6 +56,7 @@ namespace Business
             ProjectServicesObj = new ProjectServices(this);
             UserServicesObj.SetProjectServices(ProjectServicesObj);
             ProjectServicesObj.SetUserServices(UserServicesObj);
+            
             MenuObj = new(this);
         }
 
@@ -124,7 +133,8 @@ namespace Business
             if (ProjectServicesObj.DeleteProject(null))
                 Delegates.MessageDelegate("Deleted successfully");
             else Delegates.MessageDelegate("Error. Project hadnt been deleted!");
-        }                
+        }          
+        //internal viod AddProjectObj()
        
         internal int GetUserIdByName(string UserName,AccessRole role)
         {
@@ -134,11 +144,7 @@ namespace Business
         {
             Delegates.MessageDelegate(UserServicesObj.ViewSubmittedTime(user,ProjectServicesObj.FindNameById));
         }
-
-        //public List<Project> GetAllProjects()
-        //{
-        //    return ProjectServicesObj.GetAllProjects();            
-        //}
+                
         public List<Project> GetProjectsOfUser(UserData user)
         {
             return null;
