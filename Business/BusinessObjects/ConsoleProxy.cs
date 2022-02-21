@@ -12,7 +12,9 @@ namespace Business
         public DataFacade Facade { get; set; }
         public ConsoleProxy(Func<String, String> Request, Action<String> Message, Action<UserData> SetUser)
         {
-            Facade = new(Request, Message, SetUser);
+            Facade = DataFacade.GetDataFacade();
+            Facade.Initialize(Request, Message, SetUser);
+            //Facade = new(Request, Message, SetUser);
         }
 
         public void DoAction(int answer, UserData user)

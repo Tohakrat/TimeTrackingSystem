@@ -6,19 +6,40 @@ using System.Threading.Tasks;
 using DataContracts;
 using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("Infrastructure")]
+
 
 namespace Business
 {
     internal delegate void OperationDelegate(UserData? UD=null);
-    public class DataFacade
+    public sealed class DataFacade
     {
         internal Menu MenuObj; 
         internal DataFacadeDelegates Delegates = new DataFacadeDelegates();
         public UserServices UserServicesObj;
         public ProjectServices ProjectServicesObj;
-        
-        public DataFacade(Func<String, String> Request, Action<String> Message, Action<UserData> SetUser)
+        private static DataFacade DataFacadeObj;
+
+        //public DataFacade(Func<String, String> Request, Action<String> Message, Action<UserData> SetUser)
+        //{
+        //    Delegates.RequestDelegate = Request;
+        //    Delegates.MessageDelegate = Message;
+        //    Delegates.ChangeUserDelegate = SetUser;
+        //    UserServicesObj = new UserServices(this);
+        //    ProjectServicesObj = new ProjectServices(this);
+        //    UserServicesObj.SetProjectServices(ProjectServicesObj);
+        //    ProjectServicesObj.SetUserServices(UserServicesObj);
+        //    MenuObj = new(this);
+        //}
+        private DataFacade()
+        {
+        }
+        public static DataFacade GetDataFacade()
+        {
+            if (DataFacadeObj == null)
+                DataFacadeObj = new DataFacade();
+            return DataFacadeObj;
+        }
+        internal void Initialize(Func<String, String> Request, Action<String> Message, Action<UserData> SetUser)
         {
             Delegates.RequestDelegate = Request;
             Delegates.MessageDelegate = Message;
@@ -28,9 +49,9 @@ namespace Business
             UserServicesObj.SetProjectServices(ProjectServicesObj);
             ProjectServicesObj.SetUserServices(UserServicesObj);
             MenuObj = new(this);
-        }        
-        
-        internal void SetCallBacks(Func<String, String> Request, Action<String> Message, Action<UserData> SetUser)
+        }
+
+            internal void SetCallBacks(Func<String, String> Request, Action<String> Message, Action<UserData> SetUser)
         {
             Delegates.RequestDelegate = Request;
             Delegates.MessageDelegate = Message;
