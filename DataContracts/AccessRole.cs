@@ -5,8 +5,7 @@ using System.Runtime.CompilerServices;
 
 
 namespace DataContracts
-{ 
-  
+{   
     public enum AccessRole
     {
         Any,
@@ -14,6 +13,4 @@ namespace DataContracts
         Admin,
         ProjectLeader
     }     
-
-
 }

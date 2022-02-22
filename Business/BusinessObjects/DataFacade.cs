@@ -7,7 +7,6 @@ using DataContracts;
 using System.Runtime.CompilerServices;
 
 
-
 namespace Business
 {
     internal delegate void OperationDelegate(UserData? UD=null);
@@ -17,16 +16,14 @@ namespace Business
         internal DataFacadeDelegates Delegates = new DataFacadeDelegates();
         public UserServices UserServicesObj;
         public ProjectServices ProjectServicesObj;
+        private static DataFacade DataFacadeObj;
 
         internal void PopulateData()
         {
             StubDataPopulater Populater = new StubDataPopulater(UserServicesObj, ProjectServicesObj);
             Populater.Populate();
-        }
-
-        private static DataFacade DataFacadeObj;
-
-        
+        }      
+ 
         private DataFacade()
         {
         }
@@ -56,16 +53,13 @@ namespace Business
         }
         internal bool ProcessAnswer(int answer, UserData user)
         {
-            if (user == null)
-            { return MenuObj.ProcessAnswer(answer,AccessRole.Any, State.NotLogined,user); }
-            else return MenuObj.ProcessAnswer(answer,user.UserObj.Role, State.Logined,user);            
+            return MenuObj.ProcessAnswer(answer, user);                  
         }       
 
         internal void Login(UserData user)
         {
             UserServicesObj.Login(user);            
-        }
-        
+        }       
 
         internal void LogOut(UserData user)
         {
@@ -76,8 +70,7 @@ namespace Business
         {
             UserServicesObj.SubmitTime(user);            
         }       
-
-            internal void ReportActiveUsers(UserData user=null)
+        internal void ReportActiveUsers(UserData user=null)
         {
             Delegates.MessageDelegate(UserServicesObj.ReportActiveUsers(ProjectServicesObj.FindIdByName));
         }
@@ -86,22 +79,20 @@ namespace Business
         {
             bool Result = UserServicesObj.Add();
         }
+
         internal void DeleteUser(UserData Me)
         {
-            bool deleted = UserServicesObj.DeleteUser(Me);            
-            
+            bool deleted = UserServicesObj.DeleteUser(Me);         
         }
+
         internal void AddProject(UserData user = null)
         {
             bool result = ProjectServicesObj.AddProject(GetUserIdByName);
         }
         internal void DeleteProject(UserData user = null)
         {
-            if (ProjectServicesObj.DeleteProject(null))
-                Delegates.MessageDelegate("Deleted successfully");
-            else Delegates.MessageDelegate("Error. Project hadnt been deleted!");
+            ProjectServicesObj.DeleteProject(null);            
         }          
-        //internal viod AddProjectObj()
        
         internal int GetUserIdByName(string UserName,AccessRole role)
         {
@@ -123,9 +114,7 @@ namespace Business
 
         public string GetOperations(UserData user)
         {
-            if (user == null)
-            { return MenuObj.GetAvailableOperations(AccessRole.Any, State.NotLogined); }
-            else return MenuObj.GetAvailableOperations(user.UserObj.Role, State.Logined);
+            return MenuObj.GetAvailableOperations(user); 
         }
         public void ViewAllActiveUsers(UserData user = null)
         {
@@ -138,9 +127,6 @@ namespace Business
         public void Quit(UserData user = null)
         {
             Environment.Exit(0);
-        }        
-              
-
+        }                     
     }
-    
 }

@@ -35,14 +35,26 @@ namespace Business
             OperationList.Add(new Operation("Quit", DataContracts.AccessRole.Any, true,0, State.Any, Facade.Quit));       
         }
 
-        internal bool ProcessAnswer(int answer, AccessRole role,State state,UserData user)
+        internal bool ProcessAnswer(int answer ,UserData user)
         {
+            State StateUser;
+            AccessRole RoleUser;
+            if (user == null)
+            {
+                RoleUser = AccessRole.Any;
+                StateUser = State.NotLogined;
+            }
+            else
+            {
+                RoleUser = user.UserObj.Role;
+                StateUser = State.Logined;
+            }
 
             foreach (Operation op in OperationList)
             {
                 if (answer== op.NumberOpreation)
                 {
-                    if ((op.StateLogin == state || op.StateLogin == State.Any) && (op.AvailableFor == role || op.AvailableFor == DataContracts.AccessRole.Any))
+                    if ((op.StateLogin == StateUser || op.StateLogin == State.Any) && (op.AvailableFor == RoleUser || op.AvailableFor == DataContracts.AccessRole.Any))
                     {
                         if (user == null)
                             op.DoOperation(null);
@@ -56,14 +68,27 @@ namespace Business
             return false;
         }
 
-        internal string GetAvailableOperations(DataContracts.AccessRole role,State state)
+        internal string GetAvailableOperations(UserData user)
         {
+            State StateUser;
+            AccessRole RoleUser;
+            if (user == null)
+            {
+                RoleUser = AccessRole.Any;
+                StateUser = State.NotLogined;
+            }
+            else
+            {
+                RoleUser = user.UserObj.Role;
+                StateUser = State.Logined;
+            }      
+
             StringBuilder Result = new();
             Result.AppendLine();
             Result.AppendLine("Available operations");
             foreach (Operation op in OperationList)
             {
-                if ((op.StateLogin == state || op.StateLogin == State.Any) && (op.AvailableFor == role || op.AvailableFor == DataContracts.AccessRole.Any))
+                if ((op.StateLogin == StateUser || op.StateLogin == State.Any) && (op.AvailableFor == RoleUser || op.AvailableFor == DataContracts.AccessRole.Any))
                 {
                     Result.AppendLine(op.Name + " " +op.NumberOpreation.ToString());
                 }

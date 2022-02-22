@@ -17,14 +17,12 @@ namespace Business
         internal ProjectServices(DataFacade facade)
         {
             Facade = facade;
-            ProjectData.SetFacade(Facade);
-            //Seed();
+            ProjectData.SetFacade(Facade);            
         }
         internal void SetUserServices(UserServices US)
         {
             UsServices = US;
         }
-
         
         internal bool AddProject(Func<string,AccessRole, int> GetProjectLeaderId)
         {
@@ -53,15 +51,14 @@ namespace Business
                 Facade.Delegates.MessageDelegate("wrong Leader Name");
                 return false;
             }
-            int MaxProjectId = GetMaxProjectId();
-            //ProjectDataRepository.Add(new ProjectData(Facade,MaxProjectId, ProjectName, Date, MaxHours, ProjectLeaderId));
+            int MaxProjectId = GetMaxProjectId();            
             ProjectDataRepository.Add(new ProjectData(MaxProjectId, ProjectName, Date, MaxHours, ProjectLeaderId));
             Facade.Delegates.MessageDelegate("Project added successfully");
             return true;
 
         }
-        internal bool DeleteProject(String? name)
-        {
+        internal void DeleteProject(String? name)
+        {          
             if (name == null)
                 name = Facade.Delegates.RequestDelegate(" Enter project name: ");
             
@@ -69,11 +66,13 @@ namespace Business
             {
                 if (project.GetName() == name)
                 {
-                    ProjectDataRepository.Remove(project);
-                    return true;
+                    if (ProjectDataRepository.Remove(project))
+                    Facade.Delegates.MessageDelegate("Deleted successfully");
+                    else Facade.Delegates.MessageDelegate("Unknown error.");
+                    return ;
                 }
             }
-            return false;
+            return ;
         }
         internal void AddObject(ProjectData projData)
         {
@@ -124,19 +123,7 @@ namespace Business
                     return true;
             }
             return false;
-        }
-        private void Seed()
-        {            
-            ProjectDataRepository.Add(new ProjectData( 0,"TimeTrackingSystem", DateTime.Now, 200,6));
-            ProjectDataRepository.Add(new ProjectData( 1,"EnsuranceSystem", DateTime.Now, 400, 7));
-            ProjectDataRepository.Add(new ProjectData( 2,"GamblingSystem", DateTime.Now, 750, 6));
-            ProjectDataRepository.Add(new ProjectData( 3,"EnergySystem", DateTime.Now,470, 7));
-            ProjectDataRepository.Add(new ProjectData( 4,"UniversitySystem", DateTime.Now,900, 6));
-            ProjectDataRepository.Add(new ProjectData( 5,"p5", DateTime.Now,220, 7));
-            ProjectDataRepository.Add(new ProjectData( 6,"p6", DateTime.Now,420, 6));
-            ProjectDataRepository.Add(new ProjectData( 7,"p7", DateTime.Now,620, 7));
-
-        }        
+        }      
        
     }
     public delegate void Notify(String N);

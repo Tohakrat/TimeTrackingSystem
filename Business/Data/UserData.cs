@@ -7,13 +7,10 @@ using System.Linq;
 namespace Business
 {   
     public class UserData
-    {
-        //public event Action<string> UserLogined;
-        //public event Action<string> LoginFailed;
+    {     
         private static DataFacade Facade;
         public UserData(int id, string username, string password, AccessRole role, string fullName = null )
-        {
-            //Facade = facade;
+        {   
             UserObj = new User( id,  username,  password,  role,  fullName); 
         }
         internal static void SetFacade(DataFacade facade)

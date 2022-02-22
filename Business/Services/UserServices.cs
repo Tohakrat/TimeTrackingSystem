@@ -16,9 +16,7 @@ namespace Business
         internal UserServices (DataFacade facade)
         {
             Facade = facade;
-            UserData.SetFacade(Facade);
-            //Seed();
-            //SeedTimeTrackEntry();
+            UserData.SetFacade(Facade);            
             UserLogined += Facade.Delegates.MessageDelegate;            
         }
         internal void SetProjectServices(ProjectServices PS)
@@ -32,18 +30,7 @@ namespace Business
         }
 
         private List<UserData> UserDataList = new List<UserData>();
-
-        private void Seed()
-        {            
-            Add(new UserData(0, "Vasia", "1234", AccessRole.User,"Vasily Ivanovich"));
-            Add(new UserData(1, "Petia", "1234", AccessRole.User, "Petr Iosifovich"));
-            Add(new UserData (2,"u", "u", AccessRole.User,"Uriy Nickolaevich"));
-            Add(new UserData( 3,"w", "w", AccessRole.User,"William"));
-            Add(new UserData(4,"Vlad", "1234", AccessRole.Admin, "Vladimir Ilyich"));
-            Add(new UserData( 5,"a", "a", AccessRole.Admin, "Andrey Mihailovich"));
-            Add(new UserData( 6,"Vania", "1234", AccessRole.ProjectLeader, "Ivan Vladimirovich"));
-            Add(new UserData( 7,"p", "p", AccessRole.ProjectLeader, "Patrick"));            
-        }
+        
         internal string GetAllActiveUsers()
         {
             List<string> TempList =  (from UserDataItem in UserDataList where UserDataItem.UserObj.IsActive == true select UserDataItem.UserObj.FullName).ToList();
@@ -59,14 +46,12 @@ namespace Business
             foreach (UserData Data in UserDataList)
             {
                 Result.AppendLine();
-
                 Result.Append(" User Name: ");
                 Result.Append(Data.GetName());
                 Result.Append(" User FullName: ");
                 Result.Append(Data.GetFullName());
                 Result.Append(" User Access Role: ");
                 Result.Append(Data.GetAccessRole());
-
                 Result.Append(" ");
             }            
             return Result.ToString();            
@@ -172,6 +157,11 @@ namespace Business
             try
             {
                 UserRole = int.Parse(Facade.Delegates.RequestDelegate("Enter User Role 1-user 2-admin 3-Project leader: "));
+                if (UserRole>3||UserRole<1)
+                {
+                    Facade.Delegates.MessageDelegate("Wrong number!");
+                    return false;
+                }
             }
             catch (Exception E)
             {
@@ -205,7 +195,7 @@ namespace Business
                 if (U.GetName() == UserName)
                 {
                     UserDataToRemove = U;
-                    if (U.GetAccessRole()==AccessRole.ProjectLeader)// Delete all references from projects to this ProjectLeader
+                    if (U.GetAccessRole()==AccessRole.ProjectLeader)
                     {
                         if (ProjServices.IsUserResponsible(U.GetId()))
                         {
@@ -221,8 +211,7 @@ namespace Business
                 }
             }
             Facade.Delegates.MessageDelegate(" Deleted object not found! ");
-            return false;    
-            
+            return false;               
             
         }
         internal int GetUserIdByName(string Name,AccessRole role=AccessRole.Any)
@@ -282,24 +271,8 @@ namespace Business
             int Id = User.GetId();
             return ProjServices.IsUserResponsible(Id);            
 
-        }
+        }       
         
-        //internal void SeedTimeTrackEntry()
-        //{
-        //    UserDataList[0].AddSubmittedTime(new TimeTrackEntry(0, 5, 15, DateTime.Parse("1.02.2022")));
-        //    UserDataList[0].AddSubmittedTime(new TimeTrackEntry(0, 5, 20, DateTime.Parse("1.01.2022")));
-        //    UserDataList[0].AddSubmittedTime(new TimeTrackEntry(0, 5, 5, DateTime.Parse("15.01.2021")));
-        //    UserDataList[1].AddSubmittedTime(new TimeTrackEntry(1, 6, 15, DateTime.Parse("1.02.2022")));
-        //    UserDataList[1].AddSubmittedTime(new TimeTrackEntry(1, 5, 11, DateTime.Parse("3.02.2022")));
-        //    UserDataList[1].AddSubmittedTime(new TimeTrackEntry(1, 5, 9, DateTime.Parse("1.02.2022")));
-        //    UserDataList[2].AddSubmittedTime(new TimeTrackEntry(1, 6, 15, DateTime.Parse("1.02.2022")));
-        //    UserDataList[2].AddSubmittedTime(new TimeTrackEntry(2, 6, 11, DateTime.Parse("1.02.2022")));
-        //    UserDataList[2].AddSubmittedTime(new TimeTrackEntry(2, 7, 50, DateTime.Parse("3.02.2022")));
-        //    UserDataList[3].AddSubmittedTime(new TimeTrackEntry(3, 7, 15, DateTime.Parse("4.02.2022")));
-        //    UserDataList[3].AddSubmittedTime(new TimeTrackEntry(3, 7, 11, DateTime.Parse("1.02.2022")));
-        //    UserDataList[3].AddSubmittedTime(new TimeTrackEntry(3, 7, 19, DateTime.Parse("1.02.2022")));
-        //    UserDataList[6].AddSubmittedTime(new TimeTrackEntry(6, 6, 29, DateTime.Parse("21.06.2021")));
-        //}
     }
 
 }

@@ -5,14 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using DataContracts;
 
-
 namespace Business
-{
-    
+{    
     internal class Operation
     {
         internal Operation(string name, DataContracts.AccessRole role, bool active, int number, State state, Action<UserData?> operation)
-        //internal Operation(string name, DataContracts.AccessRole role, bool active, int number, State state, OperationDelegate operation)
         {
             Name = name;
             AvailableFor = role;
@@ -21,7 +18,6 @@ namespace Business
             StateLogin = state;
             DoOperation = operation;
         }
-
         internal string Name { get; set; }
         internal DataContracts.AccessRole  AvailableFor { get; set; }
         internal bool Active { get; set; }
@@ -29,8 +25,6 @@ namespace Business
         internal State StateLogin { get; set; }
 
         internal Action<UserData?> DoOperation;
-        //internal OperationDelegate DoOperation;
-    }
-    
+    }  
 
 }

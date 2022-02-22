@@ -35,8 +35,7 @@ namespace Business
             UserServicesObj.AddObject(new UserData(5, "a", "a", AccessRole.Admin, "Andrey Mihailovich"));
             UserServicesObj.AddObject(new UserData(6, "Vania", "1234", AccessRole.ProjectLeader, "Ivan Vladimirovich"));
             UserServicesObj.AddObject(new UserData(7, "p", "p", AccessRole.ProjectLeader, "Patrick"));
-
-            //UserServicesObj.SeedTimeTrackEntry();
+                        
             UserServicesObj.SubmitTime(0, 5, 15, DateTime.Parse("1.02.2022"));
             UserServicesObj.SubmitTime(0, 5, 20, DateTime.Parse("1.01.2022"));
             UserServicesObj.SubmitTime(0, 5, 5, DateTime.Parse("15.01.2021"));
