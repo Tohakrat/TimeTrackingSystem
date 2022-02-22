@@ -71,7 +71,31 @@ namespace Business
             }            
             return Result.ToString();            
         }
-        
+        internal void Login(UserData user)
+        {
+            if (user == null)
+            {
+                string UserName, Password;
+                UserName = Facade.Delegates.RequestDelegate("Enter login:");
+                Password = Facade.Delegates.RequestDelegate("Enter password:");
+                UserData TempUser = user;
+                foreach (UserData Data in UserDataList)
+                {
+                    if (Data.CheckCredentials(UserName, Password))
+                    {
+                        user = Data;
+                        user.SetActive();
+                        UserLogined?.Invoke(user.GetAccessRole().ToString() + " Logined! ");
+                        Facade.Delegates.ChangeUserDelegate(user);
+                        return;
+                    }
+                }
+                Facade.Delegates.MessageDelegate("User not found, please check login/password");               
+
+            }
+            else Facade.Delegates.MessageDelegate("You are already logined, please log out!");
+            return;
+        }
         public bool LogIn(string userName, string passWord, out UserData user)
         {            
             user = null;
@@ -101,14 +125,29 @@ namespace Business
                 Facade.Delegates.MessageDelegate("LogOut hadnt completed, please log in.");
             }            
         }
-        public bool SubmitTime(UserData user,int ProjectId,int HoursCount, DateTime DateOfWork)
+        public bool SubmitTime(int userDataId,int ProjectId,int HoursCount, DateTime DateOfWork)
         {
-            UserData UserDataObj = (from U in UserDataList where user.Equals( U) select U).FirstOrDefault();
+            UserData UserDataObj = (from U in UserDataList where (userDataId == U.UserObj.Id) select U).FirstOrDefault();
             if (UserDataObj==null)
                 return false;
             TimeTrackEntry TTEntry = new TimeTrackEntry(UserDataObj.GetId(), ProjectId, HoursCount, DateOfWork);
             UserDataObj.AddSubmittedTime(TTEntry);            
             return true;           
+        }
+        internal void SubmitTime(UserData user)
+        {
+            string project = Facade.Delegates.RequestDelegate("EnterProjectName:");
+            int IdProject = Facade.ProjectServicesObj.FindIdByName(project);
+            int HoursCount;
+            if (int.TryParse(Facade.Delegates.RequestDelegate("Enter Count of Hours:"), out HoursCount) == false)
+                Facade.Delegates.MessageDelegate("Hours is incorrect:");
+            DateTime DateOfWork;
+            if (DateTime.TryParse(Facade.Delegates.RequestDelegate("Enter Date:"), out DateOfWork) == false)
+                Facade.Delegates.MessageDelegate("Date is incorrect:");
+
+            if (SubmitTime(user.GetId(), IdProject, HoursCount, DateOfWork) == true)
+                Facade.Delegates.MessageDelegate("Successfully added time");
+            else Facade.Delegates.MessageDelegate("Error adding TimeEntry");
         }
         public string ViewSubmittedTime(UserData user,Func<int,string> FindNameById)
         {            
@@ -245,23 +284,22 @@ namespace Business
 
         }
         
-        internal void SeedTimeTrackEntry()
-        {
-            UserDataList[0].AddSubmittedTime(new TimeTrackEntry(0, 5, 15, DateTime.Parse("1.02.2022")));
-            UserDataList[0].AddSubmittedTime(new TimeTrackEntry(0, 5, 20, DateTime.Parse("1.01.2022")));
-            UserDataList[0].AddSubmittedTime(new TimeTrackEntry(0, 5, 5, DateTime.Parse("15.01.2021")));
-            UserDataList[1].AddSubmittedTime(new TimeTrackEntry(1, 6, 15, DateTime.Parse("1.02.2022")));
-            UserDataList[1].AddSubmittedTime(new TimeTrackEntry(1, 5, 11, DateTime.Parse("3.02.2022")));
-            UserDataList[1].AddSubmittedTime(new TimeTrackEntry(1, 5, 9, DateTime.Parse("1.02.2022")));
-            UserDataList[2].AddSubmittedTime(new TimeTrackEntry(1, 6, 15, DateTime.Parse("1.02.2022")));
-            UserDataList[2].AddSubmittedTime(new TimeTrackEntry(2, 6, 11, DateTime.Parse("1.02.2022")));
-            UserDataList[2].AddSubmittedTime(new TimeTrackEntry(2, 7, 50, DateTime.Parse("3.02.2022")));
-            UserDataList[3].AddSubmittedTime(new TimeTrackEntry(3, 7, 15, DateTime.Parse("4.02.2022")));
-            UserDataList[3].AddSubmittedTime(new TimeTrackEntry(3, 7, 11, DateTime.Parse("1.02.2022")));
-            UserDataList[3].AddSubmittedTime(new TimeTrackEntry(3, 7, 19, DateTime.Parse("1.02.2022")));
-            UserDataList[6].AddSubmittedTime(new TimeTrackEntry(6, 6, 29, DateTime.Parse("21.06.2021")));
-        }
-
+        //internal void SeedTimeTrackEntry()
+        //{
+        //    UserDataList[0].AddSubmittedTime(new TimeTrackEntry(0, 5, 15, DateTime.Parse("1.02.2022")));
+        //    UserDataList[0].AddSubmittedTime(new TimeTrackEntry(0, 5, 20, DateTime.Parse("1.01.2022")));
+        //    UserDataList[0].AddSubmittedTime(new TimeTrackEntry(0, 5, 5, DateTime.Parse("15.01.2021")));
+        //    UserDataList[1].AddSubmittedTime(new TimeTrackEntry(1, 6, 15, DateTime.Parse("1.02.2022")));
+        //    UserDataList[1].AddSubmittedTime(new TimeTrackEntry(1, 5, 11, DateTime.Parse("3.02.2022")));
+        //    UserDataList[1].AddSubmittedTime(new TimeTrackEntry(1, 5, 9, DateTime.Parse("1.02.2022")));
+        //    UserDataList[2].AddSubmittedTime(new TimeTrackEntry(1, 6, 15, DateTime.Parse("1.02.2022")));
+        //    UserDataList[2].AddSubmittedTime(new TimeTrackEntry(2, 6, 11, DateTime.Parse("1.02.2022")));
+        //    UserDataList[2].AddSubmittedTime(new TimeTrackEntry(2, 7, 50, DateTime.Parse("3.02.2022")));
+        //    UserDataList[3].AddSubmittedTime(new TimeTrackEntry(3, 7, 15, DateTime.Parse("4.02.2022")));
+        //    UserDataList[3].AddSubmittedTime(new TimeTrackEntry(3, 7, 11, DateTime.Parse("1.02.2022")));
+        //    UserDataList[3].AddSubmittedTime(new TimeTrackEntry(3, 7, 19, DateTime.Parse("1.02.2022")));
+        //    UserDataList[6].AddSubmittedTime(new TimeTrackEntry(6, 6, 29, DateTime.Parse("21.06.2021")));
+        //}
     }
 
 }

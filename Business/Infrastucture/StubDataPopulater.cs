@@ -36,23 +36,20 @@ namespace Business
             UserServicesObj.AddObject(new UserData(6, "Vania", "1234", AccessRole.ProjectLeader, "Ivan Vladimirovich"));
             UserServicesObj.AddObject(new UserData(7, "p", "p", AccessRole.ProjectLeader, "Patrick"));
 
-            UserServicesObj.SeedTimeTrackEntry();
-            //UserDataList[0].AddSubmittedTime(new TimeTrackEntry(0, 5, 15, DateTime.Parse("1.02.2022")));
-            //UserDataList[0].AddSubmittedTime(new TimeTrackEntry(0, 5, 20, DateTime.Parse("1.01.2022")));
-            //UserDataList[0].AddSubmittedTime(new TimeTrackEntry(0, 5, 5, DateTime.Parse("15.01.2021")));
-            //UserDataList[1].AddSubmittedTime(new TimeTrackEntry(1, 6, 15, DateTime.Parse("1.02.2022")));
-            //UserDataList[1].AddSubmittedTime(new TimeTrackEntry(1, 5, 11, DateTime.Parse("3.02.2022")));
-            //UserDataList[1].AddSubmittedTime(new TimeTrackEntry(1, 5, 9, DateTime.Parse("1.02.2022")));
-            //UserDataList[2].AddSubmittedTime(new TimeTrackEntry(1, 6, 15, DateTime.Parse("1.02.2022")));
-            //UserDataList[2].AddSubmittedTime(new TimeTrackEntry(2, 6, 11, DateTime.Parse("1.02.2022")));
-            //UserDataList[2].AddSubmittedTime(new TimeTrackEntry(2, 7, 50, DateTime.Parse("3.02.2022")));
-            //UserDataList[3].AddSubmittedTime(new TimeTrackEntry(3, 7, 15, DateTime.Parse("4.02.2022")));
-            //UserDataList[3].AddSubmittedTime(new TimeTrackEntry(3, 7, 11, DateTime.Parse("1.02.2022")));
-            //UserDataList[3].AddSubmittedTime(new TimeTrackEntry(3, 7, 19, DateTime.Parse("1.02.2022")));
-            //UserDataList[6].AddSubmittedTime(new TimeTrackEntry(6, 6, 29, DateTime.Parse("21.06.2021")));
-
-
-
+            //UserServicesObj.SeedTimeTrackEntry();
+            UserServicesObj.SubmitTime(0, 5, 15, DateTime.Parse("1.02.2022"));
+            UserServicesObj.SubmitTime(0, 5, 20, DateTime.Parse("1.01.2022"));
+            UserServicesObj.SubmitTime(0, 5, 5, DateTime.Parse("15.01.2021"));
+            UserServicesObj.SubmitTime(1, 6, 15, DateTime.Parse("1.02.2022"));
+            UserServicesObj.SubmitTime(1, 5, 11, DateTime.Parse("3.02.2022"));
+            UserServicesObj.SubmitTime(1, 5, 9, DateTime.Parse("1.02.2022"));
+            UserServicesObj.SubmitTime(1, 6, 15, DateTime.Parse("1.02.2022"));
+            UserServicesObj.SubmitTime(2, 6, 11, DateTime.Parse("1.02.2022"));
+            UserServicesObj.SubmitTime(2, 7, 50, DateTime.Parse("3.02.2022"));
+            UserServicesObj.SubmitTime(3, 7, 15, DateTime.Parse("4.02.2022"));
+            UserServicesObj.SubmitTime(3, 7, 11, DateTime.Parse("1.02.2022"));
+            UserServicesObj.SubmitTime(3, 7, 19, DateTime.Parse("1.02.2022"));
+            UserServicesObj.SubmitTime(6, 6, 29, DateTime.Parse("21.06.2021"));
         }
     }
 }

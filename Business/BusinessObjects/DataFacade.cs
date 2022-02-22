@@ -26,17 +26,7 @@ namespace Business
 
         private static DataFacade DataFacadeObj;
 
-        //public DataFacade(Func<String, String> Request, Action<String> Message, Action<UserData> SetUser)
-        //{
-        //    Delegates.RequestDelegate = Request;
-        //    Delegates.MessageDelegate = Message;
-        //    Delegates.ChangeUserDelegate = SetUser;
-        //    UserServicesObj = new UserServices(this);
-        //    ProjectServicesObj = new ProjectServices(this);
-        //    UserServicesObj.SetProjectServices(ProjectServicesObj);
-        //    ProjectServicesObj.SetUserServices(UserServicesObj);
-        //    MenuObj = new(this);
-        //}
+        
         private DataFacade()
         {
         }
@@ -47,20 +37,18 @@ namespace Business
             return DataFacadeObj;
         }
         internal void Initialize(Func<String, String> Request, Action<String> Message, Action<UserData> SetUser)
-        {
-            
+        {            
             Delegates.RequestDelegate = Request;
             Delegates.MessageDelegate = Message;
             Delegates.ChangeUserDelegate = SetUser;
             UserServicesObj = new UserServices(this);
             ProjectServicesObj = new ProjectServices(this);
             UserServicesObj.SetProjectServices(ProjectServicesObj);
-            ProjectServicesObj.SetUserServices(UserServicesObj);
-            
+            ProjectServicesObj.SetUserServices(UserServicesObj);            
             MenuObj = new(this);
         }
 
-            internal void SetCallBacks(Func<String, String> Request, Action<String> Message, Action<UserData> SetUser)
+        internal void SetCallBacks(Func<String, String> Request, Action<String> Message, Action<UserData> SetUser)
         {
             Delegates.RequestDelegate = Request;
             Delegates.MessageDelegate = Message;
@@ -75,18 +63,8 @@ namespace Business
 
         internal void Login(UserData user)
         {
-            if (user == null)
-            {
-                string UserName, Password;
-                UserName = Delegates.RequestDelegate("Enter login:");
-                Password = Delegates.RequestDelegate("Enter password:");
-                UserData TempUser = user;
-                bool Logined = UserServicesObj.LogIn(UserName, Password, out TempUser);
-                Delegates.ChangeUserDelegate(TempUser);
-            }
-            else Delegates.MessageDelegate("You are already logined, please log out!");
+            UserServicesObj.Login(user);            
         }
-
         
 
         internal void LogOut(UserData user)
@@ -96,21 +74,10 @@ namespace Business
 
         internal void SubmitTime(UserData user)
         {
-            string project = Delegates.RequestDelegate("EnterProjectName:");
-            int IdProject = ProjectServicesObj.FindIdByName(project);
-            int HoursCount;
-            if (int.TryParse(Delegates.RequestDelegate("Enter Count of Hours:"),out HoursCount)==false)
-                Delegates.MessageDelegate("Hours is incorrect:");
-            DateTime DateOfWork;
-            if (DateTime.TryParse(Delegates.RequestDelegate("Enter Date:"), out DateOfWork) == false)
-                Delegates.MessageDelegate("Date is incorrect:");
+            UserServicesObj.SubmitTime(user);            
+        }       
 
-            if (UserServicesObj.SubmitTime(user, IdProject, HoursCount,DateOfWork)==true)
-                Delegates.MessageDelegate("Successfully added time");
-            else Delegates.MessageDelegate("Error adding TimeEntry");
-        }
-
-        internal void ReportActiveUsers(UserData user=null)
+            internal void ReportActiveUsers(UserData user=null)
         {
             Delegates.MessageDelegate(UserServicesObj.ReportActiveUsers(ProjectServicesObj.FindIdByName));
         }
