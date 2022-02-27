@@ -8,32 +8,73 @@ using DataContracts;
 
 namespace Repositories.Xml
 {
-    public class XmlUserRepository : IUserRepository
+    public class XmlObjectRepository<T> : IRepository<T>
     {
-        private List<User> ObjectList { get; set; } = new();
-        IEnumerable<User> IRepository<User>.GetAll()
+        private List<T> ObjectList { get; set; } = new();
+        public IEnumerable<T> GetAll()
         {
             return ObjectList;
         }
-
-        void IRepository<User>.Insert(User InsertedItem)
+        public void Insert (T TObj)
         {
-            ObjectList.Add(InsertedItem);
+            ObjectList.Add(TObj);
+            ObjectInserted?.Invoke(this, " Xml object inserted: " + TObj.ToString());
         }
+        public void Delete(T TObj)
+        {
+            if (ObjectList.Remove(TObj))
+            {
+                ObjectList.Remove(TObj);                
+                ObjectDeleted?.Invoke(this, " Xml object Deleted: " + TObj.ToString());
+            }
+            
+        }
+        public event EventHandler<string> ObjectInserted;
+        public event EventHandler<string> ObjectDeleted;
     }
-    public class XmlProjectRepository : IProjectRepository
+    public class XmlUserRepository: XmlObjectRepository<User>
     {
-        private List<Project> ObjectList { get; set; } = new();
-        IEnumerable<Project> IRepository<Project>.GetAll()
-        {
-            return ObjectList;
-        }
 
-        void IRepository<Project>.Insert(Project InsertedItem)
-        {
-            ObjectList.Add(InsertedItem);
-        }
     }
+    public class XmlProjectRepository: XmlObjectRepository<Project>
+    {
+
+    } 
+
+
+
+
+    //public class XmlUserRepository : IUserRepository
+    //{
+    //    private List<User> ObjectList { get; set; } = new();
+    //    IEnumerable<User> IRepository<User>.GetAll()
+    //    {
+    //        return ObjectList;
+    //    }
+
+    //    void IRepository<User>.Insert(User InsertedItem)
+    //    {
+    //        ObjectList.Add(InsertedItem);
+    //        UserInserted?.Invoke(this,"XML User Inserted");
+    //    }
+    //    internal event EventHandler<string> UserInserted;
+
+    //}
+    //public class XmlProjectRepository : IProjectRepository
+    //{
+    //    private List<Project> ObjectList { get; set; } = new();
+    //    IEnumerable<Project> IRepository<Project>.GetAll()
+    //    {
+    //        return ObjectList;
+    //    }
+
+    //    void IRepository<Project>.Insert(Project InsertedItem)
+    //    {
+    //        ObjectList.Add(InsertedItem);
+
+    //    }
+
+    //}
 
 
 }

@@ -4,6 +4,7 @@
 using System;
 using DataContracts;
 using Business;
+using Solution;
 
 namespace Application
 {
@@ -22,7 +23,7 @@ namespace Application
             //Proxy.Facade.UserServicesObj.LogOutResult += Message;
             //Proxy.Facade.ProjectServicesObj.ProjectListTransmitted += Message;
             //Proxy.Facade.UserServicesObj.Request += Request;
-
+            Mediator MediatorObj = new();
 
             while (true)
             {

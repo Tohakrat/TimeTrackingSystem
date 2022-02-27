@@ -5,13 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Contracts;
 using Repositories.Xml;
+using DataContracts;
 
 namespace Solution
 {
-    internal class Mapper
+    public class Mapper
     {
-
-        IUserRepository GetUserRepository() { return new XmlUserRepository(); }
+        //XmlUserRepository<T> Repo;
+        public IRepository<User> GetUserRepository() { return new XmlObjectRepository<User>(); }
     }
 
 

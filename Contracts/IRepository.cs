@@ -12,6 +12,8 @@ namespace Contracts
         
         public  IEnumerable<T> GetAll();
         public void Insert (T InsertedItem);
+        internal event EventHandler<string> ObjectInserted;
+        internal event EventHandler<string> ObjectDeleted;
     }
     public interface IUserRepository : IRepository<User>
     {
