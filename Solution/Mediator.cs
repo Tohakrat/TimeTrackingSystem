@@ -11,7 +11,7 @@ namespace Solution
     public class Mediator
     {
         private IRepository<User> RepositoryUser;
-        private List<Action<string>> ActionList= new();
+        private List<EventHandler<UserEventArgs>> ActionList= new();
         public Mediator()
         {
             Mapper Map= new Mapper();
@@ -25,23 +25,33 @@ namespace Solution
             UserEventArgs e = new UserEventArgs("XmlUserAdded");
             OnUserInserted(e);
         }
-        public void SubscribeToInsert(Object sender,UserEventArgs e)
+        public void SubscribeInsert(EventHandler<UserEventArgs> actionToSubscribe)
         {
-            UserInserted += action;
-            ActionList.Add(action);
+            UserInserted += actionToSubscribe;
+            ActionList.Add(actionToSubscribe);
         }
-        public void UnsubscribeInsert(Object sender, Action<string> action)
+        public void UnsubscribeInsert(EventHandler<UserEventArgs> actionToSubscribe)
         {
-            UserAdded -= action;
-            ActionList.Remove(action);
+            UserInserted -= actionToSubscribe;
+            ActionList.Remove(actionToSubscribe);
+        }
+        public void SubscribeDelete(EventHandler<UserEventArgs> actionToSubscribe)
+        {
+            UserDeleted += actionToSubscribe;
+            ActionList.Add(actionToSubscribe);
+        }
+        public void UnsubscribeDelete(EventHandler<UserEventArgs> actionToSubscribe)
+        {
+            UserDeleted -= actionToSubscribe;
+            ActionList.Remove(actionToSubscribe);
         }
         internal virtual void OnUserInserted(UserEventArgs e)
         {
             EventHandler<UserEventArgs> handler = UserInserted;
             handler?.Invoke(this, e);
         }
-        public event EventHandler<UserEventArgs> UserInserted;
-        public event Action<string> UserDeleted;
+        private event EventHandler<UserEventArgs> UserInserted;
+        private event EventHandler<UserEventArgs> UserDeleted;
 
     }
     
