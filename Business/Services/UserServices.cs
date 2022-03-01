@@ -61,8 +61,19 @@ namespace Business
             }            
             return Result.ToString();            
         }
-        internal void Login(UserData user)
+        internal void Login(ref Int32 userId)
         {
+            UserData user;
+            try
+            {
+                user = GetUserDataById(userId);
+            }
+            catch (KeyNotFoundException e)
+            {
+                userId=-1;
+                return;
+            }
+
             if (user == null)
             {
                 string UserName, Password;
@@ -76,11 +87,13 @@ namespace Business
                         user = Data;
                         user.SetActive();
                         UserLogined?.Invoke(user.GetAccessRole().ToString() + " Logined! ");
-                        Facade.Delegates.ChangeUserDelegate(user);
+                        //Facade.Delegates.ChangeUserDelegate(user);
+                        userId = user.UserObj.Id;
                         return;
                     }
                 }
-                Facade.Delegates.MessageDelegate("User not found, please check login/password");               
+                Facade.Delegates.MessageDelegate("User not found, please check login/password");
+                //userId = -1;
 
             }
             else Facade.Delegates.MessageDelegate("You are already logined, please log out!");
@@ -249,7 +262,21 @@ namespace Business
             }
             throw new KeyNotFoundException { };
         }
-        private int GetMaxIndex()
+        internal UserData GetUserDataById(int id)
+        {
+            if (id == -1)//if user not logined, client stores -1.
+                return null;
+            else
+            {
+                
+                var UserDataObj = UserDataList.Single(x => x.UserObj.Id == id);
+                if (UserDataObj != null)
+                    return UserDataObj;
+                else throw new KeyNotFoundException();
+            }
+        }
+        
+            private int GetMaxIndex()
         {
             return UserDataList.Max(u => u.GetId());
         }     

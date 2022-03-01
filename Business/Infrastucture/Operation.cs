@@ -9,7 +9,7 @@ namespace Business
 {    
     internal class Operation
     {
-        internal Operation(string name, DataContracts.AccessRole role, bool active, int number, State state, Action<UserData?> operation)
+        internal Operation(string name, DataContracts.AccessRole role, bool active, int number, State state, Action<Int32> operation)
         {
             Name = name;
             AvailableFor = role;
@@ -24,7 +24,7 @@ namespace Business
         internal int NumberOpreation { get; set; }
         internal State StateLogin { get; set; }
 
-        internal Action<UserData?> DoOperation;
+        internal Action<Int32> DoOperation;
     }  
 
 }

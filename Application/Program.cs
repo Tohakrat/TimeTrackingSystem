@@ -10,24 +10,25 @@ namespace Application
 {
     class Program
     {
-        private static UserData UserDataObj=null;
+        private static int UserDataId=-1;
         static void Main(string[] args)
         {         
             
-            IProxy Proxy = new ConsoleProxy(Request, Message, ChangeUser);
-            Proxy.SetCallBacks(Request, Message, ChangeUser);
+            //IProxy Proxy = new ConsoleProxy(Request, Message, ChangeUser);
+            IProxy Proxy = new ConsoleProxy(Request, Message);
+            //Proxy.SetCallBacks(Request, Message, ChangeUser);
             
 
             while (true)
             {
-                Console.WriteLine(Proxy.GetOperations(UserDataObj));
+                Console.WriteLine(Proxy.GetOperations(UserDataId));
                 int answer;
                 if (int.TryParse(Console.ReadLine(),out answer)==false)
                 {
                     Console.WriteLine("Wrong data.");
                     continue;
                 };
-                Proxy.DoAction(answer, UserDataObj);
+                Proxy.DoAction(answer, UserDataId);
             }            
         }    
         static void Message(string m)
@@ -39,9 +40,9 @@ namespace Application
             Console.WriteLine(comment);
             return (Console.ReadLine())??"no value";            
         }
-        static void ChangeUser(UserData userReceived)
-        {
-            UserDataObj = userReceived;
-        }
+        //static void ChangeUser(UserData userReceived)
+        //{
+        //    //UserDataId = userReceived;
+        //}
     }
 }

@@ -35,18 +35,30 @@ namespace Business
             OperationList.Add(new Operation("Quit", DataContracts.AccessRole.Any, true,0, State.Any, Facade.Quit));       
         }
 
-        internal bool ProcessAnswer(int answer ,UserData user)
+        internal bool ProcessAnswer(int answer ,int user)
         {
+            UserData UserDataObj;
+            try 
+            {
+                UserDataObj = Facade.UserServicesObj.GetUserDataById(user);
+            }
+            catch (KeyNotFoundException e)
+            {
+                Facade.Delegates.MessageDelegate("Error! User Id not found!");
+                return false;
+            }
+
+            
             State StateUser;
             AccessRole RoleUser;
-            if (user == null)
+            if (UserDataObj == null)
             {
                 RoleUser = AccessRole.Any;
                 StateUser = State.NotLogined;
             }
             else
             {
-                RoleUser = user.UserObj.Role;
+                RoleUser = UserDataObj.UserObj.Role;
                 StateUser = State.Logined;
             }
 
@@ -56,9 +68,9 @@ namespace Business
                 {
                     if ((op.StateLogin == StateUser || op.StateLogin == State.Any) && (op.AvailableFor == RoleUser || op.AvailableFor == DataContracts.AccessRole.Any))
                     {
-                        if (user == null)
-                            op.DoOperation(null);
-                        else
+                        //if (user == null)
+                        //    op.DoOperation(null);
+                        //else
                         op.DoOperation(user);
                         return true;
                     }
@@ -68,18 +80,35 @@ namespace Business
             return false;
         }
 
-        internal string GetAvailableOperations(UserData user)
+        internal string GetAvailableOperations(Int32 userId)
         {
+            UserData UserDataObj;
+            try
+            {
+                UserDataObj = Facade.UserServicesObj.GetUserDataById(userId);
+            }
+            catch (KeyNotFoundException e)
+            {
+                Facade.Delegates.MessageDelegate("Error! User Id not found!");
+                return "Error!";
+            }
+
+
+
+
+
+
+
             State StateUser;
             AccessRole RoleUser;
-            if (user == null)
+            if (UserDataObj == null)
             {
                 RoleUser = AccessRole.Any;
                 StateUser = State.NotLogined;
             }
             else
             {
-                RoleUser = user.UserObj.Role;
+                RoleUser = UserDataObj.UserObj.Role;
                 StateUser = State.Logined;
             }      
 

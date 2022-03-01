@@ -10,14 +10,18 @@ namespace Business
     public class ConsoleProxy : IProxy
     {
         public DataFacade Facade { get; set; }
-        public ConsoleProxy(Func<String, String> Request, Action<String> Message, Action<UserData> SetUser)
+        public ConsoleProxy(Func<String, String> Request, Action<String> Message)//, Action<UserData> SetUser)
+            //public ConsoleProxy()
+
         {
             Facade = DataFacade.GetDataFacade();
-            Facade.Initialize(Request, Message, SetUser);
+            Facade.Initialize(Request, Message);//, SetUser);
+
+            Facade.Initialize(Request, Message);
             Facade.PopulateData(); 
         }
 
-        public void DoAction(int answer, UserData user)
+        public void DoAction(int answer, int user)
         {
             if (Facade.ProcessAnswer(answer, user) == false)
             {
@@ -26,14 +30,14 @@ namespace Business
             }
         }
 
-        public string GetOperations(UserData user)
+        public string GetOperations(int userId)
         { 
-            return Facade.GetOperations(user);
+            return Facade.GetOperations(userId);
         }
-        public void SetCallBacks(Func<String, String> Request, Action<String> Message, Action<UserData> SetUser)
-        {
-            Facade.SetCallBacks(Request, Message, SetUser);
-        }
-       
+        //public void SetCallBacks(Func<String, String> Request, Action<String> Message)//, Action<UserData> SetUser)
+        //{
+        //    Facade.SetCallBacks(Request, Message);//, SetUser);
+        //}
+
     }
 }
