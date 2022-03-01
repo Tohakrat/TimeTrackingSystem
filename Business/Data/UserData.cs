@@ -13,6 +13,10 @@ namespace Business
         {   
             UserObj = new User( id,  username,  password,  role,  fullName); 
         }
+        public UserData(User user)
+        {
+            UserObj = user;
+        }
         internal static void SetFacade(DataFacade facade)
         {
             Facade = facade;

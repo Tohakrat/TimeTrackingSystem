@@ -15,6 +15,10 @@ namespace Business
         {           
             ProjectObj = new Project(id, name, expirationDate, maxHours, leaderUserId);
         }
+        internal ProjectData(Project project)
+        {
+            ProjectObj = project;
+        }
         internal static void SetFacade(DataFacade facade)
         {
             Facade = facade;

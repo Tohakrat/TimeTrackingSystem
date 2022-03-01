@@ -78,6 +78,10 @@ namespace Business
         {
             ProjectDataRepository.Add(projData);
         }
+        internal void AddObject(Project proj)
+        {
+            ProjectDataRepository.Add(new ProjectData(proj));
+        }
         internal int GetMaxProjectId()
         {
             int MaxId = 0;

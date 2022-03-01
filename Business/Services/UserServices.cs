@@ -12,6 +12,7 @@ namespace Business
         private DataFacade Facade;
         public event Action<string> UserLogined;
         internal ProjectServices ProjServices;
+        private List<UserData> UserDataList = new List<UserData>();
 
         internal UserServices (DataFacade facade)
         {
@@ -28,8 +29,12 @@ namespace Business
         {
             UserDataList.Add(userData);
         }
+        internal void AddObject(User user)
+        {
+            UserDataList.Add(new UserData(user));
+        }
 
-        private List<UserData> UserDataList = new List<UserData>();
+        
         
         internal string GetAllActiveUsers()
         {
@@ -134,6 +139,13 @@ namespace Business
                 Facade.Delegates.MessageDelegate("Successfully added time");
             else Facade.Delegates.MessageDelegate("Error adding TimeEntry");
         }
+        internal void AddTimeTrackEnty(TimeTrackEntry entry)
+        {
+            int UserId = entry.UserId;
+            var UserDataToPasteEnty = UserDataList.Single(x => x.UserObj.Id == UserId);
+            UserDataToPasteEnty.AddSubmittedTime(entry);
+        }
+
         public string ViewSubmittedTime(UserData user,Func<int,string> FindNameById)
         {            
             foreach (UserData UD in UserDataList)
