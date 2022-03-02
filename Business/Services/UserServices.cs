@@ -18,6 +18,7 @@ namespace Business
         {
             Facade = facade;
             UserData.SetFacade(Facade);            
+            //UserLogined += DataFacade.GetDataFacade().Delegates.MessageDelegate;            
             UserLogined += Facade.Delegates.MessageDelegate;            
         }
         internal void SetProjectServices(ProjectServices PS)
@@ -88,6 +89,7 @@ namespace Business
                         user.SetActive();
                         UserLogined?.Invoke(user.GetAccessRole().ToString() + " Logined! ");
                         Facade.Delegates.ChangeUserDelegate(user.GetId());
+   
                         userId = user.UserObj.Id;
                         return;
                     }
@@ -115,12 +117,14 @@ namespace Business
         //    return false;                              
         //}        
 
-        public void LogOut(UserData user, Action<UserData> ChangeUserDelegate)         
+        public void LogOut(Int32 user)// Action<UserData> ChangeUserDelegate)         
         {
-            if (user!=null)
+            UserData UserDataObj = GetUserDataById(user);       
+
+            if (UserDataObj != null)
             {
-                user.SetNotActive();
-                ChangeUserDelegate(null);
+                UserDataObj.SetNotActive();
+                Facade.Delegates.ChangeUserDelegate(-1);
                 Facade.Delegates.MessageDelegate("LogOut completed");                
             }
             else
@@ -137,8 +141,9 @@ namespace Business
             UserDataObj.AddSubmittedTime(TTEntry);            
             return true;           
         }
-        internal void SubmitTime(UserData user)
+        internal void SubmitTime(Int32 userId)
         {
+            UserData UserObj = GetUserDataById(userId);
             string project = Facade.Delegates.RequestDelegate("EnterProjectName:");
             int IdProject = Facade.ProjectServicesObj.FindIdByName(project);
             int HoursCount;
@@ -148,7 +153,7 @@ namespace Business
             if (DateTime.TryParse(Facade.Delegates.RequestDelegate("Enter Date:"), out DateOfWork) == false)
                 Facade.Delegates.MessageDelegate("Date is incorrect:");
 
-            if (SubmitTime(user.GetId(), IdProject, HoursCount, DateOfWork) == true)
+            if (SubmitTime(userId, IdProject, HoursCount, DateOfWork) == true)
                 Facade.Delegates.MessageDelegate("Successfully added time");
             else Facade.Delegates.MessageDelegate("Error adding TimeEntry");
         }
@@ -159,13 +164,13 @@ namespace Business
             UserDataToPasteEnty.AddSubmittedTime(entry);
         }
 
-        public string ViewSubmittedTime(UserData user,Func<int,string> FindNameById)
+        public string ViewSubmittedTime(Int32 userId)//,Func<int,string> FindNameById)
         {            
             foreach (UserData UD in UserDataList)
             {
-                if (UD.UserObj.Id == user.GetId())
+                if (UD.UserObj.Id == userId)
                 {
-                    return UD.GetTimeTrackString(FindNameById);
+                    return UD.GetTimeTrackString(GetUserNameById);
                 }                
             }
             return "\n Submitted time not found!";            
@@ -201,16 +206,24 @@ namespace Business
             UserDataList.Add(UserToAdd) ;            
             return true;    
         }
-        internal bool DeleteUser(UserData MeUser)
+        internal bool DeleteUser(Int32 MeUserId)
         {
             string UserName;
-            bool result = false;            
+            bool result = false;
+            UserData UserDataToRemove = null;
+            UserData MeUserObj = GetUserDataById(MeUserId);
+            if (MeUserObj==null)
+            {
+                Facade.Delegates.MessageDelegate("Error. User not found");
+
+            }
+                       
             
-            UserData UserDataToRemove = null;            
+                      
             
 
             UserName = Facade.Delegates.RequestDelegate("Enter login:");
-            if (UserName==MeUser.GetName()) //If I delete me, it is not allowed
+            if (UserName== MeUserObj.GetName()) //If I delete me, it is not allowed
             {
                 Facade.Delegates.MessageDelegate(" You cant delete yourself! ");
                 return false;
@@ -272,7 +285,11 @@ namespace Business
                 var UserDataObj = UserDataList.Single(x => x.UserObj.Id == id);
                 if (UserDataObj != null)
                     return UserDataObj;
-                else throw new KeyNotFoundException();
+                else
+                {
+                    Facade.Delegates.MessageDelegate("User Services error. User not found!");
+                    return null;
+                }
             }
         }
         

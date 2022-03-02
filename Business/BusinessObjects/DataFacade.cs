@@ -67,12 +67,12 @@ namespace Business
 
         internal void LogOut(Int32 user)
         {
-            //UserServicesObj.LogOut(user, Delegates.ChangeUserDelegate);
+            UserServicesObj.LogOut(user);//, Delegates.ChangeUserDelegate);
         }        
 
         internal void SubmitTime(Int32 user)
         {
-            //UserServicesObj.SubmitTime(user);            
+            UserServicesObj.SubmitTime(user);            
         }       
         internal void ReportActiveUsers(Int32 user )
         {
@@ -84,9 +84,9 @@ namespace Business
             bool Result = UserServicesObj.Add();
         }
 
-        internal void DeleteUser(Int32 Me)
+        internal void DeleteUser(Int32 UserId)
         {
-            //bool deleted = UserServicesObj.DeleteUser(Me);         
+            bool deleted = UserServicesObj.DeleteUser(UserId);         
         }
 
         internal void AddProject(Int32 user )
@@ -102,9 +102,9 @@ namespace Business
         {
             return UserServicesObj.GetUserIdByName(UserName,role);
         }
-        public void ViewSubmittedTime(Int32 user)
+        public void ViewSubmittedTime(Int32 UserId)
         {
-            //Delegates.MessageDelegate(UserServicesObj.ViewSubmittedTime(user,ProjectServicesObj.FindNameById));
+            Delegates.MessageDelegate(UserServicesObj.ViewSubmittedTime(UserId));//, ProjectServicesObj.FindNameById);;);
         }
                 
         public List<Project> GetProjectsOfUser(Int32 user)
