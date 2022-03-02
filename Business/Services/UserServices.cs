@@ -87,7 +87,7 @@ namespace Business
                         user = Data;
                         user.SetActive();
                         UserLogined?.Invoke(user.GetAccessRole().ToString() + " Logined! ");
-                        //Facade.Delegates.ChangeUserDelegate(user);
+                        Facade.Delegates.ChangeUserDelegate(user.GetId());
                         userId = user.UserObj.Id;
                         return;
                     }
@@ -99,21 +99,21 @@ namespace Business
             else Facade.Delegates.MessageDelegate("You are already logined, please log out!");
             return;
         }
-        public bool LogIn(string userName, string passWord, out UserData user)
-        {            
-            user = null;
-            foreach (UserData Data in UserDataList)
-            {
-                if (Data.CheckCredentials(userName,passWord))
-                {
-                    user=Data;
-                    user.SetActive();
-                    UserLogined?.Invoke(user.GetAccessRole().ToString()+" Logined! ");
-                    return true;
-                }
-            }    
-            return false;                              
-        }        
+        //public bool LogIn(string userName, string passWord, out UserData user)
+        //{            
+        //    user = null;
+        //    foreach (UserData Data in UserDataList)
+        //    {
+        //        if (Data.CheckCredentials(userName,passWord))
+        //        {
+        //            user=Data;
+        //            user.SetActive();
+        //            UserLogined?.Invoke(user.GetAccessRole().ToString()+" Logined! ");
+        //            return true;
+        //        }
+        //    }    
+        //    return false;                              
+        //}        
 
         public void LogOut(UserData user, Action<UserData> ChangeUserDelegate)         
         {

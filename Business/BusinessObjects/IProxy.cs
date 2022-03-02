@@ -15,7 +15,7 @@ namespace Business
         public  DataFacade Facade { get; set; }
        
         //public  void SetCallBacks(Func<String, String> Request, Action<String> Message, Action<UserData> SetUser);    
-        public void SetCallBacks(Func<String, String> Request, Action<String> Message);    
+        public void SetCallBacks(Func<String, String> Request, Action<String> Message, Action<Int32> SetUser);    
     }
    
 }

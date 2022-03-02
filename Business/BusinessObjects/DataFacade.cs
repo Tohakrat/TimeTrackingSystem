@@ -26,6 +26,13 @@ namespace Business
  
         private DataFacade()
         {
+            UserServicesObj = new UserServices(this);
+            ProjectServicesObj = new ProjectServices(this);
+            UserServicesObj.SetProjectServices(ProjectServicesObj);
+            ProjectServicesObj.SetUserServices(UserServicesObj);
+            
+
+            MenuObj = new(this);
         }
         public static DataFacade GetDataFacade()
         {
@@ -34,20 +41,15 @@ namespace Business
             return DataFacadeObj;
         }
         //internal void Initialize(Func<String, String> Request, Action<String> Message, Action<UserData> SetUser)
-        internal void Initialize(Func<String, String> Request, Action<String> Message)
+        internal void Initialize(Func<String, String> Request, Action<String> Message, Action<Int32> SetUser)
 
-        {            
+        {
             Delegates.RequestDelegate = Request;
             Delegates.MessageDelegate = Message;
-            //Delegates.ChangeUserDelegate = SetUser;
-            UserServicesObj = new UserServices(this);
-            ProjectServicesObj = new ProjectServices(this);
-            UserServicesObj.SetProjectServices(ProjectServicesObj);
-            ProjectServicesObj.SetUserServices(UserServicesObj);            
-            MenuObj = new(this);
+            Delegates.ChangeUserDelegate = SetUser;
         }
 
-        internal void SetCallBacks(Func<String, String> Request, Action<String> Message, Action<UserData> SetUser)
+        internal void SetCallBacks(Func<String, String> Request, Action<String> Message, Action<Int32> SetUser)
         {
             Delegates.RequestDelegate = Request;
             Delegates.MessageDelegate = Message;

@@ -15,8 +15,8 @@ namespace Application
         {         
             
             //IProxy Proxy = new ConsoleProxy(Request, Message, ChangeUser);
-            IProxy Proxy = new ConsoleProxy(Request, Message);
-            //Proxy.SetCallBacks(Request, Message, ChangeUser);
+            IProxy Proxy = new ConsoleProxy();
+            Proxy.SetCallBacks(Request, Message, ChangeUser);
             
 
             while (true)
@@ -40,9 +40,9 @@ namespace Application
             Console.WriteLine(comment);
             return (Console.ReadLine())??"no value";            
         }
-        //static void ChangeUser(UserData userReceived)
-        //{
-        //    //UserDataId = userReceived;
-        //}
+        static void ChangeUser(Int32 userReceived)
+        {
+            UserDataId = userReceived;
+        }
     }
 }
