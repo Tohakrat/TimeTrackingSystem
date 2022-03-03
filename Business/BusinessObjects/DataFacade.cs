@@ -29,10 +29,8 @@ namespace Business
             UserServicesObj = new UserServices();// this);
             ProjectServicesObj = new ProjectServices();// this);
             UserServicesObj.SetProjectServices(ProjectServicesObj);
-            ProjectServicesObj.SetUserServices(UserServicesObj); 
-            
-
-            MenuObj = new(this);
+            ProjectServicesObj.SetUserServices(UserServicesObj);
+           
         }
         public static DataFacade GetDataFacade()
         {
@@ -55,80 +53,29 @@ namespace Business
             Delegates.MessageDelegate = Message;
             Delegates.ChangeUserDelegate = SetUser;
             UserServicesObj.SetEventsDelegates();
+            MenuObj = new();// this);
         }
         internal bool ProcessAnswer(int answer, int user)
         {
             return MenuObj.ProcessAnswer(answer, user);                  
         }       
-
-        internal void Login(Int32 user)
-        {
-            UserServicesObj.Login(ref user);            
-        }       
-
-        internal void LogOut(Int32 user)
-        {
-            UserServicesObj.LogOut(user);//, Delegates.ChangeUserDelegate);
-        }        
-
-        internal void SubmitTime(Int32 user)
-        {
-            UserServicesObj.SubmitTime(user);            
-        }       
+                    
+                  
         internal void ReportActiveUsers(Int32 user )
         {
             Delegates.MessageDelegate(UserServicesObj.ReportActiveUsers(ProjectServicesObj.FindIdByName));
-        }
-
-        internal void AddUser(Int32 user )
-        {
-            bool Result = UserServicesObj.Add();
-        }
-
-        internal void DeleteUser(Int32 UserId)
-        {
-            bool deleted = UserServicesObj.DeleteUser(UserId);         
-        }
-
-        internal void AddProject(Int32 user )
-        {
-            bool result = ProjectServicesObj.AddProject(GetUserIdByName);
-        }
-        internal void DeleteProject(Int32 user)
-        {
-            ProjectServicesObj.DeleteProject(null);            
-        }          
+        }        
        
         internal int GetUserIdByName(string UserName,AccessRole role)
         {
             return UserServicesObj.GetUserIdByName(UserName,role);
-        }
-        public void ViewSubmittedTime(Int32 UserId)
-        {
-            Delegates.MessageDelegate(UserServicesObj.ViewSubmittedTime(UserId));//, ProjectServicesObj.FindNameById);;);
-        }
-                
-        public List<Project> GetProjectsOfUser(Int32 user)
-        {
-            return null;
-        }
-        public void GetProjectsString(Int32 user)
-        {
-            Delegates.MessageDelegate(ProjectServicesObj.GetProjectsString());
-        }
+        }              
 
         public string GetOperations(Int32 userId)
         {
             return MenuObj.GetAvailableOperations(userId); 
-        }
-        public void ViewAllActiveUsers(Int32 user )
-        {
-            Delegates.MessageDelegate(UserServicesObj.GetAllActiveUsers());
-        }
-        public void ViewAllUsers(Int32 user )
-        {
-            Delegates.MessageDelegate(UserServicesObj.GetAllUsersString());
-        }
+        }        
+       
         public void Quit(Int32 user )
         {
             Environment.Exit(0);

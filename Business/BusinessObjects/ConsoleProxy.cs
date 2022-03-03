@@ -17,6 +17,7 @@ namespace Business
             Facade = DataFacade.GetDataFacade();
             //Facade.Initialize(Request, Message, SetUser);            
             Facade.PopulateData(); 
+            
         }
 
         public void DoAction(int answer, int user)
@@ -35,6 +36,7 @@ namespace Business
         public void SetCallBacks(Func<String, String> Request, Action<String> Message, Action<Int32> SetUser)
         {
             Facade.SetCallBacks(Request, Message,SetUser);//, SetUser);
+            //Facade.
         }
 
     }

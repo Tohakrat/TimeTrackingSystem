@@ -10,29 +10,29 @@ namespace Business
 {
     internal class Menu
     {
-        DataFacade Facade;
+        //DataFacade Facade;
         List<Operation> OperationList = new();
-        internal Menu(DataFacade facade)
+        internal Menu()//DataFacade facade)
         {
-            Facade = facade;
+            //Facade = facade;
             SeedMenu();
         }
         
         private void SeedMenu()
         {
-            OperationList.Add(new Operation("LogIn", DataContracts.AccessRole.Any, true,1, State.NotLogined,Facade.Login)); 
-            OperationList.Add(new Operation("LogOut", DataContracts.AccessRole.Any, false,2, State.Logined, Facade.LogOut));
-            OperationList.Add(new Operation("Available Projects", DataContracts.AccessRole.Any, true,3, State.Logined, Facade.GetProjectsString));
-            OperationList.Add(new Operation("Submit Time", DataContracts.AccessRole.Any, true,4, State.Logined, Facade.SubmitTime));
-            OperationList.Add(new Operation("View Submitted Time", DataContracts.AccessRole.Any, true,5, State.Logined, Facade.ViewSubmittedTime));
-            OperationList.Add(new Operation("View All Users", DataContracts.AccessRole.Any, true, 6, State.Logined, Facade.ViewAllUsers));
-            OperationList.Add(new Operation("Create User", DataContracts.AccessRole.Admin, true,7, State.Logined, Facade.AddUser));
-            OperationList.Add(new Operation("Delete User", DataContracts.AccessRole.Admin, true,8, State.Logined, Facade.DeleteUser));
-            OperationList.Add(new Operation("Create Project", DataContracts.AccessRole.Admin, true,9, State.Logined, Facade.AddProject));
-            OperationList.Add(new Operation("Delete Project", DataContracts.AccessRole.Admin, true,10, State.Logined, Facade.DeleteProject));            
-            OperationList.Add(new Operation("Report: Active Users in Project", DataContracts.AccessRole.ProjectLeader, true,12, State.Logined, Facade.ReportActiveUsers));
-            OperationList.Add(new Operation("Report: Users, who are active now", DataContracts.AccessRole.ProjectLeader, true,13, State.Logined, Facade.ViewAllActiveUsers));
-            OperationList.Add(new Operation("Quit", DataContracts.AccessRole.Any, true,0, State.Any, Facade.Quit));       
+            OperationList.Add(new Operation("LogIn", DataContracts.AccessRole.Any, true,1, State.NotLogined,DataFacade.GetDataFacade().UserServicesObj.Login));
+            OperationList.Add(new Operation("LogOut", DataContracts.AccessRole.Any, false, 2, State.Logined, DataFacade.GetDataFacade().UserServicesObj.LogOut));
+            OperationList.Add(new Operation("Available Projects", DataContracts.AccessRole.Any, true, 3, State.Logined, DataFacade.GetDataFacade().ProjectServicesObj.GetProjectsString));
+            OperationList.Add(new Operation("Submit Time", DataContracts.AccessRole.Any, true, 4, State.Logined, DataFacade.GetDataFacade().UserServicesObj.SubmitTime));
+            OperationList.Add(new Operation("View Submitted Time", DataContracts.AccessRole.Any, true, 5, State.Logined, DataFacade.GetDataFacade().UserServicesObj.ViewSubmittedTime));
+            OperationList.Add(new Operation("View All Users", DataContracts.AccessRole.Any, true, 6, State.Logined, DataFacade.GetDataFacade().UserServicesObj.GetAllUsersString));
+            OperationList.Add(new Operation("Create User", DataContracts.AccessRole.Admin, true, 7, State.Logined, DataFacade.GetDataFacade().UserServicesObj.Add));
+            OperationList.Add(new Operation("Delete User", DataContracts.AccessRole.Admin, true, 8, State.Logined, DataFacade.GetDataFacade().UserServicesObj.DeleteUser));
+            OperationList.Add(new Operation("Create Project", DataContracts.AccessRole.Admin, true, 9, State.Logined, DataFacade.GetDataFacade().ProjectServicesObj.AddProject));
+            OperationList.Add(new Operation("Delete Project", DataContracts.AccessRole.Admin, true, 10, State.Logined, DataFacade.GetDataFacade().ProjectServicesObj.DeleteProject));
+            OperationList.Add(new Operation("Report: Active Users in Project", DataContracts.AccessRole.ProjectLeader, true, 12, State.Logined, DataFacade.GetDataFacade().ReportActiveUsers));
+            OperationList.Add(new Operation("Report: Users, who are active now", DataContracts.AccessRole.ProjectLeader, true, 13, State.Logined, DataFacade.GetDataFacade().UserServicesObj.GetAllActiveUsers));
+            OperationList.Add(new Operation("Quit", DataContracts.AccessRole.Any, true, 0, State.Any, DataFacade.GetDataFacade().Quit));
         }
 
         internal bool ProcessAnswer(int answer ,int user)
@@ -40,11 +40,11 @@ namespace Business
             UserData UserDataObj;
             try 
             {
-                UserDataObj = Facade.UserServicesObj.GetUserDataById(user);
+                UserDataObj = DataFacade.GetDataFacade().UserServicesObj.GetUserDataById(user);
             }
             catch (KeyNotFoundException e)
             {
-                Facade.Delegates.MessageDelegate("Error! User Id not found!");
+                DataFacade.GetDataFacade().Delegates.MessageDelegate("Error! User Id not found!");
                 return false;
             }
 
@@ -85,18 +85,13 @@ namespace Business
             UserData UserDataObj;
             try
             {
-                UserDataObj = Facade.UserServicesObj.GetUserDataById(userId);
+                UserDataObj = DataFacade.GetDataFacade().UserServicesObj.GetUserDataById(userId);
             }
             catch (KeyNotFoundException e)
             {
-                Facade.Delegates.MessageDelegate("Error! User Id not found!");
+                DataFacade.GetDataFacade().Delegates.MessageDelegate("Error! User Id not found!");
                 return "Error!";
             }
-
-
-
-
-
 
 
             State StateUser;

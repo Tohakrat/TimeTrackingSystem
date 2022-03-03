@@ -41,13 +41,13 @@ namespace Business
 
         
         
-        internal string GetAllActiveUsers()
+        internal void GetAllActiveUsers(Int32 user)
         {
             List<string> TempList =  (from UserDataItem in _UserDataList where UserDataItem.UserObj.IsActive == true select UserDataItem.UserObj.FullName).ToList();
 
-            return string.Join(",", TempList.ToArray());
+            DataFacade.GetDataFacade().Delegates.MessageDelegate(string.Join(",", TempList.ToArray()));
         }
-        internal string GetAllUsersString()
+        internal void GetAllUsersString(int user)
         {
             StringBuilder Result = new();
             Result.AppendLine();
@@ -63,10 +63,10 @@ namespace Business
                 Result.Append(" User Access Role: ");
                 Result.Append(Data.GetAccessRole());
                 Result.Append(" ");
-            }            
-            return Result.ToString();            
+            }
+            DataFacade.GetDataFacade().Delegates.MessageDelegate( Result.ToString());            
         }
-        internal void Login(ref Int32 userId)
+        internal void Login(Int32 userId)
         {
             UserData user;
             try
@@ -94,7 +94,7 @@ namespace Business
                         UserLogined?.Invoke(user.GetAccessRole().ToString() + " Logined! ");
                         DataFacade.GetDataFacade().Delegates.ChangeUserDelegate(user.GetId());
    
-                        userId = user.UserObj.Id;
+                        //userId = user.UserObj.Id;
                         return;
                     }
                 }
@@ -168,23 +168,23 @@ namespace Business
             UserDataToPasteEnty.AddSubmittedTime(entry);
         }
 
-        public string ViewSubmittedTime(Int32 userId)//,Func<int,string> FindNameById)
+        public void ViewSubmittedTime(Int32 userId)//,Func<int,string> FindNameById)
         {            
             foreach (UserData UD in _UserDataList)
             {
                 if (UD.UserObj.Id == userId)
                 {
-                    return UD.GetTimeTrackString(GetUserNameById);
+                    DataFacade.GetDataFacade().Delegates.MessageDelegate( UD.GetTimeTrackString(GetUserNameById));
                 }                
             }
-            return "\n Submitted time not found!";            
+            DataFacade.GetDataFacade().Delegates.MessageDelegate("\n User not found!");            
         }
 
         public void Add(UserData user)
         {
             _UserDataList.Add(user);            
         }
-        public bool Add()
+        public void Add(int user)
         {
             int UserRole;
 
@@ -194,23 +194,24 @@ namespace Business
                 if (UserRole>3||UserRole<1)
                 {
                     DataFacade.GetDataFacade().Delegates.MessageDelegate("Wrong number!");
-                    return false;
+                    return;// false;
                 }
             }
             catch (Exception E)
             {
                 DataFacade.GetDataFacade().Delegates.MessageDelegate("Incorrect Data. ");
-                return false;
+                return;// false;
             }
             String Name = DataFacade.GetDataFacade().Delegates.RequestDelegate("Enter user name: ");
             String Password = DataFacade.GetDataFacade().Delegates.RequestDelegate("Enter password: ");
             String FullName = DataFacade.GetDataFacade().Delegates.RequestDelegate("Enter Full Name: ");
             int MaxIndex = GetMaxIndex();
             UserData UserToAdd = new UserData(MaxIndex + 1, Name, Password,(AccessRole)UserRole, FullName) ;
-            _UserDataList.Add(UserToAdd) ;            
-            return true;    
+            _UserDataList.Add(UserToAdd) ;
+            DataFacade.GetDataFacade().Delegates.MessageDelegate("Successfully ");
+            return;// true;    
         }
-        internal bool DeleteUser(Int32 MeUserId)
+        internal void DeleteUser(Int32 MeUserId)
         {
             string UserName;
             bool result = false;
@@ -219,18 +220,13 @@ namespace Business
             if (MeUserObj==null)
             {
                 DataFacade.GetDataFacade().Delegates.MessageDelegate("Error. User not found");
-
-            }
-                       
+            }                    
             
-                      
-            
-
             UserName = DataFacade.GetDataFacade().Delegates.RequestDelegate("Enter login:");
             if (UserName== MeUserObj.GetName()) //If I delete me, it is not allowed
             {
                 DataFacade.GetDataFacade().Delegates.MessageDelegate(" You cant delete yourself! ");
-                return false;
+                return;// false;
             }
             foreach (UserData U in _UserDataList)
             {
@@ -242,18 +238,17 @@ namespace Business
                         if (ProjServices.IsUserResponsible(U.GetId()))
                         {
                             DataFacade.GetDataFacade().Delegates.MessageDelegate(" There are some projects under responsibility of this project leader. Deleting denied!");
-                            return false;
+                            return;// false;
                         }                        
                     }
                     result = _UserDataList.Remove(U);
                     if (result) DataFacade.GetDataFacade().Delegates.MessageDelegate(" User is deleted successfully. ");
                     else DataFacade.GetDataFacade().Delegates.MessageDelegate(" Error! User is not deleted! ");
-                    return result;
-                    
+                    return;// result;                    
                 }
             }
             DataFacade.GetDataFacade().Delegates.MessageDelegate(" Deleted object not found! ");
-            return false;               
+            return;// false;               
             
         }
         internal int GetUserIdByName(string Name,AccessRole role=AccessRole.Any)
