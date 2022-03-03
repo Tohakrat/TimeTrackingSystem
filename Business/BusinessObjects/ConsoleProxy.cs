@@ -15,7 +15,7 @@ namespace Business
             //public ConsoleProxy()
         {
             Facade = DataFacade.GetDataFacade();
-            //Facade.Initialize(Request, Message);//, SetUser);            
+            //Facade.Initialize(Request, Message, SetUser);            
             Facade.PopulateData(); 
         }
 

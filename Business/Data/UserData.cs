@@ -8,7 +8,7 @@ namespace Business
 {   
     public class UserData
     {     
-        private static DataFacade Facade;
+        //private static DataFacade Facade;
         public UserData(int id, string username, string password, AccessRole role, string fullName = null )
         {   
             UserObj = new User( id,  username,  password,  role,  fullName); 
@@ -17,10 +17,10 @@ namespace Business
         {
             UserObj = user;
         }
-        internal static void SetFacade(DataFacade facade)
-        {
-            Facade = facade;
-        }
+        //internal static void SetFacade(DataFacade facade)
+        //{
+        //    Facade = facade;
+        //}
         internal User UserObj;
         private List<TimeTrackEntry> SybmittedTimeList = new();
         

@@ -16,7 +16,7 @@ namespace Business
         internal DataFacadeDelegates Delegates = new DataFacadeDelegates();
         public UserServices UserServicesObj;
         public ProjectServices ProjectServicesObj;
-        private static DataFacade DataFacadeObj;
+        private static DataFacade _s_DataFacadeObj;
 
         internal void PopulateData()
         {
@@ -26,34 +26,35 @@ namespace Business
  
         private DataFacade()
         {
-            UserServicesObj = new UserServices(this);
-            ProjectServicesObj = new ProjectServices(this);
+            UserServicesObj = new UserServices();// this);
+            ProjectServicesObj = new ProjectServices();// this);
             UserServicesObj.SetProjectServices(ProjectServicesObj);
-            ProjectServicesObj.SetUserServices(UserServicesObj);
+            ProjectServicesObj.SetUserServices(UserServicesObj); 
             
 
             MenuObj = new(this);
         }
         public static DataFacade GetDataFacade()
         {
-            if (DataFacadeObj == null)
-                DataFacadeObj = new DataFacade();
-            return DataFacadeObj;
+            if (_s_DataFacadeObj == null)
+                _s_DataFacadeObj = new DataFacade();
+            return _s_DataFacadeObj;
         }
         //internal void Initialize(Func<String, String> Request, Action<String> Message, Action<UserData> SetUser)
-        internal void Initialize(Func<String, String> Request, Action<String> Message, Action<Int32> SetUser)
+        //internal void Initialize(Func<String, String> Request, Action<String> Message, Action<Int32> SetUser)
 
-        {
-            Delegates.RequestDelegate = Request;
-            Delegates.MessageDelegate = Message;
-            Delegates.ChangeUserDelegate = SetUser;
-        }
+        //{
+        //    Delegates.RequestDelegate = Request;
+        //    Delegates.MessageDelegate = Message;
+        //    Delegates.ChangeUserDelegate = SetUser;
+        //}
 
         internal void SetCallBacks(Func<String, String> Request, Action<String> Message, Action<Int32> SetUser)
         {
             Delegates.RequestDelegate = Request;
             Delegates.MessageDelegate = Message;
             Delegates.ChangeUserDelegate = SetUser;
+            UserServicesObj.SetEventsDelegates();
         }
         internal bool ProcessAnswer(int answer, int user)
         {
