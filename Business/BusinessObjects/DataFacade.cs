@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DataContracts;
 using System.Runtime.CompilerServices;
-
+using Infrastructure;
 
 namespace Business
 {
@@ -22,15 +22,13 @@ namespace Business
         {
             StubDataPopulater Populater = new StubDataPopulater(UserServicesObj, ProjectServicesObj);
             Populater.Populate();
-        }      
- 
+        }       
         private DataFacade()
         {
             UserServicesObj = new UserServices();// this);
             ProjectServicesObj = new ProjectServices();// this);
             UserServicesObj.SetProjectServices(ProjectServicesObj);
-            ProjectServicesObj.SetUserServices(UserServicesObj);
-           
+            ProjectServicesObj.SetUserServices(UserServicesObj);           
         }
         public static DataFacade GetDataFacade()
         {
@@ -40,13 +38,7 @@ namespace Business
         }
         //internal void Initialize(Func<String, String> Request, Action<String> Message, Action<UserData> SetUser)
         //internal void Initialize(Func<String, String> Request, Action<String> Message, Action<Int32> SetUser)
-
-        //{
-        //    Delegates.RequestDelegate = Request;
-        //    Delegates.MessageDelegate = Message;
-        //    Delegates.ChangeUserDelegate = SetUser;
-        //}
-
+        
         internal void SetCallBacks(Func<String, String> Request, Action<String> Message, Action<Int32> SetUser)
         {
             Delegates.RequestDelegate = Request;
@@ -58,24 +50,21 @@ namespace Business
         internal bool ProcessAnswer(int answer, int user)
         {
             return MenuObj.ProcessAnswer(answer, user);                  
-        }       
-                    
+        }                           
                   
         internal void ReportActiveUsers(Int32 user )
         {
             Delegates.MessageDelegate(UserServicesObj.ReportActiveUsers(ProjectServicesObj.FindIdByName));
-        }        
-       
+        }               
         internal int GetUserIdByName(string UserName,AccessRole role)
         {
             return UserServicesObj.GetUserIdByName(UserName,role);
-        }              
+        }            
 
         public string GetOperations(Int32 userId)
         {
             return MenuObj.GetAvailableOperations(userId); 
-        }        
-       
+        }           
         public void Quit(Int32 user )
         {
             Environment.Exit(0);

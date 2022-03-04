@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 
 namespace DataContracts
 {   
-    public enum AccessRole
+    public enum AccessRole1
     {
         Any,
         User,

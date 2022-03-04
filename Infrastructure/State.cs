@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Business
+namespace Infrastructure
 {
-    //internal enum State1
-    //{
-    //    Logined,
-    //    NotLogined,
-    //    Any
-    //}
+    public enum State
+    {
+        Logined,
+        NotLogined,
+        Any
+    }
 }

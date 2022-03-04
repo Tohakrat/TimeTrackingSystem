@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataContracts;
-//using System.Linq;
+using Infrastructure;
 
 namespace Business
 {
     public class ProjectServices
     {
         private List<ProjectData> ProjectDataRepository = new();        
-        //private DataFacade Facade;
+        
         private UserServices UsServices;
 
         internal ProjectServices()//DataFacade facade)
@@ -74,10 +74,7 @@ namespace Business
             }
             return ;
         }
-        //internal void AddObject(ProjectData projData)
-        //{
-        //    ProjectDataRepository.Add(projData);
-        //}
+        
         internal void AddObject(Project proj)
         {
             ProjectDataRepository.Add(new ProjectData(proj));

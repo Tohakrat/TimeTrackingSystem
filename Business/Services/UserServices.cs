@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataContracts;
+using Infrastructure;
 
 namespace Business
 {
@@ -15,9 +16,7 @@ namespace Business
         private List<UserData> _UserDataList = new List<UserData>();
 
         internal UserServices ()//DataFacade facade)
-        {
-            //Facade = facade;
-            //UserData.SetFacade(Facade);            
+        {          
             //UserLogined += DataFacade.GetDataFacade().Delegates.MessageDelegate;            
             //UserLogined += Facade.Delegates.MessageDelegate;            
         }
@@ -37,9 +36,7 @@ namespace Business
         internal void AddObject(User user)
         {
             _UserDataList.Add(new UserData(user));
-        }
-
-        
+        }        
         
         internal void GetAllActiveUsers(Int32 user)
         {
@@ -105,22 +102,7 @@ namespace Business
             else DataFacade.GetDataFacade().Delegates.MessageDelegate("You are already logined, please log out!");
             return;
         }
-        //public bool LogIn(string userName, string passWord, out UserData user)
-        //{            
-        //    user = null;
-        //    foreach (UserData Data in UserDataList)
-        //    {
-        //        if (Data.CheckCredentials(userName,passWord))
-        //        {
-        //            user=Data;
-        //            user.SetActive();
-        //            UserLogined?.Invoke(user.GetAccessRole().ToString()+" Logined! ");
-        //            return true;
-        //        }
-        //    }    
-        //    return false;                              
-        //}        
-
+        
         public void LogOut(Int32 user)// Action<UserData> ChangeUserDelegate)         
         {
             UserData UserDataObj = GetUserDataById(user);       
@@ -174,7 +156,8 @@ namespace Business
             {
                 if (UD.UserObj.Id == userId)
                 {
-                    DataFacade.GetDataFacade().Delegates.MessageDelegate( UD.GetTimeTrackString(GetUserNameById));
+                    DataFacade.GetDataFacade().Delegates.MessageDelegate( UD.GetTimeTrackString(DataFacade.GetDataFacade().ProjectServicesObj.FindNameById));
+                    return;
                 }                
             }
             DataFacade.GetDataFacade().Delegates.MessageDelegate("\n User not found!");            
