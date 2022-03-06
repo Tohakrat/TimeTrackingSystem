@@ -5,35 +5,33 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Infrastructure;
+using System.Diagnostics;
 
 
 namespace Business
 {
     internal class Menu
-    {
-        //DataFacade Facade;
-        List<Operation> OperationList = new();
-        internal Menu()//DataFacade facade)
-        {
-            //Facade = facade;
+    {        
+        private List<Operation> _OperationList = new();
+        internal Menu()
+        {            
             SeedMenu();
-        }
-        
+        }        
         private void SeedMenu()
         {
-            OperationList.Add(new Operation("LogIn", AccessRole.Any, true,1, State.NotLogined,DataFacade.GetDataFacade().UserServicesObj.Login));
-            OperationList.Add(new Operation("LogOut", AccessRole.Any, false, 2, State.Logined, DataFacade.GetDataFacade().UserServicesObj.LogOut));
-            OperationList.Add(new Operation("Available Projects", AccessRole.Any, true, 3, State.Logined, DataFacade.GetDataFacade().ProjectServicesObj.GetProjectsString));
-            OperationList.Add(new Operation("Submit Time", AccessRole.Any, true, 4, State.Logined, DataFacade.GetDataFacade().UserServicesObj.SubmitTime));
-            OperationList.Add(new Operation("View Submitted Time", AccessRole.Any, true, 5, State.Logined, DataFacade.GetDataFacade().UserServicesObj.ViewSubmittedTime));
-            OperationList.Add(new Operation("View All Users", AccessRole.Any, true, 6, State.Logined, DataFacade.GetDataFacade().UserServicesObj.GetAllUsersString));
-            OperationList.Add(new Operation("Create User", AccessRole.Admin, true, 7, State.Logined, DataFacade.GetDataFacade().UserServicesObj.Add));
-            OperationList.Add(new Operation("Delete User", AccessRole.Admin, true, 8, State.Logined, DataFacade.GetDataFacade().UserServicesObj.DeleteUser));
-            OperationList.Add(new Operation("Create Project", AccessRole.Admin, true, 9, State.Logined, DataFacade.GetDataFacade().ProjectServicesObj.AddProject));
-            OperationList.Add(new Operation("Delete Project", AccessRole.Admin, true, 10, State.Logined, DataFacade.GetDataFacade().ProjectServicesObj.DeleteProject));
-            OperationList.Add(new Operation("Report: Active Users in Project", AccessRole.ProjectLeader, true, 12, State.Logined, DataFacade.GetDataFacade().ReportActiveUsers));
-            OperationList.Add(new Operation("Report: Users, who are active now", AccessRole.ProjectLeader, true, 13, State.Logined, DataFacade.GetDataFacade().UserServicesObj.GetAllActiveUsers));
-            OperationList.Add(new Operation("Quit", AccessRole.Any, true, 0, State.Any, DataFacade.GetDataFacade().Quit));
+            _OperationList.Add(new Operation("LogIn", null, true,1, UserLoginState.NotLogined,DataFacade.GetDataFacade().UserServicesObj.Login));
+            _OperationList.Add(new Operation("LogOut", null, false, 2, UserLoginState.Logined, DataFacade.GetDataFacade().UserServicesObj.LogOut));
+            _OperationList.Add(new Operation("Available Projects", null, true, 3, UserLoginState.Logined, DataFacade.GetDataFacade().ProjectServicesObj.GetProjectsString));
+            _OperationList.Add(new Operation("Submit Time", null, true, 4, UserLoginState.Logined, DataFacade.GetDataFacade().UserServicesObj.SubmitTime));
+            _OperationList.Add(new Operation("View Submitted Time", null, true, 5, UserLoginState.Logined, DataFacade.GetDataFacade().UserServicesObj.ViewSubmittedTime));
+            _OperationList.Add(new Operation("View All Users", null, true, 6, UserLoginState.Logined, DataFacade.GetDataFacade().UserServicesObj.GetAllUsersString));
+            _OperationList.Add(new Operation("Create User", AccessRole.Admin, true, 7, UserLoginState.Logined, DataFacade.GetDataFacade().UserServicesObj.Add));
+            _OperationList.Add(new Operation("Delete User", AccessRole.Admin, true, 8, UserLoginState.Logined, DataFacade.GetDataFacade().UserServicesObj.DeleteUser));
+            _OperationList.Add(new Operation("Create Project", AccessRole.Admin, true, 9, UserLoginState.Logined, DataFacade.GetDataFacade().ProjectServicesObj.AddProject));
+            _OperationList.Add(new Operation("Delete Project", AccessRole.Admin, true, 10, UserLoginState.Logined, DataFacade.GetDataFacade().ProjectServicesObj.DeleteProject));
+            _OperationList.Add(new Operation("Report: Active Users in Project", AccessRole.ProjectLeader, true, 12, UserLoginState.Logined, DataFacade.GetDataFacade().ReportActiveUsers));
+            _OperationList.Add(new Operation("Report: Users, who are active now", AccessRole.ProjectLeader, true, 13, UserLoginState.Logined, DataFacade.GetDataFacade().UserServicesObj.GetAllActiveUsers));
+            _OperationList.Add(new Operation("Quit", null, true, 0, null, DataFacade.GetDataFacade().Quit));
         }
 
         internal bool ProcessAnswer(int answer ,int user)
@@ -48,48 +46,44 @@ namespace Business
                 DataFacade.GetDataFacade().Delegates.MessageDelegate("Error! User Id not found!");
                 return false;
             }
-
             
-            State StateUser;
+            UserLoginState StateUser;
             AccessRole RoleUser;
             if (UserDataObj == null)
             {
-                RoleUser = AccessRole.Any;
-                StateUser = State.NotLogined;
+                RoleUser = AccessRole.User;
+                StateUser = UserLoginState.NotLogined;
             }
             else
             {
                 RoleUser = UserDataObj.UserObj.Role;
-                StateUser = State.Logined;
+                StateUser = UserLoginState.Logined;
             }
+            
+            Operation operation = _OperationList.Single(x => x.NumberOpreation == answer);
 
-            Operation operation = OperationList.Single(x => x.NumberOpreation == answer);
-
-            //if operation.AvailableFor== UserDataObj.UserObj.
-            //// here are some checks
-            //operation.DoOperation(user);
-
-
-
-
-
-
-
-            foreach (Operation op in OperationList)
+            if ((operation.StateLogin == null || operation.StateLogin == StateUser) && (operation.AvailableFor == null || operation.AvailableFor == RoleUser))
             {
-                if (answer== op.NumberOpreation)
-                {
-                    if ((op.StateLogin == StateUser || op.StateLogin == State.Any) && (op.AvailableFor == RoleUser || op.AvailableFor == AccessRole.Any))
-                    {
-                        //if (user == null)
-                        //    op.DoOperation(null);
-                        //else
-                        op.DoOperation(user);
-                        return true;
-                    }
-                }         
-                
+                operation.DoOperation(user);
+                return true;
             }
+            
+
+            //foreach (Operation op in _OperationList)
+            //{
+            //    if (answer== op.NumberOpreation)
+            //    {
+            //        if ((op.StateLogin == null || op.StateLogin == StateUser) && (op.AvailableFor == RoleUser || op.AvailableFor == AccessRole.Any))
+            //        {
+            //            //if (user == null)
+            //            //    op.DoOperation(null);
+            //            //else
+            //            op.DoOperation(user);
+            //            return true;
+            //        }
+            //    }         
+                
+            //}
             return false;
         }
 
@@ -107,25 +101,25 @@ namespace Business
             }
 
 
-            State StateUser;
+            UserLoginState StateUser = UserLoginState.NotLogined;
             AccessRole RoleUser;
             if (UserDataObj == null)
             {
-                RoleUser = AccessRole.Any;
-                StateUser = State.NotLogined;
+                RoleUser = AccessRole.User;
+                StateUser = UserLoginState.NotLogined;
             }
             else
             {
                 RoleUser = UserDataObj.UserObj.Role;
-                StateUser = State.Logined;
+                StateUser = UserLoginState.Logined;
             }      
 
             StringBuilder Result = new();
             Result.AppendLine();
             Result.AppendLine("Available operations");
-            foreach (Operation op in OperationList)
+            foreach (Operation op in _OperationList)
             {
-                if ((op.StateLogin == StateUser || op.StateLogin == State.Any) && (op.AvailableFor == RoleUser || op.AvailableFor == AccessRole.Any))
+                if ((op.StateLogin == null || op.StateLogin == StateUser) && (op.AvailableFor == null||op.AvailableFor == RoleUser ))
                 {
                     Result.AppendLine(op.Name + " " +op.NumberOpreation.ToString());
                 }

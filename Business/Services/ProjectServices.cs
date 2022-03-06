@@ -10,21 +10,19 @@ namespace Business
 {
     public class ProjectServices
     {
-        private List<ProjectData> ProjectDataRepository = new();        
-        
+        private List<ProjectData> ProjectDataRepository = new();       
         private UserServices UsServices;
+        public delegate void Notify(String N);
 
-        internal ProjectServices()//DataFacade facade)
-        {
-            //Facade = facade;
-            //ProjectData.SetFacade(Facade);            
+        internal ProjectServices()
+        {            
         }
         internal void SetUserServices(UserServices US)
         {
             UsServices = US;
         }
         
-        internal void AddProject(Int32 us)//Func<string,AccessRole, int> GetProjectLeaderId)
+        internal void AddProject(Int32 us)
         {
             String ProjectName = DataFacade.GetDataFacade().Delegates.RequestDelegate("Enter project name: ");
             String DateString = DataFacade.GetDataFacade().Delegates.RequestDelegate("Enter project expiration date: ");
@@ -32,34 +30,33 @@ namespace Business
             if (!DateTime.TryParse(DateString, out Date))
             {
                 DataFacade.GetDataFacade().Delegates.MessageDelegate("wrong Date");
-                return;// false;
+                return;
             }
             int MaxHours = 0;
             if (!int.TryParse(DataFacade.GetDataFacade().Delegates.RequestDelegate("Enter max hours: "), out MaxHours))
             {
                 DataFacade.GetDataFacade().Delegates.MessageDelegate("wrong value");
-                return;// false;
+                return;
             }
             String ProjectLeaderName = DataFacade.GetDataFacade().Delegates.RequestDelegate("Enter Ppoject leader Name: ");
             int ProjectLeaderId;
             try
             {
-                ProjectLeaderId = DataFacade.GetDataFacade().GetUserIdByName(ProjectLeaderName,AccessRole.ProjectLeader);
+                ProjectLeaderId = DataFacade.GetDataFacade().UserServicesObj.GetUserIdByName(ProjectLeaderName,AccessRole.ProjectLeader);
             }
             catch (KeyNotFoundException e)
             {
                 DataFacade.GetDataFacade().Delegates.MessageDelegate("wrong Leader Name");
-                return;// false;
+                return;
             }
             int MaxProjectId = GetMaxProjectId();            
             ProjectDataRepository.Add(new ProjectData(MaxProjectId, ProjectName, Date, MaxHours, ProjectLeaderId));
             DataFacade.GetDataFacade().Delegates.MessageDelegate("Project added successfully");
-            return;// true;
+            return;
 
         }
         internal void DeleteProject(Int32 userId)
-        {          
-            //if (name == null)
+        {                      
             string name = DataFacade.GetDataFacade().Delegates.RequestDelegate(" Enter project name: ");
             
             foreach (ProjectData project in ProjectDataRepository)
@@ -102,7 +99,7 @@ namespace Business
                 Result.Append(Proj.GetDataString(FindNameById));   
             }
             DataFacade.GetDataFacade().Delegates.MessageDelegate(Result.ToString());
-            return;// Result.ToString();
+            return;
         }
         internal int FindIdByName(String project)
         {
@@ -125,8 +122,7 @@ namespace Business
                     return true;
             }
             return false;
-        }      
-       
+        }             
     }
-    public delegate void Notify(String N);
+    
 }

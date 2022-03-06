@@ -8,8 +8,7 @@ namespace Infrastructure
 {
     
     public enum AccessRole
-    {
-        Any,
+    {        
         User,
         Admin,
         ProjectLeader

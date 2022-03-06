@@ -9,16 +9,14 @@ using Infrastructure;
 namespace Business
 {
     public class UserServices
-    {        
-        private DataFacade Facade;
+    {                
         public event Action<string> UserLogined;
         internal ProjectServices ProjServices;
         private List<UserData> _UserDataList = new List<UserData>();
 
-        internal UserServices ()//DataFacade facade)
+        internal UserServices ()
         {          
-            //UserLogined += DataFacade.GetDataFacade().Delegates.MessageDelegate;            
-            //UserLogined += Facade.Delegates.MessageDelegate;            
+
         }
         internal void SetEventsDelegates()
         {
@@ -89,21 +87,19 @@ namespace Business
                         user = Data;
                         user.SetActive();
                         UserLogined?.Invoke(user.GetAccessRole().ToString() + " Logined! ");
-                        DataFacade.GetDataFacade().Delegates.ChangeUserDelegate(user.GetId());
-   
-                        //userId = user.UserObj.Id;
+                        DataFacade.GetDataFacade().Delegates.ChangeUserDelegate(user.GetId());   
                         return;
                     }
                 }
                 DataFacade.GetDataFacade().Delegates.MessageDelegate("User not found, please check login/password");
-                //userId = -1;
+                
 
             }
             else DataFacade.GetDataFacade().Delegates.MessageDelegate("You are already logined, please log out!");
             return;
         }
         
-        public void LogOut(Int32 user)// Action<UserData> ChangeUserDelegate)         
+        public void LogOut(Int32 user)   
         {
             UserData UserDataObj = GetUserDataById(user);       
 
@@ -150,7 +146,7 @@ namespace Business
             UserDataToPasteEnty.AddSubmittedTime(entry);
         }
 
-        public void ViewSubmittedTime(Int32 userId)//,Func<int,string> FindNameById)
+        public void ViewSubmittedTime(Int32 userId)
         {            
             foreach (UserData UD in _UserDataList)
             {
@@ -221,20 +217,20 @@ namespace Business
                         if (ProjServices.IsUserResponsible(U.GetId()))
                         {
                             DataFacade.GetDataFacade().Delegates.MessageDelegate(" There are some projects under responsibility of this project leader. Deleting denied!");
-                            return;// false;
+                            return;
                         }                        
                     }
                     result = _UserDataList.Remove(U);
                     if (result) DataFacade.GetDataFacade().Delegates.MessageDelegate(" User is deleted successfully. ");
                     else DataFacade.GetDataFacade().Delegates.MessageDelegate(" Error! User is not deleted! ");
-                    return;// result;                    
+                    return;             
                 }
             }
             DataFacade.GetDataFacade().Delegates.MessageDelegate(" Deleted object not found! ");
-            return;// false;               
+            return;               
             
         }
-        internal int GetUserIdByName(string Name,AccessRole role=AccessRole.Any)
+        internal int GetUserIdByName(string Name,AccessRole role=AccessRole.User)
         {
             foreach (UserData U in _UserDataList)
             {
@@ -262,8 +258,7 @@ namespace Business
             if (id == -1)//if user not logined, client stores -1.
                 return null;
             else
-            {
-                
+            {                
                 var UserDataObj = _UserDataList.Single(x => x.UserObj.Id == id);
                 if (UserDataObj != null)
                     return UserDataObj;
@@ -275,11 +270,10 @@ namespace Business
             }
         }
         
-            private int GetMaxIndex()
+        private int GetMaxIndex()
         {
             return _UserDataList.Max(u => u.GetId());
         }     
-
 
         internal string ReportActiveUsers(Func<string,int> GetProjectIdByName)
         {

@@ -25,8 +25,8 @@ namespace Business
         }       
         private DataFacade()
         {
-            UserServicesObj = new UserServices();// this);
-            ProjectServicesObj = new ProjectServices();// this);
+            UserServicesObj = new UserServices();
+            ProjectServicesObj = new ProjectServices();
             UserServicesObj.SetProjectServices(ProjectServicesObj);
             ProjectServicesObj.SetUserServices(UserServicesObj);           
         }
@@ -36,16 +36,14 @@ namespace Business
                 _s_DataFacadeObj = new DataFacade();
             return _s_DataFacadeObj;
         }
-        //internal void Initialize(Func<String, String> Request, Action<String> Message, Action<UserData> SetUser)
-        //internal void Initialize(Func<String, String> Request, Action<String> Message, Action<Int32> SetUser)
-        
+       
         internal void SetCallBacks(Func<String, String> Request, Action<String> Message, Action<Int32> SetUser)
         {
             Delegates.RequestDelegate = Request;
             Delegates.MessageDelegate = Message;
             Delegates.ChangeUserDelegate = SetUser;
             UserServicesObj.SetEventsDelegates();
-            MenuObj = new();// this);
+            MenuObj = new();
         }
         internal bool ProcessAnswer(int answer, int user)
         {
@@ -56,10 +54,10 @@ namespace Business
         {
             Delegates.MessageDelegate(UserServicesObj.ReportActiveUsers(ProjectServicesObj.FindIdByName));
         }               
-        internal int GetUserIdByName(string UserName,AccessRole role)
-        {
-            return UserServicesObj.GetUserIdByName(UserName,role);
-        }            
+        //internal int GetUserIdByName(string UserName,AccessRole role)
+        //{
+        //    return UserServicesObj.GetUserIdByName(UserName,role);
+        //}            
 
         public string GetOperations(Int32 userId)
         {

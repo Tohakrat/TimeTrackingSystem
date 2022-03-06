@@ -10,22 +10,17 @@ namespace Business
 {
     internal class ProjectData
     {
-        private Project ProjectObj;
-        //private static DataFacade Facade;        
+        private Project _ProjectObj;
+        
         internal ProjectData(int id, string name, DateTime expirationDate, int maxHours, int leaderUserId)
         {           
-            ProjectObj = new Project(id, name, expirationDate, maxHours, leaderUserId);
+            _ProjectObj = new Project(id, name, expirationDate, maxHours, leaderUserId);
         }
         internal ProjectData(Project project)
         {
-            ProjectObj = project;
+            _ProjectObj = project;
         }
-        //internal static void SetFacade()//DataFacade facade)
-        //{
-        //    //Facade = facade;
-        //}
-
-
+        
         internal ProjectData BuildprojectData(Func<string, AccessRole, int> GetProjectLeaderId, Func<int> MaxId)
         {
             String ProjectName = DataFacade.GetDataFacade().Delegates.RequestDelegate("Enter project name: ");
@@ -59,28 +54,28 @@ namespace Business
         }
         internal int GetProjId()
         {
-            return ProjectObj.Id;
+            return _ProjectObj.Id;
         }
         internal string GetName()
         {
-            return ProjectObj.Name;
+            return _ProjectObj.Name;
         }
         internal string GetDataString(Func<int,string> GetLeaderIdByName)
         {
             StringBuilder Result = new StringBuilder();
             Result.Append(System.Environment.NewLine);
-            Result.Append(ProjectObj.Name);
+            Result.Append(_ProjectObj.Name);
             Result.Append(" Exp Date: ");
-            Result.Append(ProjectObj.ExpirationDate.Date.ToShortDateString());
+            Result.Append(_ProjectObj.ExpirationDate.Date.ToShortDateString());
             Result.Append(" Max hours: ");
-            Result.Append(ProjectObj.MaxHours);
+            Result.Append(_ProjectObj.MaxHours);
             Result.Append(" Project Leader: ");
-            Result.Append(GetLeaderIdByName(ProjectObj.LeaderUserId));
+            Result.Append(GetLeaderIdByName(_ProjectObj.LeaderUserId));
             return Result.ToString();
         }
         internal int GetLeaderId()
         {
-            return ProjectObj.Id;
+            return _ProjectObj.Id;
         }
     }
 }

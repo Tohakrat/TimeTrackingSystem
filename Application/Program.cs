@@ -10,7 +10,7 @@ namespace Application
 {
     class Program
     {
-        private static int UserDataId=-1;
+        private static int _s_UserDataId=-1;
         static void Main(string[] args)
         {         
             
@@ -21,14 +21,14 @@ namespace Application
 
             while (true)
             {
-                Console.WriteLine(Proxy.GetOperations(UserDataId));
+                Console.WriteLine(Proxy.GetOperations(_s_UserDataId));
                 int answer;
                 if (int.TryParse(Console.ReadLine(),out answer)==false)
                 {
                     Console.WriteLine("Wrong data.");
                     continue;
                 };
-                Proxy.DoAction(answer, UserDataId);
+                Proxy.DoAction(answer, _s_UserDataId);
             }            
         }    
         static void Message(string m)
@@ -42,7 +42,7 @@ namespace Application
         }
         static void ChangeUser(Int32 userReceived)
         {
-            UserDataId = userReceived;
+            _s_UserDataId = userReceived;
         }
     }
 }

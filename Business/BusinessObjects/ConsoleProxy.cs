@@ -4,20 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
 namespace Business
 {
     public class ConsoleProxy : IProxy
     {
         public DataFacade Facade { get; set; }
-        //public ConsoleProxy(Func<String, String> Request, Action<String> Message)//, Action<UserData> SetUser)
-        public ConsoleProxy()//, Action<UserData> SetUser)
-            //public ConsoleProxy()
-        {
-            Facade = DataFacade.GetDataFacade();
-            //Facade.Initialize(Request, Message, SetUser);            
-            Facade.PopulateData(); 
+        
+        public ConsoleProxy()
             
+        {
+            Facade = DataFacade.GetDataFacade();                 
+            Facade.PopulateData();             
         }
 
         public void DoAction(int answer, int user)
@@ -35,9 +32,7 @@ namespace Business
         }
         public void SetCallBacks(Func<String, String> Request, Action<String> Message, Action<Int32> SetUser)
         {
-            Facade.SetCallBacks(Request, Message,SetUser);//, SetUser);
-            //Facade.
+            Facade.SetCallBacks(Request, Message,SetUser);            
         }
-
     }
 }

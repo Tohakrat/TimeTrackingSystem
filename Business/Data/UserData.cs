@@ -8,8 +8,7 @@ using Infrastructure;
 namespace Business
 {   
     public class UserData
-    {     
-        //private static DataFacade Facade;
+    {             
         public UserData(int id, string username, string password, AccessRole role, string fullName = null )
         {   
             UserObj = new User( id,  username,  password,  role,  fullName); 
@@ -17,11 +16,7 @@ namespace Business
         public UserData(User user)
         {
             UserObj = user;
-        }
-        //internal static void SetFacade(DataFacade facade)
-        //{
-        //    Facade = facade;
-        //}
+        }        
         internal User UserObj;
         private List<TimeTrackEntry> SybmittedTimeList = new();
         
@@ -48,7 +43,6 @@ namespace Business
                 return true;
             else return false;
         }
-
         internal void SetActive()
         {
             UserObj.IsActive = true;            
@@ -69,7 +63,6 @@ namespace Business
         {
             return UserObj.Role;
         }
-
         internal string GetFullName()
         {
             return UserObj.FullName;
