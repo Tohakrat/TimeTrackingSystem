@@ -18,7 +18,12 @@ namespace Application
             //IProxy Proxy = new ConsoleProxy(Request, Message, ChangeUser);
             IProxy Proxy = new ConsoleProxy();
             Proxy.SetCallBacks(Request, Message, ChangeUser);
-            
+
+
+            Mediator MediObj = Mediator.GetMediator();
+            MediObj.SubscribeInsert(InsertUserSubscriber);
+            StubPopulater SP = new StubPopulater();
+            SP.Seed();
 
             while (true)
             {
@@ -44,6 +49,14 @@ namespace Application
         static void ChangeUser(Int32 userReceived)
         {
             _s_UserDataId = userReceived;
+        }
+        static public void InsertUserSubscriber(Object Sender, UserEventArgs E)
+        {
+            Console.WriteLine("Program: " + E.Info);
+        }
+        static public void DeleteUserSubscriber(Object Sender, UserEventArgs E)
+        {
+            Console.WriteLine("Program: " + E.Info);
         }
     }
 }

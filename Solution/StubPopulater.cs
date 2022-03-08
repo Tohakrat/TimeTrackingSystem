@@ -4,18 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataContracts;
+using Infrastructure;
 
 namespace Solution
 {
-    internal class StubPopulater
+    public class StubPopulater
     {
-        private Mediator MediatorObj;
-        public StubPopulater (Mediator mediatorObj)
+        //private Mediator MediatorObj;
+        public StubPopulater ()
         {
-            MediatorObj = mediatorObj;
+            //MediatorObj = mediatorObj;
         }
-        internal void Seed()
+        public void Seed()
         {
+            Mediator MediatorObj = Mediator.GetMediator();
+            MediatorObj.SubscribeInsert(InsertSubscriber);
             MediatorObj.InsertUser(new User(0, "Vasia", "1234", AccessRole.User, "Vasily Ivanovich"));
             MediatorObj.InsertUser(new User(1, "Petia", "1234", AccessRole.User, "Petr Iosifovich"));
             MediatorObj.InsertUser(new User(2, "u", "u", AccessRole.User, "Uriy Nickolaevich"));
@@ -24,6 +27,10 @@ namespace Solution
             MediatorObj.InsertUser(new User(5, "a", "a", AccessRole.Admin, "Andrey Mihailovich"));
             MediatorObj.InsertUser(new User(6, "Vania", "1234", AccessRole.ProjectLeader, "Ivan Vladimirovich"));
             MediatorObj.InsertUser(new User(7, "p", "p", AccessRole.ProjectLeader, "Patrick"));
+        }
+        public void InsertSubscriber(Object Sender, UserEventArgs E)
+        {
+            Console.WriteLine("Populator: "+E.Info);
         }
     }
 }

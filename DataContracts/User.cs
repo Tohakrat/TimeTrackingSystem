@@ -24,6 +24,10 @@ namespace DataContracts
         internal string FullName { get; set; }
         internal bool IsActive { get; set; }
         internal AccessRole Role { get; set; }
+        public String GetFullName()
+        {
+            return FullName;
+        }
 
     }
 }
