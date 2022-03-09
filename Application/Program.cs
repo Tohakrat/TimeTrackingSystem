@@ -13,8 +13,7 @@ namespace Application
     {
         private static int _s_UserDataId=-1;
         static void Main(string[] args)
-        {         
-            
+        {                     
             //IProxy Proxy = new ConsoleProxy(Request, Message, ChangeUser);
             IProxy Proxy = new ConsoleProxy();
             Proxy.SetCallBacks(Request, Message, ChangeUser);
@@ -22,6 +21,7 @@ namespace Application
 
             Mediator MediObj = Mediator.GetMediator();
             MediObj.SubscribeInsert(InsertUserSubscriber);
+            MediObj.SubscribeDelete(DeleteUserSubscriber);
             StubPopulater SP = new StubPopulater();
             SP.Seed();
 

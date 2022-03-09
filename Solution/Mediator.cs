@@ -12,9 +12,12 @@ namespace Solution
     {
         //private List<EventCover> _RepositoryCoverEvent;
         private IRepository<User> _RepositoryUser;
+        private IRepository<Project> _RepositoryProject;
+        private IRepository<TimeTrackEntry> _RepositoryTimeTrackEntry;
         private List<EventHandler<UserEventArgs>> UserInsertedList = new();
         private List<EventHandler<UserEventArgs>> UserDeletedList = new();
         private bool _disposed = false;
+        private AbstractRepositoryProvider _Provider;
         private event EventHandler<UserEventArgs> UserInserted
         {
             add
@@ -32,8 +35,12 @@ namespace Solution
         private static Mediator s_Mediator;
         private Mediator()
         {
-            Mapper Map= new Mapper();
-            _RepositoryUser = Map.GetUserRepository();            
+            _Provider = new XmlRepositoryProvider();
+            
+            _RepositoryUser = _Provider.GetUserRepository();            
+            _RepositoryProject = _Provider.GetProjectRepository();     
+            _RepositoryTimeTrackEntry = _Provider.GetTimeTrackEntryRepository();     
+            
         }
         ~Mediator() => Dispose(false);
         public static Mediator GetMediator()
@@ -49,9 +56,7 @@ namespace Solution
             OnUserInserted(e);
         }
         public void SubscribeInsert(EventHandler<UserEventArgs> actionToSubscribe)
-        {
-            //UserInserted += actionToSubscribe;
-            //ActionList.Add(actionToSubscribe);
+        {            
             UserInserted += actionToSubscribe;
         }
         public void UnsubscribeInsert(EventHandler<UserEventArgs> actionToSubscribe)
@@ -71,13 +76,11 @@ namespace Solution
             foreach (EventHandler<UserEventArgs>  Handler in UserInsertedList)
             {
                 Handler?.Invoke(this, new UserEventArgs(e.Info));
-            }
-            
+            }            
         }
         public void Dispose()
         {            
-            Dispose(true);
-            
+            Dispose(true);            
             //GC.SuppressFinalize(this);
         }
         protected virtual void Dispose(bool itIsSafeToAlsoFreeManagedObjects)

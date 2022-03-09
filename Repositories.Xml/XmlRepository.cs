@@ -32,14 +32,8 @@ namespace Repositories.Xml
         public event EventHandler<string> ObjectInserted;
         public event EventHandler<string> ObjectDeleted;
     }
-    public class XmlUserRepository: XmlObjectRepository<User>
-    {
-
-    }
-    public class XmlProjectRepository: XmlObjectRepository<Project>
-    {
-
-    } 
+    
+   
 
 
 
