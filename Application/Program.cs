@@ -19,23 +19,27 @@ namespace Application
             Proxy.SetCallBacks(Request, Message, ChangeUser);
 
 
-            Mediator MediObj = Mediator.GetMediator();
-            MediObj.SubscribeInsert(InsertUserSubscriber);
-            MediObj.SubscribeDelete(DeleteUserSubscriber);
-            StubPopulater SP = new StubPopulater();
-            SP.Seed();
-
-            while (true)
+            using (Mediator MediObj = Mediator.GetMediator())
             {
-                Console.WriteLine(Proxy.GetOperations(_s_UserDataId));
-                int answer;
-                if (int.TryParse(Console.ReadLine(),out answer)==false)
+                MediObj.SubscribeInsert(InsertUserSubscriber);
+                MediObj.SubscribeDelete(DeleteUserSubscriber);
+                StubPopulater SP = new StubPopulater();
+                SP.Seed();
+                while (true)
                 {
-                    Console.WriteLine("Wrong data.");
-                    continue;
-                };
-                Proxy.DoAction(answer, _s_UserDataId);
-            }            
+                    Console.WriteLine(Proxy.GetOperations(_s_UserDataId));
+                    int answer;
+                    if (int.TryParse(Console.ReadLine(), out answer) == false)
+                    {
+                        Console.WriteLine("Wrong data.");
+                        continue;
+                    };
+                    Proxy.DoAction(answer, _s_UserDataId);
+                }
+            }
+            
+
+                        
         }    
         static void Message(string m)
         {
