@@ -13,6 +13,8 @@ namespace Business
         private List<ProjectData> ProjectDataRepository = new();       
         private UserServices UsServices;
         public delegate void Notify(String N);
+        public event EventHandler<UserEventArgs> UserAdded;
+        public event EventHandler<UserEventArgs> UserDeleted;
 
         internal ProjectServices()
         {            

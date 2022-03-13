@@ -28,7 +28,7 @@ namespace Solution
             MediatorObj.InsertUser(new User(6, "Vania", "1234", AccessRole.ProjectLeader, "Ivan Vladimirovich"));
             MediatorObj.InsertUser(new User(7, "p", "p", AccessRole.ProjectLeader, "Patrick"));
         }
-        public void InsertSubscriber(Object Sender, UserEventArgs E)
+        public void InsertSubscriber(Object Sender, UserStringEventArgs E)
         {
             Console.WriteLine("Populator: "+E.Info);
         }

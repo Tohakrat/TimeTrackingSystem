@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace Solution
 {
    
-    public class UserEventArgs : EventArgs
+    public class UserStringEventArgs : EventArgs
     {
-        public UserEventArgs(string u)
+        public UserStringEventArgs(string u)
         {
             Info = u;
         }

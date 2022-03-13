@@ -13,7 +13,7 @@ namespace Solution
         {
             MediatorObj = mediatorObj;
         }
-        private void FollowToUser(Object sender, UserEventArgs e)
+        private void FollowToUser(Object sender, UserStringEventArgs e)
         {
 
             Console.WriteLine(" EventFollower:"+e.Info);

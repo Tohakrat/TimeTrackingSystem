@@ -14,11 +14,11 @@ namespace Solution
         private IRepository<User> _RepositoryUser;
         private IRepository<Project> _RepositoryProject;
         private IRepository<TimeTrackEntry> _RepositoryTimeTrackEntry;
-        private List<EventHandler<UserEventArgs>> UserInsertedList = new();
-        private List<EventHandler<UserEventArgs>> UserDeletedList = new();
+        private List<EventHandler<UserStringEventArgs>> UserInsertedList = new();
+        private List<EventHandler<UserStringEventArgs>> UserDeletedList = new();
         private bool _disposed = false;
         private AbstractRepositoryProvider _Provider;
-        private event EventHandler<UserEventArgs> UserInserted
+        private event EventHandler<UserStringEventArgs> UserInserted
         {
             add
             {
@@ -31,7 +31,7 @@ namespace Solution
         }
       
     
-    private event EventHandler<UserEventArgs> UserDeleted;
+        private event EventHandler<UserStringEventArgs> UserDeleted;
         private static Mediator s_Mediator;
         private Mediator()
         {
@@ -52,30 +52,30 @@ namespace Solution
         public void InsertUser(User user)
         {
             _RepositoryUser.Insert(user);
-            UserEventArgs e = new UserEventArgs(new String("UserAdded: "+user.GetFullName()) );
+            UserStringEventArgs e = new UserStringEventArgs(new String("UserAdded: "+user.GetFullName()) );
             OnUserInserted(e);
         }
-        public void SubscribeInsert(EventHandler<UserEventArgs> actionToSubscribe)
+        public void SubscribeInsert(EventHandler<UserStringEventArgs> actionToSubscribe)
         {            
             UserInserted += actionToSubscribe;
         }
-        public void UnsubscribeInsert(EventHandler<UserEventArgs> actionToSubscribe)
+        public void UnsubscribeInsert(EventHandler<UserStringEventArgs> actionToSubscribe)
         {
             UserInserted -= actionToSubscribe;            
         }
-        public void SubscribeDelete(EventHandler<UserEventArgs> actionToSubscribe)
+        public void SubscribeDelete(EventHandler<UserStringEventArgs> actionToSubscribe)
         {
             UserDeleted += actionToSubscribe;            
         }
-        public void UnsubscribeDelete(EventHandler<UserEventArgs> actionToSubscribe)
+        public void UnsubscribeDelete(EventHandler<UserStringEventArgs> actionToSubscribe)
         {
             UserDeleted -= actionToSubscribe;            
         }
-        internal virtual void OnUserInserted(UserEventArgs e)
+        internal virtual void OnUserInserted(UserStringEventArgs e)
         {
-            foreach (EventHandler<UserEventArgs>  Handler in UserInsertedList)
+            foreach (EventHandler<UserStringEventArgs>  Handler in UserInsertedList)
             {
-                Handler?.Invoke(this, new UserEventArgs(e.Info));
+                Handler?.Invoke(this, new UserStringEventArgs(e.Info));
             }            
         }
         public void Dispose()

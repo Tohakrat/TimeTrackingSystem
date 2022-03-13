@@ -8,16 +8,17 @@ using Infrastructure;
 
 namespace Business
 {
-    public class UserServices
+    public sealed class UserServices
     {                
         public event Action<string> UserLogined;
         internal ProjectServices ProjServices;
         private List<UserData> _UserDataList = new List<UserData>();
+        public event EventHandler<UserEventArgs> UserAdded;
 
         internal UserServices ()
-        {          
-
+        { 
         }
+        
         internal void SetEventsDelegates()
         {
             UserLogined += DataFacade.GetDataFacade().Delegates.MessageDelegate;
@@ -26,14 +27,14 @@ namespace Business
         {
             ProjServices = PS;            
         }
-
-        internal void AddObject(UserData userData)
-        {
-            _UserDataList.Add(userData);
-        }
+        //internal void AddObject(UserData userData)
+        //{
+        //    _UserDataList.Add(userData);
+        //}
         internal void AddObject(User user)
         {
             _UserDataList.Add(new UserData(user));
+            UserAdded?.Invoke(this,new UserEventArgs(user));
         }        
         
         internal void GetAllActiveUsers(Int32 user)
@@ -159,10 +160,10 @@ namespace Business
             DataFacade.GetDataFacade().Delegates.MessageDelegate("\n User not found!");            
         }
 
-        public void Add(UserData user)
-        {
-            _UserDataList.Add(user);            
-        }
+        //public void Add(UserData user)
+        //{
+        //    _UserDataList.Add(user);            
+        //}
         public void Add(int user)
         {
             int UserRole;
@@ -185,8 +186,9 @@ namespace Business
             String Password = DataFacade.GetDataFacade().Delegates.RequestDelegate("Enter password: ");
             String FullName = DataFacade.GetDataFacade().Delegates.RequestDelegate("Enter Full Name: ");
             int MaxIndex = GetMaxIndex();
-            UserData UserToAdd = new UserData(MaxIndex + 1, Name, Password,(AccessRole)UserRole, FullName) ;
-            _UserDataList.Add(UserToAdd) ;
+            AddObject(new User(MaxIndex + 1, Name, Password, (AccessRole)UserRole, FullName));
+            //UserData UserToAdd = new UserData(MaxIndex + 1, Name, Password,(AccessRole)UserRole, FullName) ;
+            //_UserDataList.Add(UserToAdd) ;
             DataFacade.GetDataFacade().Delegates.MessageDelegate("Successfully ");
             return;// true;    
         }

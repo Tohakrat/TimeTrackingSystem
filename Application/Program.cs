@@ -54,11 +54,11 @@ namespace Application
         {
             _s_UserDataId = userReceived;
         }
-        static public void InsertUserSubscriber(Object Sender, UserEventArgs E)
+        static public void InsertUserSubscriber(Object Sender, UserStringEventArgs E)
         {
             Console.WriteLine("Program: " + E.Info);
         }
-        static public void DeleteUserSubscriber(Object Sender, UserEventArgs E)
+        static public void DeleteUserSubscriber(Object Sender, UserStringEventArgs E)
         {
             Console.WriteLine("Program: " + E.Info);
         }
