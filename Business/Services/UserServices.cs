@@ -13,7 +13,7 @@ namespace Business
         public event Action<string> UserLogined;
         internal ProjectServices ProjServices;
         private List<UserData> _UserDataList = new List<UserData>();
-        public event EventHandler<UserEventArgs> UserAdded;
+        public event EventHandler<ObjectEventArgs<User>> UserAdded;
 
         internal UserServices ()
         { 
@@ -34,7 +34,7 @@ namespace Business
         internal void AddObject(User user)
         {
             _UserDataList.Add(new UserData(user));
-            UserAdded?.Invoke(this,new UserEventArgs(user));
+            UserAdded?.Invoke(this,new ObjectEventArgs<User> (user));
         }        
         
         internal void GetAllActiveUsers(Int32 user)

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using DataContracts;
 using Contracts;
 using Repositories.Xml;
+using Business;
 
 namespace Solution
 {
@@ -19,7 +20,7 @@ namespace Solution
         {
             _RepositoryUser = repoUser;
             UserConnector = new BusinessAssemblyEntityFollowerOfT<User>(_RepositoryUser);
-
+            DataFacade.GetDataFacade().UserServicesObj.UserAdded += UserConnector.OnObjectAdded;
         }
 
 

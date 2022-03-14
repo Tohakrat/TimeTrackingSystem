@@ -28,5 +28,9 @@ namespace Solution
         {
             HandlerToFollow += OnObjectAdded;
         }
+        internal void ConnectDeleting(EventHandler<ObjectEventArgs<T>> HandlerToFollow)
+        {
+            HandlerToFollow += OnObjectDeleted;
+        }
     }
 }
