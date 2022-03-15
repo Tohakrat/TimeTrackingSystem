@@ -18,6 +18,7 @@ namespace Solution
         private List<EventHandler<UserStringEventArgs>> UserDeletedList = new();
         private bool _disposed = false;
         private AbstractRepositoryProvider _Provider;
+        private BusinessConnector Connector; 
         private event EventHandler<UserStringEventArgs> UserInserted
         {
             add
@@ -39,7 +40,8 @@ namespace Solution
             
             _RepositoryUser = _Provider.GetUserRepository();            
             _RepositoryProject = _Provider.GetProjectRepository();     
-            _RepositoryTimeTrackEntry = _Provider.GetTimeTrackEntryRepository();     
+            _RepositoryTimeTrackEntry = _Provider.GetTimeTrackEntryRepository();
+            Connector = new BusinessConnector((Repositories.Xml.XmlObjectRepository<User>)_RepositoryUser);
             
         }
         ~Mediator() => Dispose(false);
@@ -95,14 +97,9 @@ namespace Solution
                 UserInsertedList.Clear();
                 UserDeletedList.Clear();
                 // TODO: dispose managed state (managed objects).
-            }
-
-            // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
-            // TODO: set large fields to null.
+            }            
 
             _disposed = true;
         }
-
-    }
-    
+    }    
 }

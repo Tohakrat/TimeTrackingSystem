@@ -7,11 +7,9 @@ using System.Threading.Tasks;
 namespace Solution
 {
     internal class EventFollower
-    {
-        Mediator MediatorObj;
-        EventFollower(Mediator mediatorObj)
-        {
-            MediatorObj = mediatorObj;
+    {        
+        EventFollower()
+        {            
         }
         private void FollowToUser(Object sender, UserStringEventArgs e)
         {

@@ -9,7 +9,7 @@ using DataContracts;
 
 namespace Solution
 {
-    internal class BusinessAssemblyEntityFollowerOfT<T> where T: BaseEntity//
+    internal class BusinessAssemblyEntityFollowerOfT<T> where T: BaseEntity//This class is needed for the Business assambly controls Repositories.Xml.
     {
         XmlObjectRepository<T> Repository;
         internal BusinessAssemblyEntityFollowerOfT(XmlObjectRepository<T> repository)

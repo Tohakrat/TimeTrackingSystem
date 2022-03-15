@@ -21,6 +21,7 @@ namespace Solution
             _RepositoryUser = repoUser;
             UserConnector = new BusinessAssemblyEntityFollowerOfT<User>(_RepositoryUser);
             DataFacade.GetDataFacade().UserServicesObj.UserAdded += UserConnector.OnObjectAdded;
+            DataFacade.GetDataFacade().UserServicesObj.UserAdded += UserConnector.OnObjectAdded;
         }
 
 

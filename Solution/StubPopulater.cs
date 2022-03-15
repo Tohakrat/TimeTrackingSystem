@@ -9,11 +9,9 @@ using Infrastructure;
 namespace Solution
 {
     public class StubPopulater
-    {
-        //private Mediator MediatorObj;
+    {        
         public StubPopulater ()
-        {
-            //MediatorObj = mediatorObj;
+        {            
         }
         public void Seed()
         {

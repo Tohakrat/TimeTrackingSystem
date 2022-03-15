@@ -7,16 +7,10 @@ using Contracts;
 using Repositories.Xml;
 using DataContracts;
 
+
 namespace Solution
 {
-    abstract class AbstractRepositoryProvider
-    {
-        public abstract IRepository<User> GetUserRepository() ;
-        public abstract IRepository<Project> GetProjectRepository();
-        public abstract IRepository<TimeTrackEntry> GetTimeTrackEntryRepository();
-
-    }
-    class XmlRepositoryProvider : AbstractRepositoryProvider
+    internal class XmlRepositoryProvider : AbstractRepositoryProvider
     {
         public override IRepository<User> GetUserRepository()
         {
@@ -32,18 +26,4 @@ namespace Solution
             return new XmlObjectRepository<TimeTrackEntry>();
         }
     }
-
-
-
-
-
-    //public class Mapper
-    //{
-    //    //XmlUserRepository<T> Repo;
-    //    public IRepository<User> GetUserRepository() { return new XmlObjectRepository<User>(); }
-    //}
-
-
-
-
 }

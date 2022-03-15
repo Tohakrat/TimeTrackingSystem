@@ -14,6 +14,7 @@ namespace Business
         internal ProjectServices ProjServices;
         private List<UserData> _UserDataList = new List<UserData>();
         public event EventHandler<ObjectEventArgs<User>> UserAdded;
+        public event EventHandler<ObjectEventArgs<User>> UserDeleted;
 
         internal UserServices ()
         { 
@@ -222,7 +223,9 @@ namespace Business
                             return;
                         }                        
                     }
+                    UserDeleted?.Invoke(this, new ObjectEventArgs<User>(MeUserObj.UserObj));
                     result = _UserDataList.Remove(U);
+                    
                     if (result) DataFacade.GetDataFacade().Delegates.MessageDelegate(" User is deleted successfully. ");
                     else DataFacade.GetDataFacade().Delegates.MessageDelegate(" Error! User is not deleted! ");
                     return;             
