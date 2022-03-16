@@ -8,7 +8,7 @@ using DataContracts;
 
 namespace Repositories.Xml
 {
-    public class XmlObjectRepository<T> : IRepository<T>
+    public class XmlObjectRepository<T> : IRepository<T> where T:BaseEntity
     {
         private List<T> ObjectList { get; set; } = new();
         public IEnumerable<T> GetAll()
@@ -22,9 +22,10 @@ namespace Repositories.Xml
         }
         public void Delete(T TObj)
         {
-            if (ObjectList.Remove(TObj))
+            T ObjectToDelete = ObjectList.Single(x => x.Id.Equals( TObj.Id)); //   First( from O in ObjectList where O.Id equals TObj.Id)
+            if (ObjectList.Remove(ObjectToDelete))
             {
-                ObjectList.Remove(TObj);                
+                //ObjectList.Remove(TObj);                
                 ObjectDeleted?.Invoke(this, " Xml object Deleted: " + TObj.ToString());
             }
             
