@@ -91,14 +91,12 @@ namespace Solution
             {
                 return;
             }
-
             if (itIsSafeToAlsoFreeManagedObjects)
             {
                 UserInsertedList.Clear();
                 UserDeletedList.Clear();
                 // TODO: dispose managed state (managed objects).
-            }            
-
+            }
             _disposed = true;
         }
     }    

@@ -223,7 +223,7 @@ namespace Business
                             return;
                         }                        
                     }
-                    UserDeleted?.Invoke(this, new ObjectEventArgs<User>(MeUserObj.UserObj));
+                    UserDeleted?.Invoke(this, new ObjectEventArgs<User>(UserDataToRemove.UserObj));
                     result = _UserDataList.Remove(U);
                     
                     if (result) DataFacade.GetDataFacade().Delegates.MessageDelegate(" User is deleted successfully. ");
