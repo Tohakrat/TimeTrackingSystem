@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Contracts;
 using DataContracts;
+using System.Xml.Serialization;
 
 namespace Repositories.Xml
 {
     public class XmlObjectRepository<T> : IRepository<T> where T:BaseEntity
     {
-        private List<T> ObjectList { get; set; } = new();
+        protected List<T> ObjectList { get; set; } = new();
         public IEnumerable<T> GetAll()
         {
             return ObjectList;
@@ -29,6 +30,18 @@ namespace Repositories.Xml
                 ObjectDeleted?.Invoke(this, " Xml object Deleted: " + TObj.ToString());
             }
             
+        }
+        public void Serialize()
+        {
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<T>));
+
+
+            using (FileStream fs = new FileStream("UserList.xml", FileMode.OpenOrCreate))
+            {
+                xmlSerializer.Serialize(fs, this.ObjectList);
+
+                //Console.WriteLine("Object has been serialized");
+            }
         }
         public event EventHandler<string> ObjectInserted;
         public event EventHandler<string> ObjectDeleted;

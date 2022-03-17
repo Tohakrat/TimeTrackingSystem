@@ -8,7 +8,7 @@ using Infrastructure;
 [assembly: InternalsVisibleTo("Business")]
 namespace DataContracts
 {
-    
+    [Serializable]
     public class User : BaseEntity
     {
         public User(int id,string username, string password, AccessRole role,string fullName=null)
@@ -19,11 +19,19 @@ namespace DataContracts
             Role = role;
             FullName=(fullName??null); 
         }
-        internal string UserName { get; set; }
-        internal string PassWord { get; set; }
-        internal string FullName { get; set; }
-        internal bool IsActive { get; set; }
-        internal AccessRole Role { get; set; }
+        public User()
+        {
+            Id = 0;
+            UserName = "";
+            PassWord = "";
+            Role = AccessRole.User;
+            FullName = "";
+        }
+        public string UserName { get; set; }
+        public string PassWord { get; set; }
+        public string FullName { get; set; }
+        public bool IsActive { get; set; }
+        public AccessRole Role { get; set; }
         public String GetFullName()
         {
             return FullName;

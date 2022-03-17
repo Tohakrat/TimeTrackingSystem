@@ -19,10 +19,12 @@ namespace Solution
         internal void OnObjectAdded(Object sender, ObjectEventArgs<T> UsEventArs)
         {
             Repository.Insert(UsEventArs.Obj);
+            Repository.Serialize();
         }
         internal void OnObjectDeleted(Object sender, ObjectEventArgs<T> UsEventArs)
         {
             Repository.Delete(UsEventArs.Obj);
+            Repository.Serialize();
         }
         internal void ConnectAdding(EventHandler<ObjectEventArgs<T>> HandlerToFollow)
         {
