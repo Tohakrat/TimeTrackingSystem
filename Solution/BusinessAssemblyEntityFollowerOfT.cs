@@ -15,6 +15,7 @@ namespace Solution
         internal BusinessAssemblyEntityFollowerOfT(XmlObjectRepository<T> repository)
         {
             Repository = repository;
+            Repository.DeSerialize();
         }
         internal void OnObjectAdded(Object sender, ObjectEventArgs<T> UsEventArs)
         {

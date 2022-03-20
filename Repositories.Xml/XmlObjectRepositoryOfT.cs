@@ -43,6 +43,18 @@ namespace Repositories.Xml
                 //Console.WriteLine("Object has been serialized");
             }
         }
+        public void DeSerialize()
+        {
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<T>));
+
+
+            using (FileStream Fs = new FileStream("UserList.xml", FileMode.Open))
+            {
+                ObjectList = (List<T>)xmlSerializer.Deserialize(Fs);
+
+                //Console.WriteLine("Object has been serialized");
+            }
+        }
         public event EventHandler<string> ObjectInserted;
         public event EventHandler<string> ObjectDeleted;
     }

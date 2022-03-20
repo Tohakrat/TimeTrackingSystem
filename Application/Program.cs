@@ -17,14 +17,14 @@ namespace Application
             //IProxy Proxy = new ConsoleProxy(Request, Message, ChangeUser);
             IProxy Proxy = new ConsoleProxy();
             Proxy.SetCallBacks(Request, Message, ChangeUser);
-
+            StubPopulater SP = new StubPopulater();
+            SP.Seed();
 
             using (Mediator MediObj = Mediator.GetMediator())
             {
                 MediObj.SubscribeInsert(InsertUserSubscriber);
                 MediObj.SubscribeDelete(DeleteUserSubscriber);
-                StubPopulater SP = new StubPopulater();
-                SP.Seed();
+                
                 while (true)
                 {
                     Console.WriteLine(Proxy.GetOperations(_s_UserDataId));
