@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace Solution
 {
-    internal class EventFollower
-    {        
-        EventFollower()
-        {            
-        }
-        private void FollowToUser(Object sender, UserStringEventArgs e)
-        {
+    //internal class EventFollower
+    //{        
+    //    EventFollower()
+    //    {            
+    //    }
+    //    private void FollowToUser(Object sender, UserStringEventArgs e)
+    //    {
 
-            Console.WriteLine(" EventFollower:"+e.Info);
-        }
-    }
+    //        Console.WriteLine(" EventFollower:"+e.Info);
+    //    }
+    //}
 }

@@ -47,12 +47,18 @@ namespace Repositories.Xml
         {
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<T>));
 
-
-            using (FileStream Fs = new FileStream("UserList.xml", FileMode.Open))
+            try
             {
-                ObjectList = (List<T>)xmlSerializer.Deserialize(Fs);
+                using (FileStream Fs = new FileStream("UserList.xml", FileMode.Open))
+                {
+                    ObjectList = (List<T>)xmlSerializer.Deserialize(Fs);
 
-                //Console.WriteLine("Object has been serialized");
+                    //Console.WriteLine("Object has been serialized");
+                }
+            }
+            catch (FileNotFoundException ex)
+            {
+                ObjectList = new List<T>();                
             }
         }
         public event EventHandler<string> ObjectInserted;
