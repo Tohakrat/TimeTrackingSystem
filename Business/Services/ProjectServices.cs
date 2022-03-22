@@ -11,7 +11,7 @@ namespace Business
     public class ProjectServices
     {
         private List<ProjectData> ProjectDataRepository = new();       
-        private UserServices UsServices;
+        //private UserServices UsServices;
         public delegate void Notify(String N);
         public event EventHandler<UserEventArgs> UserAdded;
         public event EventHandler<UserEventArgs> UserDeleted;
@@ -19,10 +19,10 @@ namespace Business
         internal ProjectServices()
         {            
         }
-        internal void SetUserServices(UserServices US)
-        {
-            UsServices = US;
-        }
+        //internal void SetUserServices()
+        //{
+        //    //UsServices = US;
+        //}
         
         internal void AddProject(Int32 us)
         {

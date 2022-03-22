@@ -16,25 +16,14 @@ namespace Contracts
         internal event EventHandler<string> ObjectDeleted;
     }
     public interface IUserRepository : IRepository<User>
-    {
-        //private List<T> RepoList = new List<T>();
-        //public IEnumerable<User> GetAll();
-
-        //public void Insert(User InsertedItem);        
+    {           
     }
     public interface IProjectRepository : IRepository<Project>
-    {
-        //private List<T> RepoList = new List<T>();
-        //public IEnumerable<Project> GetAll();
-
-        //public void Insert(Project InsertedItem);
+    {        
     }
     public interface ITimeTrackEntryRepository : IRepository<TimeTrackEntry>
     {
-        //private List<T> RepoList = new List<T>();
-        //public IEnumerable<TimeTrackEntry> GetAll();
-
-        //public void Insert(TimeTrackEntry InsertedItem);
+        
     }
 
 

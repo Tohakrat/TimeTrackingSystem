@@ -8,31 +8,30 @@ namespace Business
 {
     public class ConsoleProxy : IProxy
     {
-        public DataFacade Facade { get; set; }
+        //public DataFacade Facade { get; set; }
         
         public ConsoleProxy()
             
         {
-            Facade = DataFacade.GetDataFacade();                 
-            Facade.PopulateData();             
+            DataFacade.GetDataFacade().PopulateData();                      
         }
 
         public void DoAction(int answer, int user)
         {
-            if (Facade.ProcessAnswer(answer, user) == false)
+            if (DataFacade.GetDataFacade().ProcessAnswer(answer, user) == false)
             {
-                Facade.Delegates.MessageDelegate("\n denied operation! ");
+                DataFacade.GetDataFacade().Delegates.MessageDelegate("\n denied operation! ");
                 return;
             }
         }
 
         public string GetOperations(int userId)
         { 
-            return Facade.GetOperations(userId);
+            return DataFacade.GetDataFacade().GetOperations(userId);
         }
         public void SetCallBacks(Func<String, String> Request, Action<String> Message, Action<Int32> SetUser)
         {
-            Facade.SetCallBacks(Request, Message,SetUser);            
+            DataFacade.GetDataFacade().SetCallBacks(Request, Message,SetUser);            
         }
     }
 }

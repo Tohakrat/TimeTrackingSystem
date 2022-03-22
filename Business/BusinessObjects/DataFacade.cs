@@ -20,15 +20,15 @@ namespace Business
 
         internal void PopulateData()
         {
-            StubDataPopulater Populater = new StubDataPopulater(UserServicesObj, ProjectServicesObj);
+            StubDataPopulater Populater = new StubDataPopulater();//UserServicesObj, ProjectServicesObj);
             Populater.Populate();
         }       
         private DataFacade()
         {
             UserServicesObj = new UserServices();
             ProjectServicesObj = new ProjectServices();
-            UserServicesObj.SetProjectServices(ProjectServicesObj);
-            ProjectServicesObj.SetUserServices(UserServicesObj);           
+            //UserServicesObj.SetProjectServices(ProjectServicesObj);
+            //ProjectServicesObj.SetUserServices(UserServicesObj);           
         }
         public static DataFacade GetDataFacade()
         {
@@ -53,12 +53,8 @@ namespace Business
         internal void ReportActiveUsers(Int32 user )
         {
             Delegates.MessageDelegate(UserServicesObj.ReportActiveUsers(ProjectServicesObj.FindIdByName));
-        }               
-        //internal int GetUserIdByName(string UserName,AccessRole role)
-        //{
-        //    return UserServicesObj.GetUserIdByName(UserName,role);
-        //}            
-
+        }              
+       
         public string GetOperations(Int32 userId)
         {
             return MenuObj.GetAvailableOperations(userId); 

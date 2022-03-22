@@ -9,15 +9,10 @@ namespace Business
 {   
     public class UserData
     {
-        //public UserData(int id, string username, string password, AccessRole role, string fullName = null )
-        //{   
-        //    UserObj = new User( id,  username,  password,  role,  fullName); 
-        //}
         
         public UserData(User user)
         {
             UserObj = user;
-
         }        
         internal User UserObj;
         private List<TimeTrackEntry> SybmittedTimeList = new();

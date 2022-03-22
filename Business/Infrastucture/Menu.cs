@@ -66,24 +66,8 @@ namespace Business
             {
                 operation.DoOperation(user);
                 return true;
-            }
-            
+            }            
 
-            //foreach (Operation op in _OperationList)
-            //{
-            //    if (answer== op.NumberOpreation)
-            //    {
-            //        if ((op.StateLogin == null || op.StateLogin == StateUser) && (op.AvailableFor == RoleUser || op.AvailableFor == AccessRole.Any))
-            //        {
-            //            //if (user == null)
-            //            //    op.DoOperation(null);
-            //            //else
-            //            op.DoOperation(user);
-            //            return true;
-            //        }
-            //    }         
-                
-            //}
             return false;
         }
 

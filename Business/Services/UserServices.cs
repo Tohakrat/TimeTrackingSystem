@@ -11,7 +11,7 @@ namespace Business
     public sealed class UserServices
     {                
         public event Action<string> UserLogined;
-        internal ProjectServices ProjServices;
+        //internal ProjectServices ProjServices;
         private List<UserData> _UserDataList = new List<UserData>();
         public event EventHandler<ObjectEventArgs<User>> UserAdded;
         public event EventHandler<ObjectEventArgs<User>> UserDeleted;
@@ -24,14 +24,10 @@ namespace Business
         {
             UserLogined += DataFacade.GetDataFacade().Delegates.MessageDelegate;
         }
-        internal void SetProjectServices(ProjectServices PS)
-        {
-            ProjServices = PS;            
-        }
-        //internal void AddObject(UserData userData)
-        //{
-        //    _UserDataList.Add(userData);
+        //internal void SetProjectServices()
+        //{                  
         //}
+        
         internal void AddObject(User user)
         {
             _UserDataList.Add(new UserData(user));
@@ -217,7 +213,7 @@ namespace Business
                     UserDataToRemove = U;
                     if (U.GetAccessRole()==AccessRole.ProjectLeader)
                     {
-                        if (ProjServices.IsUserResponsible(U.GetId()))
+                        if (DataFacade.GetDataFacade().ProjectServicesObj.IsUserResponsible(U.GetId()))
                         {
                             DataFacade.GetDataFacade().Delegates.MessageDelegate(" There are some projects under responsibility of this project leader. Deleting denied!");
                             return;
@@ -306,7 +302,7 @@ namespace Business
         internal bool IsResponsible(UserData User)
         {
             int Id = User.GetId();
-            return ProjServices.IsUserResponsible(Id);            
+            return DataFacade.GetDataFacade().ProjectServicesObj.IsUserResponsible(Id);            
 
         }       
         

@@ -36,10 +36,7 @@ namespace Application
                     };
                     Proxy.DoAction(answer, _s_UserDataId);
                 }
-            }
-            
-
-                        
+            }          
         }    
         static void Message(string m)
         {
