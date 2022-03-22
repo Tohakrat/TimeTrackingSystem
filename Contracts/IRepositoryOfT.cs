@@ -15,16 +15,16 @@ namespace Contracts
         internal event EventHandler<string> ObjectInserted;
         internal event EventHandler<string> ObjectDeleted;
     }
-    public interface IUserRepository : IRepository<User>
-    {           
-    }
-    public interface IProjectRepository : IRepository<Project>
-    {        
-    }
-    public interface ITimeTrackEntryRepository : IRepository<TimeTrackEntry>
-    {
+    //public interface IUserRepository : IRepository<User>
+    //{           
+    //}
+    //public interface IProjectRepository : IRepository<Project>
+    //{        
+    //}
+    //public interface ITimeTrackEntryRepository : IRepository<TimeTrackEntry>
+    //{
         
-    }
+    //}
 
 
 

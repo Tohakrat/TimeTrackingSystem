@@ -12,11 +12,11 @@ namespace Business
     internal delegate void OperationDelegate(UserData? UD=null);
     public sealed class DataFacade
     {
-        internal Menu MenuObj; 
+        internal Menu Menu; 
         internal DataFacadeDelegates Delegates = new DataFacadeDelegates();
-        public UserServices UserServicesObj;
-        public ProjectServices ProjectServicesObj;
-        private static DataFacade _s_DataFacadeObj;
+        public UserServices UserServices;
+        public ProjectServices ProjectServices;
+        private static DataFacade _s_DataFacade;
 
         internal void PopulateData()
         {
@@ -25,39 +25,48 @@ namespace Business
         }       
         private DataFacade()
         {
-            UserServicesObj = new UserServices();
-            ProjectServicesObj = new ProjectServices();
+            UserServices = new UserServices();
+            ProjectServices = new ProjectServices();
             //UserServicesObj.SetProjectServices(ProjectServicesObj);
             //ProjectServicesObj.SetUserServices(UserServicesObj);           
         }
-        public static DataFacade GetDataFacade()
+        //public static DataFacade Instance
+        //{
+        //    if (_s_DataFacadeObj == null)
+        //        _s_DataFacadeObj = new DataFacade();
+        //    return _s_DataFacadeObj;
+        //}
+        public static DataFacade Instance
         {
-            if (_s_DataFacadeObj == null)
-                _s_DataFacadeObj = new DataFacade();
-            return _s_DataFacadeObj;
+            get
+            {
+                if (_s_DataFacade == null)
+                    _s_DataFacade = new DataFacade();
+                return _s_DataFacade;
+            }
         }
-       
+
         internal void SetCallBacks(Func<String, String> Request, Action<String> Message, Action<Int32> SetUser)
         {
             Delegates.RequestDelegate = Request;
             Delegates.MessageDelegate = Message;
             Delegates.ChangeUserDelegate = SetUser;
-            UserServicesObj.SetEventsDelegates();
-            MenuObj = new();
+            UserServices.SetEventsDelegates();
+            Menu = new();
         }
         internal bool ProcessAnswer(int answer, int user)
         {
-            return MenuObj.ProcessAnswer(answer, user);                  
+            return Menu.ProcessAnswer(answer, user);                  
         }                           
                   
         internal void ReportActiveUsers(Int32 user )
         {
-            Delegates.MessageDelegate(UserServicesObj.ReportActiveUsers(ProjectServicesObj.FindIdByName));
+            Delegates.MessageDelegate(UserServices.ReportActiveUsers(ProjectServices.FindIdByName));
         }              
        
         public string GetOperations(Int32 userId)
         {
-            return MenuObj.GetAvailableOperations(userId); 
+            return Menu.GetAvailableOperations(userId); 
         }           
         public void Quit(Int32 user )
         {

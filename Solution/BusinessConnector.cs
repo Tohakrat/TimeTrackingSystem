@@ -20,8 +20,8 @@ namespace Solution
         {
             _RepositoryUser = repoUser;
             UserConnector = new BusinessAssemblyEntityFollowerOfT<User>(_RepositoryUser);
-            DataFacade.GetDataFacade().UserServicesObj.UserAdded += UserConnector.OnObjectAdded;
-            DataFacade.GetDataFacade().UserServicesObj.UserDeleted += UserConnector.OnObjectDeleted;
+            DataFacade.Instance.UserServices.UserAdded += UserConnector.OnObjectAdded;
+            DataFacade.Instance.UserServices.UserDeleted += UserConnector.OnObjectDeleted;
         }
 
 

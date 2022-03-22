@@ -13,25 +13,25 @@ namespace Business
         public ConsoleProxy()
             
         {
-            DataFacade.GetDataFacade().PopulateData();                      
+            DataFacade.Instance.PopulateData();                      
         }
 
         public void DoAction(int answer, int user)
         {
-            if (DataFacade.GetDataFacade().ProcessAnswer(answer, user) == false)
+            if (DataFacade.Instance.ProcessAnswer(answer, user) == false)
             {
-                DataFacade.GetDataFacade().Delegates.MessageDelegate("\n denied operation! ");
+                DataFacade.Instance.Delegates.MessageDelegate("\n denied operation! ");
                 return;
             }
         }
 
         public string GetOperations(int userId)
         { 
-            return DataFacade.GetDataFacade().GetOperations(userId);
+            return DataFacade.Instance.GetOperations(userId);
         }
         public void SetCallBacks(Func<String, String> Request, Action<String> Message, Action<Int32> SetUser)
         {
-            DataFacade.GetDataFacade().SetCallBacks(Request, Message,SetUser);            
+            DataFacade.Instance.SetCallBacks(Request, Message,SetUser);            
         }
     }
 }

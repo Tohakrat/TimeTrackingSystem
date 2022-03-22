@@ -10,17 +10,17 @@ namespace Repositories.Xml
 {
     public class XmlUserRepository : XmlObjectRepository<User>
     {
-        public void Serialize()
-        {                       
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<User>));
+        //public void Serialize()
+        //{                       
+        //    XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<User>));
 
             
-            using (FileStream fs = new FileStream("UserList.xml", FileMode.OpenOrCreate))
-            {
-                xmlSerializer.Serialize(fs, this.ObjectList);
+        //    using (FileStream fs = new FileStream("UserList.xml", FileMode.OpenOrCreate))
+        //    {
+        //        xmlSerializer.Serialize(fs, this.ObjectList);
 
-                Console.WriteLine("Object has been serialized");
-            }
-        }
+        //        Console.WriteLine("Object has been serialized");
+        //    }
+        //}
     }
 }

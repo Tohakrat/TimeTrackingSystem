@@ -23,21 +23,21 @@ namespace Business
         
         internal ProjectData BuildprojectData(Func<string, AccessRole, int> GetProjectLeaderId, Func<int> MaxId)
         {
-            String ProjectName = DataFacade.GetDataFacade().Delegates.RequestDelegate("Enter project name: ");
-            String DateString = DataFacade.GetDataFacade().Delegates.RequestDelegate("Enter user expiration date: ");
+            String ProjectName = DataFacade.Instance.Delegates.RequestDelegate("Enter project name: ");
+            String DateString = DataFacade.Instance.Delegates.RequestDelegate("Enter user expiration date: ");
             DateTime Date;
             if (!DateTime.TryParse(DateString, out Date))
             {
-                DataFacade.GetDataFacade().Delegates.MessageDelegate("wrong Date");
+                DataFacade.Instance.Delegates.MessageDelegate("wrong Date");
                 return null;
             }
             int MaxHours = 0;
-            if (!int.TryParse(DataFacade.GetDataFacade().Delegates.RequestDelegate("Enter max hours: "), out MaxHours))
+            if (!int.TryParse(DataFacade.Instance.Delegates.RequestDelegate("Enter max hours: "), out MaxHours))
             {
-                DataFacade.GetDataFacade().Delegates.MessageDelegate("wrong value");
+                DataFacade.Instance.Delegates.MessageDelegate("wrong value");
                 return null;
             }
-            String ProjectLeaderName = DataFacade.GetDataFacade().Delegates.RequestDelegate("Enter Ppoject leader Name: ");
+            String ProjectLeaderName = DataFacade.Instance.Delegates.RequestDelegate("Enter Ppoject leader Name: ");
             int ProjectLeaderId;
             try
             {
@@ -45,7 +45,7 @@ namespace Business
             }
             catch (KeyNotFoundException e)
             {
-                DataFacade.GetDataFacade().Delegates.MessageDelegate("wrong Leader Name");
+                DataFacade.Instance.Delegates.MessageDelegate("wrong Leader Name");
                 return null;
             }
             int MaxProjectId = MaxId();

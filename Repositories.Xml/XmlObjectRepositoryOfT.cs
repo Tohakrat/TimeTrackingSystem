@@ -35,7 +35,6 @@ namespace Repositories.Xml
         {
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<T>));
 
-
             using (FileStream fs = new FileStream("UserList.xml", FileMode.OpenOrCreate))
             {
                 xmlSerializer.Serialize(fs, this.ObjectList);
