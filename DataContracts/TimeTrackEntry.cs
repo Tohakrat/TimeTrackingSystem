@@ -15,6 +15,14 @@ namespace DataContracts
             Value = value;
             Date = date;
         }
+        public TimeTrackEntry()
+        {
+            UserId = 0;
+            ProjectId = 0;
+            Value =1;
+            Date = DateTime.Parse("01.01.2020");
+            
+        }
         public int UserId { get; set; }
         public int ProjectId { get; set; }
         public int Value { get; set; }
