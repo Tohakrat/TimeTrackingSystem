@@ -124,7 +124,15 @@ namespace Business
                     return true;
             }
             return false;
-        }             
+        }
+        public void AddRange(IEnumerable<Project> Range)
+        {
+            foreach (Project ProjectCurrent in Range)
+            {
+                ProjectDataRepository.Add(new ProjectData(ProjectCurrent));
+            }
+        }
+
     }
     
 }

@@ -16,12 +16,16 @@ namespace Business
         internal DataFacadeDelegates Delegates = new DataFacadeDelegates();
         public UserServices UserServices;
         public ProjectServices ProjectServices;
-        private static DataFacade _s_DataFacade;
+        private static DataFacade _DataFacade;
 
         internal void PopulateData()
         {
             StubDataPopulater Populater = new StubDataPopulater();//UserServicesObj, ProjectServicesObj);
-            Populater.Populate();
+            UserServices.AddRange(Populater.Users);
+            ProjectServices.AddRange(Populater.Projects);
+            UserServices.AddRange(Populater.TimeTrackEntries);
+            //Populater.Populate();
+            
         }       
         private DataFacade()
         {
@@ -30,19 +34,14 @@ namespace Business
             //UserServicesObj.SetProjectServices(ProjectServicesObj);
             //ProjectServicesObj.SetUserServices(UserServicesObj);           
         }
-        //public static DataFacade Instance
-        //{
-        //    if (_s_DataFacadeObj == null)
-        //        _s_DataFacadeObj = new DataFacade();
-        //    return _s_DataFacadeObj;
-        //}
+        
         public static DataFacade Instance
         {
             get
             {
-                if (_s_DataFacade == null)
-                    _s_DataFacade = new DataFacade();
-                return _s_DataFacade;
+                if (_DataFacade == null)
+                    _DataFacade = new DataFacade();
+                return _DataFacade;
             }
         }
 

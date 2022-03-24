@@ -140,8 +140,9 @@ namespace Business
         internal void AddTimeTrackEnty(TimeTrackEntry entry)
         {
             int UserId = entry.UserId;
-            var UserDataToPasteEnty = _UserDataList.Single(x => x.UserObj.Id == UserId);
-            UserDataToPasteEnty.AddSubmittedTime(entry);
+            var UserDataToPasteEntry = _UserDataList.SingleOrDefault(x => x.UserObj.Id == UserId);
+            if (UserDataToPasteEntry!=null) 
+                UserDataToPasteEntry.AddSubmittedTime(entry);
         }
 
         public void ViewSubmittedTime(Int32 userId)
@@ -304,8 +305,22 @@ namespace Business
             int Id = User.GetId();
             return DataFacade.Instance.ProjectServices.IsUserResponsible(Id);            
 
-        }       
-        
+        }     
+        public void AddRange(IEnumerable<User> Range)
+        {
+            foreach (User UserCurrent in Range)
+            {
+                _UserDataList.Add(new UserData(UserCurrent));
+            }
+        }
+        public void AddRange(IEnumerable<TimeTrackEntry> Range)
+        {
+            foreach (TimeTrackEntry EntryCurrent in Range)
+            {
+                AddTimeTrackEnty(EntryCurrent);
+            }
+        }
+
     }
 
 }
