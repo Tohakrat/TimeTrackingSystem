@@ -33,7 +33,7 @@ namespace Solution
       
     
         private event EventHandler<UserStringEventArgs> UserDeleted;
-        private static Mediator s_Mediator;
+        private static Mediator _Mediator;
         private Mediator()
         {
             _Provider = new XmlRepositoryProvider();
@@ -47,9 +47,9 @@ namespace Solution
         ~Mediator() => Dispose(false);
         public static Mediator GetMediator()
         {
-            if (s_Mediator == null)
-                s_Mediator = new Mediator();
-            return s_Mediator;
+            if (_Mediator == null)
+                _Mediator = new Mediator();
+            return _Mediator;
         }
         public void InsertUser(User user)
         {

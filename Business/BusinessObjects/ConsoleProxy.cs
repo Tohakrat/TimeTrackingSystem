@@ -8,8 +8,7 @@ namespace Business
 {
     public class ConsoleProxy : IProxy
     {
-        //public DataFacade Facade { get; set; }
-        
+                
         public ConsoleProxy()
             
         {

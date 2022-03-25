@@ -16,8 +16,4 @@ namespace Solution
         public abstract IRepository<TimeTrackEntry> GetTimeTrackEntryRepository();
 
     } 
-
-
-
-
 }

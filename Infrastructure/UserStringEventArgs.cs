@@ -5,8 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Solution
-{
-   
+{   
     public class UserStringEventArgs : EventArgs
     {
         public UserStringEventArgs(string u)

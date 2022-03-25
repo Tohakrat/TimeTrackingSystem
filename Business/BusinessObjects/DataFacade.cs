@@ -20,19 +20,17 @@ namespace Business
 
         internal void PopulateData()
         {
-            StubDataPopulater Populater = new StubDataPopulater();//UserServicesObj, ProjectServicesObj);
+            StubDataPopulater Populater = new StubDataPopulater();
             UserServices.AddRange(Populater.Users);
             ProjectServices.AddRange(Populater.Projects);
-            UserServices.AddRange(Populater.TimeTrackEntries);
-            //Populater.Populate();
+            UserServices.AddRange(Populater.TimeTrackEntries);          
             
         }       
         private DataFacade()
         {
             UserServices = new UserServices();
             ProjectServices = new ProjectServices();
-            //UserServicesObj.SetProjectServices(ProjectServicesObj);
-            //ProjectServicesObj.SetUserServices(UserServicesObj);           
+            
         }
         
         public static DataFacade Instance

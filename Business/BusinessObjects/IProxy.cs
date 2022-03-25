@@ -10,8 +10,7 @@ namespace Business
     public interface IProxy
     {
         public  void DoAction(int answer, int user);
-        public  string GetOperations(int userId);
-        //public  DataFacade Facade { get; set; }       
+        public  string GetOperations(int userId);        
           
         public void SetCallBacks(Func<String, String> Request, Action<String> Message, Action<Int32> SetUser);    
     }

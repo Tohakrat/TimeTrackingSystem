@@ -14,7 +14,6 @@ namespace Application
         private static int _s_UserDataId=-1;
         static void Main(string[] args)
         {                     
-            //IProxy Proxy = new ConsoleProxy(Request, Message, ChangeUser);
             IProxy Proxy = new ConsoleProxy();
             Proxy.SetCallBacks(Request, Message, ChangeUser);
             StubPopulater SP = new StubPopulater();

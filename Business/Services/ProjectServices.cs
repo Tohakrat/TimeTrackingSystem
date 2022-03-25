@@ -10,19 +10,14 @@ namespace Business
 {
     public class ProjectServices
     {
-        private List<ProjectData> ProjectDataRepository = new();       
-        //private UserServices UsServices;
+        private List<ProjectData> ProjectDataRepository = new();        
         public delegate void Notify(String N);
         public event EventHandler<UserEventArgs> UserAdded;
         public event EventHandler<UserEventArgs> UserDeleted;
 
         internal ProjectServices()
         {            
-        }
-        //internal void SetUserServices()
-        //{
-        //    //UsServices = US;
-        //}
+        }        
         
         internal void AddProject(Int32 us)
         {
@@ -132,7 +127,6 @@ namespace Business
                 ProjectDataRepository.Add(new ProjectData(ProjectCurrent));
             }
         }
-
     }
     
 }

@@ -10,8 +10,7 @@ namespace Business
 {
     public sealed class UserServices
     {                
-        public event Action<string> UserLogined;
-        //internal ProjectServices ProjServices;
+        public event Action<string> UserLogined;        
         private List<UserData> _UserDataList = new List<UserData>();
         public event EventHandler<ObjectEventArgs<User>> UserAdded;
         public event EventHandler<ObjectEventArgs<User>> UserDeleted;
@@ -23,10 +22,7 @@ namespace Business
         internal void SetEventsDelegates()
         {
             UserLogined += DataFacade.Instance.Delegates.MessageDelegate;
-        }
-        //internal void SetProjectServices()
-        //{                  
-        //}
+        }        
         
         internal void AddObject(User user)
         {
@@ -157,11 +153,7 @@ namespace Business
             }
             DataFacade.Instance.Delegates.MessageDelegate("\n User not found!");            
         }
-
-        //public void Add(UserData user)
-        //{
-        //    _UserDataList.Add(user);            
-        //}
+        
         public void Add(int user)
         {
             int UserRole;
@@ -172,23 +164,21 @@ namespace Business
                 if (UserRole>3||UserRole<1)
                 {
                     DataFacade.Instance.Delegates.MessageDelegate("Wrong number!");
-                    return;// false;
+                    return;
                 }
             }
             catch (Exception E)
             {
                 DataFacade.Instance.Delegates.MessageDelegate("Incorrect Data. ");
-                return;// false;
+                return;
             }
             String Name = DataFacade.Instance.Delegates.RequestDelegate("Enter user name: ");
             String Password = DataFacade.Instance.Delegates.RequestDelegate("Enter password: ");
             String FullName = DataFacade.Instance.Delegates.RequestDelegate("Enter Full Name: ");
             int MaxIndex = GetMaxIndex();
-            AddObject(new User(MaxIndex + 1, Name, Password, (AccessRole)UserRole, FullName));
-            //UserData UserToAdd = new UserData(MaxIndex + 1, Name, Password,(AccessRole)UserRole, FullName) ;
-            //_UserDataList.Add(UserToAdd) ;
+            AddObject(new User(MaxIndex + 1, Name, Password, (AccessRole)UserRole, FullName));            
             DataFacade.Instance.Delegates.MessageDelegate("Successfully ");
-            return;// true;    
+            return;
         }
         internal void DeleteUser(Int32 MeUserId)
         {
@@ -205,7 +195,7 @@ namespace Business
             if (UserName== MeUserObj.GetName()) //If I delete me, it is not allowed
             {
                 DataFacade.Instance.Delegates.MessageDelegate(" You cant delete yourself! ");
-                return;// false;
+                return;
             }
             foreach (UserData U in _UserDataList)
             {

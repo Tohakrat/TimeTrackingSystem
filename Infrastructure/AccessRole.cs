@@ -5,8 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Infrastructure
-{
-    
+{    
     public enum AccessRole
     {        
         User,

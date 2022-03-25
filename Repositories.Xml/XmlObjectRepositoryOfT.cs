@@ -23,23 +23,21 @@ namespace Repositories.Xml
         }
         public void Delete(T TObj)
         {
-            T ObjectToDelete = ObjectList.Single(x => x.Id.Equals( TObj.Id)); //   First( from O in ObjectList where O.Id equals TObj.Id)
+            T ObjectToDelete = ObjectList.Single(x => x.Id.Equals( TObj.Id)); 
             if (ObjectList.Remove(ObjectToDelete))
-            {
-                //ObjectList.Remove(TObj);                
+            {                    
                 ObjectDeleted?.Invoke(this, " Xml object Deleted: " + TObj.ToString());
-            }
-            
+            }            
         }
         public void Serialize()
         {
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<T>));
 
+            System.IO.File.WriteAllText("UserList.xml", string.Empty);
             using (FileStream fs = new FileStream("UserList.xml", FileMode.OpenOrCreate))
             {
                 xmlSerializer.Serialize(fs, this.ObjectList);
-
-                //Console.WriteLine("Object has been serialized");
+                
             }
         }
         public void DeSerialize()
@@ -50,9 +48,16 @@ namespace Repositories.Xml
             {
                 using (FileStream Fs = new FileStream("UserList.xml", FileMode.Open))
                 {
-                    ObjectList = (List<T>)xmlSerializer.Deserialize(Fs);
-
-                    //Console.WriteLine("Object has been serialized");
+                    try
+                    {
+                        ObjectList = (List<T>)xmlSerializer.Deserialize(Fs);
+                    }
+                    catch (InvalidOperationException ex)
+                    {
+                        ObjectList = new List<T>();
+                    }
+                    
+                    
                 }
             }
             catch (FileNotFoundException ex)
@@ -62,44 +67,7 @@ namespace Repositories.Xml
         }
         public event EventHandler<string> ObjectInserted;
         public event EventHandler<string> ObjectDeleted;
-    }
-    
+    }  
    
-
-
-
-
-    //public class XmlUserRepository : IUserRepository
-    //{
-    //    private List<User> ObjectList { get; set; } = new();
-    //    IEnumerable<User> IRepository<User>.GetAll()
-    //    {
-    //        return ObjectList;
-    //    }
-
-    //    void IRepository<User>.Insert(User InsertedItem)
-    //    {
-    //        ObjectList.Add(InsertedItem);
-    //        UserInserted?.Invoke(this,"XML User Inserted");
-    //    }
-    //    internal event EventHandler<string> UserInserted;
-
-    //}
-    //public class XmlProjectRepository : IProjectRepository
-    //{
-    //    private List<Project> ObjectList { get; set; } = new();
-    //    IEnumerable<Project> IRepository<Project>.GetAll()
-    //    {
-    //        return ObjectList;
-    //    }
-
-    //    void IRepository<Project>.Insert(Project InsertedItem)
-    //    {
-    //        ObjectList.Add(InsertedItem);
-
-    //    }
-
-    //}
-
 
 }

@@ -14,18 +14,5 @@ namespace Contracts
         public void Insert (T InsertedItem);
         internal event EventHandler<string> ObjectInserted;
         internal event EventHandler<string> ObjectDeleted;
-    }
-    //public interface IUserRepository : IRepository<User>
-    //{           
-    //}
-    //public interface IProjectRepository : IRepository<Project>
-    //{        
-    //}
-    //public interface ITimeTrackEntryRepository : IRepository<TimeTrackEntry>
-    //{
-        
-    //}
-
-
-
+    } 
 }

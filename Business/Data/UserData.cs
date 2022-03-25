@@ -64,7 +64,6 @@ namespace Business
         {
             return UserObj.FullName;
         }
-    }
-    
+    }    
     
 }
