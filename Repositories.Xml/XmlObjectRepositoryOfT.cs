@@ -6,12 +6,27 @@ using System.Threading.Tasks;
 using Contracts;
 using DataContracts;
 using System.Xml.Serialization;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Configuration;
 
 namespace Repositories.Xml
 {
     public class XmlObjectRepository<T> : IRepository<T> where T:BaseEntity
     {
         protected List<T> ObjectList { get; set; } = new();
+        public XmlObjectRepository()
+        {
+            IConfiguration config = new ConfigurationBuilder()
+            .AddJsonFile("appsettings.json")
+            .AddEnvironmentVariables()
+            .Build();
+            Settings settings = config.GetRequiredSection("Settings").Get<Settings>();
+            // Get values from the config given their key and their target type.
+            //AppSettings settings = config.GetRequiredSection("Settings").Get<Settings>();
+
+            // Write the values to the console.
+            Console.WriteLine($"UserListFile = {settings.UserListFile}");
+        }
         public IEnumerable<T> GetAll()
         {
             return ObjectList;
@@ -67,7 +82,12 @@ namespace Repositories.Xml
         }
         public event EventHandler<string> ObjectInserted;
         public event EventHandler<string> ObjectDeleted;
-    }  
-   
+    }
+
+    public class Settings
+    {
+        public string UserListFile { get; set; }
+
+    }
 
 }
