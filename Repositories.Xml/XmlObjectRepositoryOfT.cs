@@ -6,26 +6,19 @@ using System.Threading.Tasks;
 using Contracts;
 using DataContracts;
 using System.Xml.Serialization;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Configuration;
+
 
 namespace Repositories.Xml
 {
     public class XmlObjectRepository<T> : IRepository<T> where T:BaseEntity
     {
         protected List<T> ObjectList { get; set; } = new();
-        public XmlObjectRepository()
+        //IConfiguration Config;
+        //Settings Settings;
+        private String FileName { get; set; }
+        public XmlObjectRepository(String fileName)
         {
-            IConfiguration config = new ConfigurationBuilder()
-            .AddJsonFile("appsettings.json")
-            .AddEnvironmentVariables()
-            .Build();
-            Settings settings = config.GetRequiredSection("Settings").Get<Settings>();
-            // Get values from the config given their key and their target type.
-            //AppSettings settings = config.GetRequiredSection("Settings").Get<Settings>();
-
-            // Write the values to the console.
-            Console.WriteLine($"UserListFile = {settings.UserListFile}");
+            FileName = fileName;            
         }
         public IEnumerable<T> GetAll()
         {
@@ -51,8 +44,7 @@ namespace Repositories.Xml
             System.IO.File.WriteAllText("UserList.xml", string.Empty);
             using (FileStream fs = new FileStream("UserList.xml", FileMode.OpenOrCreate))
             {
-                xmlSerializer.Serialize(fs, this.ObjectList);
-                
+                xmlSerializer.Serialize(fs, this.ObjectList);                
             }
         }
         public void DeSerialize()
@@ -70,10 +62,8 @@ namespace Repositories.Xml
                     catch (InvalidOperationException ex)
                     {
                         ObjectList = new List<T>();
-                    }
-                    
-                    
-                }
+                    }                   
+                 }
             }
             catch (FileNotFoundException ex)
             {
@@ -82,12 +72,6 @@ namespace Repositories.Xml
         }
         public event EventHandler<string> ObjectInserted;
         public event EventHandler<string> ObjectDeleted;
-    }
-
-    public class Settings
-    {
-        public string UserListFile { get; set; }
-
-    }
+    }   
 
 }
