@@ -54,8 +54,5 @@ namespace Solution
         public string UserListFile { get; set; }
         public string ProjectListFile { get; set; }
         public string EntryListFile { get; set; }
-
-
-
     }
 }

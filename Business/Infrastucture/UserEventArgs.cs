@@ -11,8 +11,8 @@ namespace Infrastructure
     {
         public UserEventArgs(User U)
         {
-            UserObj = U;
+            User = U;
         }
-        public User UserObj { get; }
+        public User User { get; }
     }
 }

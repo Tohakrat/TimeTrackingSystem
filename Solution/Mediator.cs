@@ -10,7 +10,6 @@ namespace Solution
 {
     public class Mediator:IDisposable
     {
-        //private List<EventCover> _RepositoryCoverEvent;
         private IRepository<User> _RepositoryUser;
         private IRepository<Project> _RepositoryProject;
         private IRepository<TimeTrackEntry> _RepositoryTimeTrackEntry;

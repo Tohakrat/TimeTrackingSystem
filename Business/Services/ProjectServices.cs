@@ -12,8 +12,8 @@ namespace Business
     {
         private List<ProjectData> ProjectDataRepository = new();        
         public delegate void Notify(String N);
-        public event EventHandler<UserEventArgs> UserAdded;
-        public event EventHandler<UserEventArgs> UserDeleted;
+        public event EventHandler<ProjectEventArgs> UserAdded;
+        public event EventHandler<ProjectEventArgs> UserDeleted;
 
         internal ProjectServices()
         {            
@@ -46,8 +46,9 @@ namespace Business
                 DataFacade.Instance.Delegates.MessageDelegate("wrong Leader Name");
                 return;
             }
-            int MaxProjectId = GetMaxProjectId();            
-            ProjectDataRepository.Add(new ProjectData(MaxProjectId, ProjectName, Date, MaxHours, ProjectLeaderId));
+            //int MaxProjectId = GetMaxProjectId();
+            AddObject(new Project(0, ProjectName, Date, MaxHours, ProjectLeaderId));
+            //ProjectDataRepository.Add(new ProjectData(MaxProjectId, ProjectName, Date, MaxHours, ProjectLeaderId));
             DataFacade.Instance.Delegates.MessageDelegate("Project added successfully");
             return;
 
@@ -61,7 +62,11 @@ namespace Business
                 if (project.GetName() == name)
                 {
                     if (ProjectDataRepository.Remove(project))
+                    {
+                        ProjectEventArgs PrArgs = new ProjectEventArgs(project.Project);
+                        UserDeleted?.Invoke(this, PrArgs);
                         DataFacade.Instance.Delegates.MessageDelegate("Deleted successfully");
+                    }
                     else DataFacade.Instance.Delegates.MessageDelegate("Unknown error.");
                     return ;
                 }
@@ -71,7 +76,13 @@ namespace Business
         
         internal void AddObject(Project proj)
         {
+            if (proj.Id==0)
+            {
+                proj.Id= GetMaxProjectId()+1; 
+            }
+
             ProjectDataRepository.Add(new ProjectData(proj));
+            UserAdded?.Invoke(this, new ProjectEventArgs(proj));
         }
         internal int GetMaxProjectId()
         {
@@ -124,7 +135,8 @@ namespace Business
         {
             foreach (Project ProjectCurrent in Range)
             {
-                ProjectDataRepository.Add(new ProjectData(ProjectCurrent));
+                AddObject(ProjectCurrent);
+                //ProjectDataRepository.Add(new ProjectData(ProjectCurrent));
             }
         }
     }

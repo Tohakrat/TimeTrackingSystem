@@ -10,15 +10,15 @@ namespace Business
 {
     internal class ProjectData
     {
-        private Project _ProjectObj;
+        internal Project Project;
         
         internal ProjectData(int id, string name, DateTime expirationDate, int maxHours, int leaderUserId)
         {           
-            _ProjectObj = new Project(id, name, expirationDate, maxHours, leaderUserId);
+            Project = new Project(id, name, expirationDate, maxHours, leaderUserId);
         }
         internal ProjectData(Project project)
         {
-            _ProjectObj = project;
+            Project = project;
         }
         
         internal ProjectData BuildprojectData(Func<string, AccessRole, int> GetProjectLeaderId, Func<int> MaxId)
@@ -54,28 +54,28 @@ namespace Business
         }
         internal int GetProjId()
         {
-            return _ProjectObj.Id;
+            return Project.Id;
         }
         internal string GetName()
         {
-            return _ProjectObj.Name;
+            return Project.Name;
         }
         internal string GetDataString(Func<int,string> GetLeaderIdByName)
         {
             StringBuilder Result = new StringBuilder();
             Result.Append(System.Environment.NewLine);
-            Result.Append(_ProjectObj.Name);
+            Result.Append(Project.Name);
             Result.Append(" Exp Date: ");
-            Result.Append(_ProjectObj.ExpirationDate.Date.ToShortDateString());
+            Result.Append(Project.ExpirationDate.Date.ToShortDateString());
             Result.Append(" Max hours: ");
-            Result.Append(_ProjectObj.MaxHours);
+            Result.Append(Project.MaxHours);
             Result.Append(" Project Leader: ");
-            Result.Append(GetLeaderIdByName(_ProjectObj.LeaderUserId));
+            Result.Append(GetLeaderIdByName(Project.LeaderUserId));
             return Result.ToString();
         }
         internal int GetLeaderId()
         {
-            return _ProjectObj.Id;
+            return Project.Id;
         }
     }
 }

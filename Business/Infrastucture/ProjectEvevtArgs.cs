@@ -11,8 +11,8 @@ namespace Infrastructure
     {
         public ProjectEventArgs(Project P)
         {
-            ProjectObj = P;
+            Project = P;
         }
-        public Project ProjectObj { get; }
+        public Project Project { get; }
     }
 }

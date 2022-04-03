@@ -56,7 +56,7 @@ namespace Business
             }
             else
             {
-                RoleUser = UserDataObj.UserObj.Role;
+                RoleUser = UserDataObj.User.Role;
                 StateUser = UserLoginState.Logined;
             }
             
@@ -93,7 +93,7 @@ namespace Business
             }
             else
             {
-                RoleUser = UserDataObj.UserObj.Role;
+                RoleUser = UserDataObj.User.Role;
                 StateUser = UserLoginState.Logined;
             }      
 

@@ -12,9 +12,9 @@ namespace Business
         
         public UserData(User user)
         {
-            UserObj = user;
+            User = user;
         }        
-        internal User UserObj;
+        internal User User;
         private List<TimeTrackEntry> SybmittedTimeList = new();
         
         internal string GetTimeTrackString(Func<int,string> GetProjectNameById)
@@ -36,33 +36,33 @@ namespace Business
         }
         internal bool CheckCredentials(string LogIn, string PassWord)
         {
-            if ((LogIn==UserObj.UserName)&&(PassWord==UserObj.PassWord))
+            if ((LogIn==User.UserName)&&(PassWord==User.PassWord))
                 return true;
             else return false;
         }
         internal void SetActive()
         {
-            UserObj.IsActive = true;            
+            User.IsActive = true;            
         }
         internal void SetNotActive()
         {
-            UserObj.IsActive = false;
+            User.IsActive = false;
         }
         internal string GetName()
         {
-            return UserObj.UserName;
+            return User.UserName;
         }
         internal int GetId()
         {
-            return UserObj.Id;
+            return User.Id;
         }
         internal AccessRole GetAccessRole()
         {
-            return UserObj.Role;
+            return User.Role;
         }
         internal string GetFullName()
         {
-            return UserObj.FullName;
+            return User.FullName;
         }
     }    
     

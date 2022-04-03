@@ -12,9 +12,7 @@ namespace Repositories.Xml
 {
     public class XmlObjectRepository<T> : IRepository<T> where T:BaseEntity
     {
-        protected List<T> ObjectList { get; set; } = new();
-        //IConfiguration Config;
-        //Settings Settings;
+        protected List<T> ObjectList { get; set; } = new();        
         private String FileName { get; set; }
         public XmlObjectRepository(String fileName)
         {
@@ -40,9 +38,9 @@ namespace Repositories.Xml
         public void Serialize()
         {
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<T>));
-
-            System.IO.File.WriteAllText("UserList.xml", string.Empty);
-            using (FileStream fs = new FileStream("UserList.xml", FileMode.OpenOrCreate))
+            
+            System.IO.File.WriteAllText(FileName, string.Empty);            
+            using (FileStream fs = new FileStream(FileName, FileMode.OpenOrCreate))
             {
                 xmlSerializer.Serialize(fs, this.ObjectList);                
             }
@@ -53,7 +51,7 @@ namespace Repositories.Xml
 
             try
             {
-                using (FileStream Fs = new FileStream("UserList.xml", FileMode.Open))
+                using (FileStream Fs = new FileStream(FileName, FileMode.Open))
                 {
                     try
                     {

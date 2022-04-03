@@ -11,9 +11,9 @@ namespace Business.Infrastucture
     {
         public TimeTrackEntryEventArgs(TimeTrackEntry T)
         {
-            TimeTrackEntryObj = T;
+            TimeTrackEntry = T;
         }
-        public TimeTrackEntry TimeTrackEntryObj { get; }
+        public TimeTrackEntry TimeTrackEntry { get; }
 
     }
 }

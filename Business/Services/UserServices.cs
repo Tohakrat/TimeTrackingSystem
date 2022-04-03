@@ -32,7 +32,7 @@ namespace Business
         
         internal void GetAllActiveUsers(Int32 user)
         {
-            List<string> TempList =  (from UserDataItem in _UserDataList where UserDataItem.UserObj.IsActive == true select UserDataItem.UserObj.FullName).ToList();
+            List<string> TempList =  (from UserDataItem in _UserDataList where UserDataItem.User.IsActive == true select UserDataItem.User.FullName).ToList();
 
             DataFacade.Instance.Delegates.MessageDelegate(string.Join(",", TempList.ToArray()));
         }
@@ -110,7 +110,7 @@ namespace Business
         }
         public bool SubmitTime(int userDataId,int ProjectId,int HoursCount, DateTime DateOfWork)
         {
-            UserData UserDataObj = (from U in _UserDataList where (userDataId == U.UserObj.Id) select U).FirstOrDefault();
+            UserData UserDataObj = (from U in _UserDataList where (userDataId == U.User.Id) select U).FirstOrDefault();
             if (UserDataObj==null)
                 return false;
             TimeTrackEntry TTEntry = new TimeTrackEntry(UserDataObj.GetId(), ProjectId, HoursCount, DateOfWork);
@@ -136,7 +136,7 @@ namespace Business
         internal void AddTimeTrackEnty(TimeTrackEntry entry)
         {
             int UserId = entry.UserId;
-            var UserDataToPasteEntry = _UserDataList.SingleOrDefault(x => x.UserObj.Id == UserId);
+            var UserDataToPasteEntry = _UserDataList.SingleOrDefault(x => x.User.Id == UserId);
             if (UserDataToPasteEntry!=null) 
                 UserDataToPasteEntry.AddSubmittedTime(entry);
         }
@@ -145,7 +145,7 @@ namespace Business
         {            
             foreach (UserData UD in _UserDataList)
             {
-                if (UD.UserObj.Id == userId)
+                if (UD.User.Id == userId)
                 {
                     DataFacade.Instance.Delegates.MessageDelegate( UD.GetTimeTrackString(DataFacade.Instance.ProjectServices.FindNameById));
                     return;
@@ -210,7 +210,7 @@ namespace Business
                             return;
                         }                        
                     }
-                    UserDeleted?.Invoke(this, new ObjectEventArgs<User>(UserDataToRemove.UserObj));
+                    UserDeleted?.Invoke(this, new ObjectEventArgs<User>(UserDataToRemove.User));
                     result = _UserDataList.Remove(U);
                     
                     if (result) DataFacade.Instance.Delegates.MessageDelegate(" User is deleted successfully. ");
@@ -251,7 +251,7 @@ namespace Business
                 return null;
             else
             {                
-                var UserDataObj = _UserDataList.Single(x => x.UserObj.Id == id);
+                var UserDataObj = _UserDataList.Single(x => x.User.Id == id);
                 if (UserDataObj != null)
                     return UserDataObj;
                 else
@@ -284,7 +284,7 @@ namespace Business
                 if (CurrentHours>HoursCount)
                 {
                     Result.AppendLine();
-                    Result.Append(UD.UserObj.FullName+ ": " + CurrentHours.ToString());                    
+                    Result.Append(UD.User.FullName+ ": " + CurrentHours.ToString());                    
                 }
 
             }
